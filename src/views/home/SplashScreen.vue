@@ -61,7 +61,7 @@ export default{
 
 <template>
 
-    <div id="main-screen-text" class= "splash-screen absolute w-screen h-screen top-0 left-0 z-50 flex flex-col items-center justify-center">
+    <div id="main-screen-text" class= "splash-screen absolute w-screen h-screen top-0 left-0 z-40 flex flex-col items-center justify-center">
         <div class ="flex flex-col items-center justify-center">
             <h1 class = "text-9xl text-orange-500 ethew-animated-text">ETHAN</h1>
             <h1 class = "text-9xl text-purple-500 ethew-animated-text">ETHAN</h1>

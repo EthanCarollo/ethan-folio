@@ -8,6 +8,7 @@ export default{
 }
 </script>
 <template>
+
     <SplashScreen></SplashScreen>
     <div class ="w-screen h-screen relative z-0">
 
