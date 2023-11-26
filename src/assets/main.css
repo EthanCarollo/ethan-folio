@@ -1,0 +1,27 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: condensed-gothic;
+    src: url("./fonts/LeagueGothic-CondensedRegular.otf");
+}
+
+@font-face {
+    font-family: livemono;
+    src: url("./fonts/Livemono.otf");
+}
+
+
+@font-face {
+    font-family: conditalic-gothic;
+    src: url("./fonts/LeagueGothic-CondensedItalic.otf");
+}
+
+@font-face {
+    font-family: medium-unique;
+    src: url("./fonts/medium-unique.ttf");
+}
