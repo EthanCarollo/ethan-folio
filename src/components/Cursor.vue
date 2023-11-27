@@ -48,8 +48,7 @@
         //change style when hovering on selected targets
         if (
           (this.targets.length > 0 &&
-            this.targets.includes(e.target.tagName.toLowerCase())) ||
-          this.targets.includes(e.target.className.toLowerCase())
+            this.targets.includes(e.target.tagName.toLowerCase()))
         ) {
           this.scale = this.hoverSize;
           this.circleStyle = { borderColor: this.circleColorHover };

@@ -18,13 +18,13 @@ export default{
   <RouterView />
 
   <Cursor
-      :targets="['img', 'a', 'button', 'your-hover-class']"
+  class ="mix-blend-exclusion"
+      :targets="['img', 'a', 'button']"
       :circleColor="'#fff'"
       :circleColorHover="'#fff'"
       :dotColor="'#fff'"
       :dotColorHover="'lightgray'"
       :hoverSize="1.8">
-    
   </Cursor>
 </template>
 
