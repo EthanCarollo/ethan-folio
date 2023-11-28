@@ -58,19 +58,19 @@ export default{
 
 <template>
 
-    <div id="main-screen-text" class= "overflow-x-hidden splash-screen absolute w-screen h-screen top-0 left-0 z-40 flex flex-col items-center justify-center">
-        <div class ="flex flex-col items-center justify-center">
+    <div id="main-screen-text" class= "overflow-x-hidden splash-screen absolute w-screen h-screen top-0 left-0 flex flex-col items-center justify-center">
+        <div class ="flex flex-col items-center justify-center relative z-40">
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-orange-300 ethew-animated-text">ETHAN</h1>
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-purple-300 ethew-animated-text">ETHAN</h1>
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-green-300 ethew-animated-text">ETHAN</h1>
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-red-300 ethew-animated-text">ETHAN</h1>
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-white ethew-animated-text">ETHAN</h1>
         </div>
-        <div id="other-text-splash" class ="mt-20 text-white opacity-0">
+        <div id="other-text-splash" class ="mt-20 z-40 text-white opacity-0">
             <h1 class ="text-2xl">developpeur web</h1>
         </div>
-        <Wave></Wave>
     </div>
+    <Wave></Wave>
 
 </template>
 

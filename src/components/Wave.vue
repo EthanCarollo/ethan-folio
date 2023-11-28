@@ -19,8 +19,8 @@
   top: 50%;
   transform: translate(-50%, -50%);
   background-image: linear-gradient(to top, #accbee00 0%, #e7f0fd00 100%);
-  overflow: hidden;
-  z-index: -1;
+  overflow: visible;
+  z-index: 1;
 }
 
 .wave {
