@@ -1,47 +1,57 @@
 {
     "data":[
         {
+            "id":"pokefactory-card",
             "title" : "pokefactory",
             "colSpan": "col-span-2",
             "rowSpan": "row-span-1",
             "image": "https://raw.githubusercontent.com/JackyTuneur/pokefactory/main/Assets/Components/UserInterface/MainMenu/pokefactory-banner.png",
             "githubLink": "",
+            "tag": "jeu-video",
             "icons" : ["unity", "csharp"],
             "date": 2023
         
         },
         {
+            "id":"galaktoon-card",
             "title" : "galaktoon",
             "colSpan": "col-span-2",
             "rowSpan": "row-span-2",
             "image": "/image/galaktoon/galaktoon.png",
+            "tag": "jeu-video",
             "githubLink": "",
             "icons" : ["javascript", "p5js"],
             "date": 2023
         },
         {
+            "id":"tfn-card",
             "title" : "the fallen necromancer",
             "colSpan": "col-span-1" ,
             "rowSpan": "row-span-1",
             "image": "/image/fallen_necromancer/thumbnail-necro.png",
+            "tag": "jeu-video",
             "githubLink": "",
             "icons" : ["unity", "csharp"],
             "date": 2021
         },
         {
+            "id":"tf-card",
             "title" : "the fallen necromancer",
             "colSpan": "col-span-1" ,
             "rowSpan": "row-span-1",
             "image": "/image/fallen_necromancer/thumbnail-necro.png",
+            "tag": "jeu-video",
             "githubLink": "",
             "icons" : ["unity", "csharp"],
             "date": 2021
         },
         {
+            "id":"dbot-card",
             "title" : "dragon ball omega tap",
             "colSpan": "col-span-4" ,
             "rowSpan": "row-span-1",
             "image": "/image/dragon-ball/dragon-ball-omg.png",
+            "tag": "jeu-video",
             "githubLink": "https://jackytuneur.github.io/dragon-ball-omega-tap/",
             "icons" : ["javascript", "html", "css"],
             "date": 2022

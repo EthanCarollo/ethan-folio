@@ -11,7 +11,7 @@ export default{
 </script>
 
 <template>
-  <tetikus lerp="0.4" color="white" showDefaultCursor="false" borderWidth="0" size="26" invertColor="true" />
+  <tetikus lerp="0.3" color="white" showDefaultCursor="false" borderWidth="0" size="26" invertColor="true" />
 
   <Header></Header>
 

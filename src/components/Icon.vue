@@ -16,27 +16,35 @@ import AsepriteIcon from "./icons/asepriteIcon.vue";
 import TailwindIcon from "./icons/tailwindIcon.vue";
 import JetbrainsIcon from "./icons/jetbrains.vue";
 import MoreIcon from "./icons/More.vue";
+import Git from "./icons/Git.vue";
+import Game from './icons/Game.vue';
+import Node from "./icons/Node.vue";
+import Linkedin from "./icons/linkedin.vue";
 
 export default{
     components:{
-        JavaScriptIcon,
-        Unity,
-        HTMLIC,
-        CSSIC,
-        PJS,
-        CS,
-        Github,
-        GithubPage,
-        VueIcon,
-        PhpIcon,
-        MySQLIcon,
-        ElasticSearch,
-        PsIcon,
-        AsepriteIcon,
-        TailwindIcon,
-        JetbrainsIcon,
-        MoreIcon
-    },
+    JavaScriptIcon,
+    Unity,
+    HTMLIC,
+    CSSIC,
+    PJS,
+    CS,
+    Github,
+    GithubPage,
+    VueIcon,
+    PhpIcon,
+    MySQLIcon,
+    ElasticSearch,
+    PsIcon,
+    AsepriteIcon,
+    TailwindIcon,
+    JetbrainsIcon,
+    MoreIcon,
+    Git,
+    Game,
+    Node,
+    Linkedin
+},
     props:[
         "icon"
     ]
@@ -62,7 +70,10 @@ export default{
 <TailwindIcon v-if="this.icon === 'tailwind'"></TailwindIcon>
 <JetbrainsIcon v-if="this.icon === 'jetbrains'"></JetbrainsIcon>
 <MoreIcon v-if="this.icon === 'more'"></MoreIcon>
-
+<Git v-if="this.icon === 'git'"></Git>
+<Game v-if="this.icon === 'game'"></Game>
+<Node v-if="this.icon === 'node'"></Node>
+<Linkedin v-if="this.icon === 'linkedin'"></Linkedin>
 
 
 </template>
