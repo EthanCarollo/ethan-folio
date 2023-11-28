@@ -21,7 +21,7 @@ export default{
 
             let startX = position_in.x
             let centerX = startX + position_in.width /2
-            let rotateX = (centerX - e.x ) / (position_in.width/9)
+            let rotateX = -((centerX - e.x) / (position_in.width/12))
 
             //card.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
             card.style.transform = `rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
