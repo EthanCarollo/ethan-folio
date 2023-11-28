@@ -78,7 +78,7 @@ export default{
 }
 
 .project_card:hover .project_card_inner{
-  transition: all 0.2s;
+  transition: all 0.05s;
 }
 
 
