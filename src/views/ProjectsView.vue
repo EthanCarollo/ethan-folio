@@ -10,9 +10,6 @@ export default{
         return{
             myProjects: projets
         }
-    },
-    mounted(){
-    console.log(this.myProjects.data);
     }
 }
 </script>

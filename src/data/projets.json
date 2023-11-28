@@ -29,6 +29,15 @@
             "date": 2021
         },
         {
+            "title" : "the fallen necromancer",
+            "colSpan": "col-span-1" ,
+            "rowSpan": "row-span-1",
+            "image": "/image/fallen_necromancer/thumbnail-necro.png",
+            "githubLink": "",
+            "icons" : ["unity", "csharp"],
+            "date": 2021
+        },
+        {
             "title" : "dragon ball omega tap",
             "colSpan": "col-span-4" ,
             "rowSpan": "row-span-1",

@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@namchee/tetikus": "^0.4.2",
     "animejs": "^3.2.1",
     "letterizejs": "^2.0.1",
     "pinia": "^2.1.7",

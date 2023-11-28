@@ -1,31 +1,21 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Header from './components/Header.vue'
-import Cursor from './components/Cursor.vue';
 
 export default{
   components:{
     RouterView,
-    Header,
-    Cursor
+    Header
 }
 }
 </script>
 
 <template>
+  <tetikus lerp="0.4" color="white" showDefaultCursor="false" borderWidth="0" size="26" invertColor="true" />
+
   <Header></Header>
 
   <RouterView />
-
-  <Cursor
-  class ="mix-blend-exclusion"
-      :targets="['img', 'a', 'button']"
-      :circleColor="'#fff'"
-      :circleColorHover="'#fff'"
-      :dotColor="'#fff'"
-      :dotColorHover="'lightgray'"
-      :hoverSize="1.8">
-  </Cursor>
 </template>
 
 <style scoped>

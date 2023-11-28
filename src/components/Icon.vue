@@ -7,17 +7,36 @@ import PJS from "./icons/p5.vue";
 import CS from "./icons/CS.vue";
 import Github from "./icons/Github.vue";
 import GithubPage from "./icons/GithubPage.vue";
+import VueIcon from "./icons/VUE.vue";
+import PhpIcon from "./icons/PHP.vue";
+import MySQLIcon from "./icons/MySQL.vue";
+import ElasticSearch from "./icons/ElasticSearch.vue";
+import PsIcon from "./icons/PsIcon.vue";
+import AsepriteIcon from "./icons/asepriteIcon.vue";
+import TailwindIcon from "./icons/tailwindIcon.vue";
+import JetbrainsIcon from "./icons/jetbrains.vue";
+import MoreIcon from "./icons/More.vue";
+
 export default{
     components:{
-    JavaScriptIcon,
-    Unity,
-    HTMLIC,
-    CSSIC,
-    PJS,
-    CS,
-    Github,
-    GithubPage
-},
+        JavaScriptIcon,
+        Unity,
+        HTMLIC,
+        CSSIC,
+        PJS,
+        CS,
+        Github,
+        GithubPage,
+        VueIcon,
+        PhpIcon,
+        MySQLIcon,
+        ElasticSearch,
+        PsIcon,
+        AsepriteIcon,
+        TailwindIcon,
+        JetbrainsIcon,
+        MoreIcon
+    },
     props:[
         "icon"
     ]
@@ -34,6 +53,16 @@ export default{
 <CS v-if="this.icon === 'csharp'"></CS>
 <Github v-if="this.icon === 'github'"></Github>
 <GithubPage v-if="this.icon === 'githubPage'"></GithubPage>
+<VueIcon v-if="this.icon === 'vue'"></VueIcon>
+<PhpIcon v-if="this.icon === 'php'"></PhpIcon>
+<MySQLIcon v-if="this.icon === 'mysql'"></MySQLIcon>
+<ElasticSearch v-if="this.icon === 'elasticsearch'"></ElasticSearch>
+<PsIcon v-if="this.icon === 'photoshop'"></PsIcon>
+<AsepriteIcon v-if="this.icon === 'aseprite'"></AsepriteIcon>
+<TailwindIcon v-if="this.icon === 'tailwind'"></TailwindIcon>
+<JetbrainsIcon v-if="this.icon === 'jetbrains'"></JetbrainsIcon>
+<MoreIcon v-if="this.icon === 'more'"></MoreIcon>
+
 
 
 </template>
