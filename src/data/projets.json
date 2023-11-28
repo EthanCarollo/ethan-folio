@@ -20,7 +20,7 @@
             "image": "/image/galaktoon/galaktoon.png",
             "tag": "jeu-video",
             "githubLink": "",
-            "icons" : ["javascript", "p5js"],
+            "icons" : ["javascript", "p5js", "electron"],
             "date": 2023
         },
         {
@@ -35,14 +35,14 @@
             "date": 2021
         },
         {
-            "id":"tf-card",
-            "title" : "the fallen necromancer",
+            "id":"osirus-card",
+            "title" : "osirus",
             "colSpan": "col-span-1" ,
             "rowSpan": "row-span-1",
-            "image": "/image/fallen_necromancer/thumbnail-necro.png",
-            "tag": "jeu-video",
+            "image": "/image/osirus/devlog_osirus.png",
+            "tag": "web-app",
             "githubLink": "",
-            "icons" : ["unity", "csharp"],
+            "icons" : ["vue", "firebase"],
             "date": 2021
         },
         {
@@ -55,6 +55,17 @@
             "githubLink": "https://jackytuneur.github.io/dragon-ball-omega-tap/",
             "icons" : ["javascript", "html", "css"],
             "date": 2022
+        },
+        {
+            "id":"starf-card",
+            "title" : "star foundation",
+            "colSpan": "col-span-2" ,
+            "rowSpan": "row-span-1",
+            "image": "/image/star_foundation/star_foundation_logo.png",
+            "tag": "jeu-video",
+            "githubLink": "",
+            "icons" : ["ruby"],
+            "date": 2023
         }
     ]
 }

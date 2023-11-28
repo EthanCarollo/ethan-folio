@@ -20,6 +20,9 @@ import Git from "./icons/Git.vue";
 import Game from './icons/Game.vue';
 import Node from "./icons/Node.vue";
 import Linkedin from "./icons/linkedin.vue";
+import Ruby from "./icons/ruby.vue";
+import Firebase from "./icons/firebase.vue";
+import Electron from "./icons/electron.vue";
 
 export default{
     components:{
@@ -43,7 +46,10 @@ export default{
     Git,
     Game,
     Node,
-    Linkedin
+    Linkedin,
+    Ruby,
+    Firebase,
+    Electron
 },
     props:[
         "icon"
@@ -74,6 +80,8 @@ export default{
 <Game v-if="this.icon === 'game'"></Game>
 <Node v-if="this.icon === 'node'"></Node>
 <Linkedin v-if="this.icon === 'linkedin'"></Linkedin>
-
+<Ruby v-if="this.icon === 'ruby'"></Ruby>
+<Firebase v-if="this.icon === 'firebase'"></Firebase>
+<Electron v-if="this.icon === 'electron'"></Electron>
 
 </template>

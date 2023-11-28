@@ -67,7 +67,7 @@ export default{
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-white ethew-animated-text">ETHAN</h1>
         </div>
         <div id="other-text-splash" class ="mt-20 z-40 text-white opacity-0">
-            <h1 class ="text-2xl">developpeur web</h1>
+            <h1 class ="text-4xl">developpeur web</h1>
         </div>
     </div>
     <Wave></Wave>
