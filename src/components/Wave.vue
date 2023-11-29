@@ -13,13 +13,14 @@
 <style scoped>
 .wrapper {
   width: 100vw;
-  height: 100vh;
+  height: 200vh;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   background-image: linear-gradient(to top, #accbee00 0%, #e7f0fd00 100%);
   overflow: visible;
+  overflow-x: hidden;
   z-index: 1;
 }
 
@@ -27,7 +28,7 @@
   width: 200vw;
   height: 202vw;
   position: absolute;
-  top: -90%;
+  top: -1%;
   left: 50%;
   margin-left: -100vw;
   margin-top: -100vw;
@@ -41,7 +42,7 @@
   animation: wave 15s infinite linear;
 }
 .third{
-  top: -100%;
+  top: -10%;
   background: rgba(94, 183, 255, 0.75);
   animation: wave 17s infinite linear;
 }
