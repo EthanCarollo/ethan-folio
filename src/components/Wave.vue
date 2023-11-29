@@ -19,8 +19,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   background-image: linear-gradient(to top, #accbee00 0%, #e7f0fd00 100%);
-  overflow: visible;
-  overflow-x: hidden;
+  overflow: hidden;
   z-index: 1;
 }
 
