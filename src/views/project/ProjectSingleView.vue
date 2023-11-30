@@ -30,7 +30,7 @@ export default{
 </script>
 
 <template>
-        <RouterLink to="/" v-thover="{ scale: 0.4 }" class ="absolute left-8 top-10 w-12 fill-white z-20">
+        <RouterLink to="/" v-thover="{ scale: 0.5 }" class ="absolute left-8 top-10 w-12 fill-white z-20">
             <leftIcon></leftIcon>
         </RouterLink>
     <div class="min-h-screen" v-thover="{ scale: 1 }">

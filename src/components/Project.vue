@@ -36,7 +36,7 @@ export default{
 </script>
 
 <template>
-    <RouterLink @mousemove="this.mooveMouseProject" @mouseleave="this.leaveProject" v-thover="{ scale: 0.4 }" :to="this.project.id" class ="relative min-h-[16vw] project_card" 
+    <RouterLink @mousemove="this.mooveMouseProject" @mouseleave="this.leaveProject" v-thover="{ scale: 0.5 }" :to="this.project.id" class ="relative min-h-[16vw] project_card" 
     :class="[this.project.colSpan, this.project.rowSpan, this.project.id]">
         <div class="w-full h-full bg-cover bg-center project_card_inner shadow-lg shadow-black/30" :class="[this.project.id + 'inner']" v-bind:style="{ backgroundImage: 'url('+this.project.image+')' }">
             <div class="absolute top-0 left-0 w-full h-full bg-black/50 hover_project_class flex flex-col items-center">
