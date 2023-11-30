@@ -13,7 +13,7 @@
 <style scoped>
 .wrapper {
   width: 100vw;
-  height: 200vh;
+  height: 300vh;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -30,7 +30,7 @@
   top: -1%;
   left: 50%;
   margin-left: -100vw;
-  margin-top: -100vw;
+  margin-top: -80vw;
   border-radius: 35%;
   background: rgba(255, 255, 255, .75);
   animation: wave 23s infinite linear;

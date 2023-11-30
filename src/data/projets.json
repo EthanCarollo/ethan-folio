@@ -7,10 +7,28 @@
             "rowSpan": "row-span-1",
             "image": "https://raw.githubusercontent.com/JackyTuneur/pokefactory/main/Assets/Components/UserInterface/MainMenu/pokefactory-banner.png",
             "githubLink": "",
+            "description" : "petit projet de jeu video fait avec unity en solo, j'avais envie de faire un petit jeu video de gestion dans l'univers de pokemon",
             "tag": "jeu-video",
             "icons" : ["unity", "csharp"],
-            "date": 2023
-        
+            "date": 2023,
+            "projectinfos": [
+                {
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                }
+            ]
         },
         {
             "id":"galaktoon",
@@ -20,8 +38,27 @@
             "image": "/image/galaktoon/galaktoon.png",
             "tag": "jeu-video",
             "githubLink": "",
+            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
             "icons" : ["javascript", "p5js", "electron"],
-            "date": 2023
+            "date": 2023,
+            "projectinfos": [
+                {
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                }
+            ]
         },
         {
             "id":"thefallennecromancer",
@@ -31,8 +68,27 @@
             "image": "/image/fallen_necromancer/thumbnail-necro.png",
             "tag": "jeu-video",
             "githubLink": "",
+            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
             "icons" : ["unity", "csharp"],
-            "date": 2021
+            "date": 2021,
+            "projectinfos": [
+                {
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                }
+            ]
         },
         {
             "id":"osirus",
@@ -42,8 +98,27 @@
             "image": "/image/osirus/devlog_osirus.png",
             "tag": "web-app",
             "githubLink": "",
+            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
             "icons" : ["vue", "firebase"],
-            "date": 2021
+            "date": 2021,
+            "projectinfos": [
+                {
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                }
+            ]
         },
         {
             "id":"dragonballomega",
@@ -53,8 +128,27 @@
             "image": "/image/dragon-ball/dragon-ball-omg.png",
             "tag": "jeu-video",
             "githubLink": "https://jackytuneur.github.io/dragon-ball-omega-tap/",
+            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
             "icons" : ["javascript", "html", "css"],
-            "date": 2022
+            "date": 2022,
+            "projectinfos": [
+                {
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                }
+            ]
         },
         {
             "id":"starfoundation",
@@ -62,10 +156,29 @@
             "colSpan": "col-span-2" ,
             "rowSpan": "row-span-1",
             "image": "/image/star_foundation/star_foundation_logo.png",
+            "description" : "petit projet de jeu video fait avec unity en solo, j'avais envie de faire un petit jeu video de gestion dans l'univers de pokemon",
             "tag": "jeu-video",
             "githubLink": "",
             "icons" : ["ruby"],
-            "date": 2023
+            "date": 2023,
+            "projectinfos": [
+                {
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "https://placehold.co/600x400",
+                    "description": "a beautiful place holder, isn't it ?"
+                }
+            ]
         }
     ]
 }

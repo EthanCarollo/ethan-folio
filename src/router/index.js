@@ -15,7 +15,13 @@ const router = createRouter({
       name: 'project',
       component: ProjectSingleView
     }
-  ]
-})
+  ],
+  // Prevents window from scrolling back to top
+  // when navigating between components/views
+  scrollBehavior(to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
+});
 
 export default router
