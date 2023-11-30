@@ -1,11 +1,9 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import Header from './components/Header.vue'
 
 export default{
   components:{
-    RouterView,
-    Header
+    RouterView
 }
 }
 </script>
@@ -13,10 +11,27 @@ export default{
 <template>
   <tetikus lerp="0.3" color="white" showDefaultCursor="false" borderWidth="0" size="26" invertColor="true" />
 
-  <Header></Header>
 
-  <RouterView />
+  <router-view v-slot="{ Component, route }">
+    <transition name="fade" mode="out-in">
+      <div :key="route.name">  
+        <component :is="Component"></component>
+      </div>
+    </transition>
+  </router-view>
+
 </template>
 
-<style scoped>
+<style>
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>

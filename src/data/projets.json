@@ -1,7 +1,7 @@
 {
     "data":[
         {
-            "id":"pokefactory-card",
+            "id":"pokefactory",
             "title" : "pokefactory",
             "colSpan": "col-span-2",
             "rowSpan": "row-span-1",
@@ -13,7 +13,7 @@
         
         },
         {
-            "id":"galaktoon-card",
+            "id":"galaktoon",
             "title" : "galaktoon",
             "colSpan": "col-span-2",
             "rowSpan": "row-span-2",
@@ -24,7 +24,7 @@
             "date": 2023
         },
         {
-            "id":"tfn-card",
+            "id":"thefallennecromancer",
             "title" : "the fallen necromancer",
             "colSpan": "col-span-1" ,
             "rowSpan": "row-span-1",
@@ -35,7 +35,7 @@
             "date": 2021
         },
         {
-            "id":"osirus-card",
+            "id":"osirus",
             "title" : "osirus",
             "colSpan": "col-span-1" ,
             "rowSpan": "row-span-1",
@@ -46,7 +46,7 @@
             "date": 2021
         },
         {
-            "id":"dbot-card",
+            "id":"dragonballomega",
             "title" : "dragon ball omega tap",
             "colSpan": "col-span-4" ,
             "rowSpan": "row-span-1",
@@ -57,7 +57,7 @@
             "date": 2022
         },
         {
-            "id":"starf-card",
+            "id":"starfoundation",
             "title" : "star foundation",
             "colSpan": "col-span-2" ,
             "rowSpan": "row-span-1",
