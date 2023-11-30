@@ -1,11 +1,7 @@
 <script>
-import projets from '../data/projets.json';
-import Project from '../components/Project.vue';
+import projets from '~/public/data/projects.json';
 
 export default{
-    components:{
-        Project
-    },
     data(){
         return{
             myProjects: projets

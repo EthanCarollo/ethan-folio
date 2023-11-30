@@ -1,14 +1,3 @@
-<script>
-import { RouterLink } from 'vue-router';
-
-export default{
-    components:{
-        RouterLink
-    }
-}
-
-</script>
-
 <template>
     <header class= "fixed flex-col flex gap-3 mt-6 ml-10 text-base z-50">
         <a v-thover="{ scale: 0.4 }" href="#home" class="text-white">01 - accueil</a>
@@ -22,6 +11,4 @@ export default{
     header{
         font-family: "LiveMono";
     }
-
-
 </style>

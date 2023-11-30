@@ -1,14 +1,4 @@
-<script>
-import { RouterLink } from 'vue-router';
-import Icon from '../components/Icon.vue';
 
-export default{
-    components:{
-    Icon
-}
-}
-
-</script>
 
 <template>
     <div id ="contact" class ="w-full flex flex-col items-center text-white min-h-screen relative">

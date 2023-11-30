@@ -1,18 +1,8 @@
 <script>
-import projets from '../../data/projets.json';
-import leftIcon from '../../components/icons/leftIcon.vue'
-import { RouterLink, RouterView } from 'vue-router';
-import Icon from '../../components/Icon.vue';
-import ProjectInformation from "@/components/ProjectInformation.vue";
+import projets from '~/public/data/projects.json';
 
 export default{
-  components:{
-    ProjectInformation,
-    leftIcon,
-    RouterView,
-    RouterLink,
-    Icon
-  },
+  layout: 'default',
   data(){
     return{
       projects: projets.data
@@ -21,7 +11,7 @@ export default{
   computed:{
     project(){
       for (let i = 0; i < this.projects.length; i++) {
-        if(this.projects[i].id == this.$route.params.project){
+        if(this.projects[i].id == this.$route.params.slug){
           return this.projects[i]
         }
       }
@@ -32,9 +22,10 @@ export default{
 </script>
 
 <template>
-  <RouterLink to="/" v-thover="{ scale: 0.5 }" class ="fixed left-8 top-10 w-12 fill-white z-20">
-    <leftIcon></leftIcon>
-  </RouterLink>
+  <div>
+  <NuxtLink to="/" v-thover="{ scale: 0.5 }" class ="fixed left-8 top-10 w-12 fill-white z-20">
+    <IconsLeftIcon></IconsLeftIcon>
+  </NuxtLink>
   <div class="min-h-screen flex flex-col items-center" v-thover="{ scale: 1 }">
     <div class="w-full h-[50vh] bg-cover bg-center relative project_card_inner shadow-lg shadow-black/30 flex justify-center items-center"
          :class="[this.project.id + 'inner']" v-bind:style="{ backgroundImage: 'url('+this.project.image+')' }">
@@ -58,12 +49,12 @@ export default{
     </div>
     <div class="w-[60vw] relative flex flex-col items-center z-30">
       <div class="w-full bg-amber-50 h-0.5 mb-8 mt-2"></div>
-      <RouterLink to="/"  class="text-white relative mb-8 text-white text-3xl">
-      <h1 v-thover="{ scale: 0.4 }">retour a l'accueil</h1>
-      </RouterLink>
+      <NuxtLink to="/"  class="text-white relative mb-8 text-white text-3xl">
+        <h1 v-thover="{ scale: 0.4 }">retour a l'accueil</h1>
+      </NuxtLink>
     </div>
   </div>
-
+</div>
 
 </template>
 

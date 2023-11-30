@@ -1,11 +1,7 @@
 <script>
-import technologies from '../data/technologies.json';
-import Icon from '../components/Icon.vue';
+import technologies from '~/public/data/technologies.json';
 
 export default{
-    components:{
-        Icon
-    },
     data(){
         return{
             myTech: technologies

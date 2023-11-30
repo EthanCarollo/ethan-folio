@@ -1,7 +1,6 @@
 <script>
 import Letterize from "letterizejs"
 import anime from 'animejs/lib/anime.es.js';
-import Wave from "../../components/Wave.vue";
 
 export default{
     mounted() {
@@ -51,8 +50,7 @@ export default{
                 scale: 1,
             });
         }
-    },
-    components: { Wave }
+    }
 }
 </script>
 
