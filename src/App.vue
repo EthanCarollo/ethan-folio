@@ -10,7 +10,7 @@ export default{
 
 <template>
   <tetikus lerp="0.2" color="white" showDefaultCursor="false" borderWidth="0" size="28" invertColor="true" />
-  <tetikus lerp="0.4" color="white" showDefaultCursor="false" borderWidth="0" size="18"/>
+  <tetikus lerp="0.4 " color="white" showDefaultCursor="false" borderWidth="0" size="18"/>
 
 
   <router-view v-slot="{ Component, route }">

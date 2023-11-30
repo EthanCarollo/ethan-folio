@@ -60,9 +60,7 @@ export default{
 
     <div id="main-screen-text" class= "overflow-x-hidden splash-screen absolute w-screen h-screen top-0 left-0 flex flex-col items-center justify-center">
         <div class ="flex flex-col items-center justify-center relative z-40">
-            <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-orange-300 ethew-animated-text">ETHAN</h1>
-            <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-purple-300 ethew-animated-text">ETHAN</h1>
-            <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-green-300 ethew-animated-text">ETHAN</h1>
+            <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-blue-300 ethew-animated-text">ETHAN</h1>
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-red-300 ethew-animated-text">ETHAN</h1>
             <h1 class = "lg:text-9xl sm:text-8xl text-7xl text-white ethew-animated-text">ETHAN</h1>
         </div>
