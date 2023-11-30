@@ -56,8 +56,11 @@ export default{
     <div class = "flex flex-row-reverse gap-5 w-[90vw] mt-8 mb-8 flex-wrap">
       <ProjectInformation v-for="info in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
     </div>
-    <div class="w-[60vw] relative">
+    <div class="w-[60vw] relative flex flex-col items-center z-30">
       <div class="w-full bg-amber-50 h-0.5 mb-8 mt-2"></div>
+      <RouterLink to="/"  class="text-white relative mb-8 text-white text-3xl">
+      <h1 v-thover="{ scale: 0.4 }">retour a l'accueil</h1>
+      </RouterLink>
     </div>
   </div>
 
