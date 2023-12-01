@@ -9,8 +9,9 @@ export default {
     anime({
         targets: '#loading_spinner',
         opacity: 0,
-        delay:500,
-        duration: 3000,
+        delay:1000,
+        easing: 'easeInOutCubic',
+        duration: 1000,
         loopComplete: () => {
             this.showHideSpinner = false;
         }
