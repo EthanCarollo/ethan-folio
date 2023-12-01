@@ -15,6 +15,16 @@ export default{
           return this.projects[i]
         }
       }
+      return null
+    }
+  },
+  created(){
+    if(this.project === null){
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Page Not Found',
+        fatal:true
+      })
     }
   }
 }
@@ -22,7 +32,7 @@ export default{
 </script>
 
 <template>
-  <div>
+  <div v-if="project !== null">
   <NuxtLink to="/" v-thover="{ scale: 0.5 }" class ="fixed left-8 top-10 w-12 fill-white z-20">
     <IconsLeftIcon></IconsLeftIcon>
   </NuxtLink>
@@ -49,8 +59,8 @@ export default{
     </div>
     <div class="w-[60vw] relative flex flex-col items-center z-30">
       <div class="w-full bg-amber-50 h-0.5 mb-8 mt-2"></div>
-      <NuxtLink to="/"  class="text-white relative mb-8 text-white text-3xl">
-        <h1 v-thover="{ scale: 0.4 }">retour a l'accueil</h1>
+      <NuxtLink to="/"  class="text-white relative mb-8 text-white text-3xl select-none">
+        <h1 v-thover="{ scale: 0.4 }" class= "select-none">retour a l'accueil</h1>
       </NuxtLink>
     </div>
   </div>
