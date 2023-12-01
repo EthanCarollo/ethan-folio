@@ -21,7 +21,7 @@ export default{
   <div class="h-screen w-screen flex justify-center flex-col items-center z-10 relative">
     <h1 class="text-9xl text-white">{{ error.statusCode }}</h1>
     <h1 class="text-lg text-white mb-5">oops... la page que vous cherchez n'est plus la.</h1>
-    <NuxtLink to="/" class="text-xl text-slate-800 bg-white p-6 pt-3 pb-3" v-thover="{ scale: 0.4 }">retourner a l'accueil</NuxtLink>
+    <nuxt-link to="/" class="text-xl text-slate-800 bg-white p-6 pt-3 pb-3">retourner a l'accueil</nuxt-link>
   </div>
 </template>
 
