@@ -1,13 +1,16 @@
 <template>
-
+  <NuxtLayout>
   <div class="bg-slate-800">
+
     <tetikus :lerp="0.2" color="white" :showDefaultCursor = false :borderWidth="0" :size="28" :invertColor=true />
     <tetikus :lerp="0.4 " color="white" :showDefaultCursor = false :borderWidth="0" :size="18"/>
     
     <nuxt-page-transition>
       <nuxt-page />
     </nuxt-page-transition>
+    <NuxtLoadingIndicator></NuxtLoadingIndicator>
   </div>
+  </NuxtLayout>
 </template>
 
 <style>
