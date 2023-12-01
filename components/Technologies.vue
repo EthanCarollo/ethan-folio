@@ -1,5 +1,5 @@
 <script>
-import technologies from '~/public/data/technologies.json';
+import technologies from '~/src/data/technologies.json';
 
 export default{
     data(){

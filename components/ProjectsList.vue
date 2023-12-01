@@ -1,5 +1,5 @@
 <script>
-import projets from '~/public/data/projects.json';
+import projets from '~/src/data/projects.json';
 
 export default{
     data(){

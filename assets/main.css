@@ -7,23 +7,23 @@
 
 @font-face {
     font-family: condensed-gothic;
-    src: url("public/fonts/LeagueGothic-CondensedRegular.otf");
+    src: url("fonts/LeagueGothic-CondensedRegular.otf");
 }
 
 @font-face {
     font-family: livemono;
-    src: url("public/fonts/Livemono.otf");
+    src: url("fonts/Livemono.otf");
 }
 
 
 @font-face {
     font-family: conditalic-gothic;
-    src: url("public/fonts/LeagueGothic-CondensedItalic.otf");
+    src: url("fonts/LeagueGothic-CondensedItalic.otf");
 }
 
 @font-face {
     font-family: medium-unique;
-    src: url("public/fonts/medium-unique.ttf");
+    src: url("fonts/medium-unique.ttf");
 }
 
 *{

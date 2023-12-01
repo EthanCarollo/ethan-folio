@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['tetikus'],
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/main.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
