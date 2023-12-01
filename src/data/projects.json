@@ -68,27 +68,31 @@
             "image": "/image/fallen_necromancer/thumbnail-necro.png",
             "tag": "jeu-video",
             "githubLink": "",
-            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
+            "description" : "premier projet de jeu video, j'etais un grand lecteur d'un 'webtoon' en 2020 qui s'appelait Solo Levelling, j'avais ete completement absorbe par cette lecture que j'ai decide d'en faire un jeu autour d'un concept simple : tuer des boss afin d'en faire nos esclaves",
             "icons" : ["unity", "csharp"],
             "date": 2021,
             "projectinfos": [
                 {
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/fallen_necromancer/Image1.png",
+                    "description": "ne sachant pas trop ou le jeu pouvait commencer, j'ai decide que le premier niveau serait un cimetiere car on incarne un necromancien"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/fallen_necromancer/Image3.png",
+                    "description": "sachant que j'avais a coeur de realiser la plupart des assets du jeu, j'ai decide d'apprendre le pixel art pour faire le personnage principal"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/fallen_necromancer/Image2.png",
+                    "description": "une partie complique du developpement a ete les animations, je n'avais aucune idee a ce moment de comment un jeu se developpait, mais j'avais tellement envie de realiser mon idee que j'etais pret a tout apprendre"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/fallen_necromancer/Image4.png",
+                    "description": "il a aussi fallu faire des personnages annexes, ce qui m'a permit d'obtenir une vision plus graphique du developpement de mon jeu et de ne pas etre focalise sur l'aspect technique"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/fallen_necromancer/Image5.png",
+                    "description": "n'ayant pas de competences techniques tres pousses, developper un inventaire etait un enfer, mais a force de perseverer j'ai pu obtenir un resultat fonctionnel et 'beau' (a mes yeux)"
+                },{
+                    "image": "/image/fallen_necromancer/Image6.png",
+                    "description": "une partie plus plaisante du developpement etait le combat, sachant que unity mache le travail avec les blocs de collisions, j'ai pu faire face a cette problematique sans soucis"
                 }
-            ]
+            ],
+            "ps": "je n'ai que d'infimes souvenirs de ce projet et jusqu'il y a peu, c'etait un peu un lost media pour moi, je savais qu'il existait mais je n'avais plus aucune trace de lui (je ne connaissais pas github...) mais recemment, un ami qui m'avait aide pour le logo (merci matteo) m'a montre qu'il avait retrouve le projet unity sur un ancien wd portable !"
         },
         {
             "id":"osirus",
