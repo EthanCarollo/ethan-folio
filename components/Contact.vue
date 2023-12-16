@@ -1,7 +1,7 @@
 
 
 <template>
-    <div id ="contact" class ="w-full flex flex-col items-center text-white min-h-screen relative">
+    <div id ="contact" class ="w-full flex flex-col items-center text-white text-center min-h-screen relative">
         <h1 class ="mt-8 text-2xl text-white mb-2 text-center">// contact</h1>
         <div class ="flex flex-col items-center justify-center w-full h-screen top-0 left-0 absolute">
             <h1 class ="mt-2 text-4xl text-white mb-1">ethan carollo</h1>
