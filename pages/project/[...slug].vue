@@ -44,22 +44,22 @@ definePageMeta({
         <Icon v-for="icon in project.icons" :icon="icon"></Icon>
       </div>
     </div>
-    <div class="w-[60vw] text-white text-xl mt-8">
+    <div class="lg:w-[60vw] w-[90vw] text-white text-base text-center lg:text-left lg:text-xl mt-8">
     {{ project.description }}
     </div>
-    <div class = "flex gap-5 w-[90vw] mt-8 flex-wrap">
+    <div class = "flex lg:flex-row flex-col gap-5 w-[90vw] mt-8 flex-wrap">
       <ProjectInformation v-for="info in project.projectinfos.slice(0,3)" :info="info"></ProjectInformation>
     </div>
-    <div class = "flex flex-row-reverse gap-5 w-[90vw] mt-8 mb-8 flex-wrap">
+    <div class = "flex lg:flex-row-reverse flex-col  gap-5 w-[90vw] mt-8 mb-8 flex-wrap">
       <ProjectInformation v-for="info in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
     </div>
     <div v-if="project.ps">
-      <h1 class="w-[60vw] text-lg text-white mt-2 mb-5">{{ project.ps }}</h1>
+      <h1 class="lg:w-[60vw] w-[90vw] text-base lg:text-lg lg:text-left text-center text-white mt-2 mb-5">{{ project.ps }}</h1>
     </div>
     <div class="w-[60vw] relative flex flex-col items-center z-30">
       <div class="w-full bg-amber-50 h-0.5 mb-8 mt-2"></div>
       <NuxtLink to="/"  class="text-white relative mb-8 text-white text-3xl select-none">
-        <h1 v-thover="{ scale: 0.4 }" class= "select-none">retour a l'accueil</h1>
+        <h1 v-thover="{ scale: 0.4 }" class= "select-none lg:text-left text-center">retour a l'accueil</h1>
       </NuxtLink>
     </div>
   </div>
