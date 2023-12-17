@@ -1,5 +1,3 @@
-// plugins/vuetify.js
-
 import Tetikus from '@namchee/tetikus';
 import '@namchee/tetikus/dist/tetikus.css';
 
