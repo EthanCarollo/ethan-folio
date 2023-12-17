@@ -17,7 +17,8 @@ if(project === undefined){
     title: 'Ethan Carollo - ' + project.title,
     ogTitle: 'Ethan Carollo - ' + project.title,
     description: project.description,
-    ogDescription: project.description
+    ogDescription: project.description,
+    ogImage: project.ogimage
   })
 
 
