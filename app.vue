@@ -1,3 +1,13 @@
+<script setup>
+
+useHead({
+  htmlAttrs: {
+    lang: 'fr'
+  }
+})
+
+</script>
+
 <template>
   <NuxtLayout>
   <div class="bg-slate-800">

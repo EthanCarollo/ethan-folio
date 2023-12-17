@@ -1,9 +1,10 @@
 <script setup lang="ts">
-useHead({
+useSeoMeta({
   title: 'Ethan Carollo - Portfolio',
-  meta: [
-    { name: 'Portofolio développeur web', content: 'Étudiant en développement web avec un interet pour les jeux vidéos et les nouvelles technologies.' }
-  ]
+  ogTitle: 'Ethan Carollo - Portfolio',
+  description: 'Étudiant en développement web avec un interet pour les jeux vidéos et les nouvelles technologies.',
+  ogDescription: 'Étudiant en développement web avec un interet pour les jeux vidéos et les nouvelles technologies.',
+  ogImage: "/image/ethan-carollo-open-graph.png"
 })
 </script>
 
