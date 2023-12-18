@@ -21,11 +21,11 @@ if(project === undefined){
     ogImage: project.ogimage
   })
 
-
-
 definePageMeta({
   layout: 'default'
 })
+
+const isGalleryActive = ref(false);
 </script>
 
 <template>
@@ -49,22 +49,24 @@ definePageMeta({
     {{ project.description }}
     </div>
     <div class = "flex lg:flex-row flex-col gap-5 w-[90vw] mt-8 flex-wrap">
-      <ProjectInformation v-for="info in project.projectinfos.slice(0,3)" :info="info"></ProjectInformation>
+      <ProjectInformation @activeGallery="isGalleryActive = true"  v-for="info in project.projectinfos.slice(0,3)" :info="info"></ProjectInformation>
     </div>
     <div class = "flex lg:flex-row-reverse flex-col  gap-5 w-[90vw] mt-8 mb-8 flex-wrap">
-      <ProjectInformation v-for="info in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
+      <ProjectInformation @activeGallery="isGalleryActive = true"  v-for="info in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
     </div>
     <div v-if="project.ps">
       <h1 class="lg:w-[60vw] w-[90vw] text-base lg:text-lg lg:text-left text-center text-white mt-2 mb-5">{{ project.ps }}</h1>
     </div>
     <div class="w-[60vw] relative flex flex-col items-center z-30">
       <div class="w-full bg-amber-50 h-0.5 mb-8 mt-2"></div>
-      <NuxtLink to="/"  class="text-white relative mb-8 text-white text-3xl select-none">
-        <h1 v-thover="{ scale: 0.4 }" class= "select-none lg:text-left text-center">retour a l'accueil</h1>
+      <NuxtLink to="/" v-thover="{ scale: 0.5 }" class="text-white relative mb-8 text-white text-3xl lg:text-left text-center">
+        retour a l'accueil
       </NuxtLink>
     </div>
   </div>
+    <gallery-image @quitGallery="isGalleryActive = false" :project-informations="project.projectinfos" v-if="isGalleryActive === true"></gallery-image>
 </div>
+
 </template>
 
 <style>

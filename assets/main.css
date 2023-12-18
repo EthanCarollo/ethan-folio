@@ -34,3 +34,12 @@ html {
     scroll-behavior: smooth;
     overflow-x: hidden;
   }
+
+
+.slider-pagination{
+    @apply w-4 h-4 relative block bg-slate-400 rounded-full transition-all opacity-30
+}
+
+.actual-slider-pagination{
+    @apply w-5 h-5 relative block bg-white rounded-full transition-all opacity-30
+}

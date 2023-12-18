@@ -21,6 +21,7 @@
   "dependencies": {
     "@namchee/tetikus": "^0.4.2",
     "animejs": "^3.2.2",
-    "letterizejs": "^2.0.1"
+    "letterizejs": "^2.0.1",
+    "nuxt-swiper": "^1.2.2"
   }
 }

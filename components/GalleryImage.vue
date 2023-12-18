@@ -1,0 +1,91 @@
+<script setup>
+import anime from 'animejs/lib/anime.es.js';
+
+defineProps([
+    "projectInformations"
+])
+
+const emit = defineEmits(['quitGallery'])
+onMounted(()=>{
+
+})
+const quitGallery = () => {
+  let animationEndDuration = 500;
+  anime({
+    targets: "#gallery_of_images",
+    opacity:0,
+    duration:animationEndDuration,
+    easing: "easeInOutQuad",
+    loopComplete:()=>{
+      emit('quitGallery');
+    }
+  })
+}
+</script>
+
+<template>
+
+  <div v-thover="{ scale: 0.5 }" @click="quitGallery" class ="fixed left-8 top-10 w-12 fill-white z-[90]">
+  <IconsLeftIcon></IconsLeftIcon>
+</div>
+<div id="gallery_of_images" class="fixed top-0 left-0 p-[5vw] text-white w-[100vw] h-[100vh] pt-[12vh] bg-black/50 z-[80] flex justify-center items-center backdrop-blur-lg">
+<Swiper
+    :modules="[SwiperNavigation, SwiperEffectCreative, SwiperPagination]"
+    :navigation="{
+      enabled: true,
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    }"
+    :pagination= "{
+      enabled:true,
+      el: '.swiper-pagination-slider',
+      bulletClass: 'slider-pagination',
+      bulletActiveClass: 'actual-slider-pagination'
+     }"
+    :effect="'creative'"
+    :slides-per-view="1"
+    :creative-effect="{
+      prev: {
+        shadow: false,
+        opacity:0,
+        scale: 0,
+        translate: ['-20%', 0, -1],
+      },
+      next: {
+        shadow: false,
+        opacity:0,
+        scale: 0,
+        translate: ['20%', 0, 0],
+      },
+    }"
+>
+  <SwiperSlide v-for="info in projectInformations">
+    <div class="w-full flex flex-col justify-center items-center mb-14">
+      <img :src="info.image" class="w-[65vw]"/>
+      <h1 class="text-3xl w-[60vw] mt-8">{{ info.description }}</h1>
+    </div>
+  </SwiperSlide>
+  <div class="swiper-pagination-slider flex justify-center gap-1"></div>
+  <div v-thover="{ scale: 0.5 }" class="swiper-button-prev" style="color:white;"></div>
+  <div v-thover="{ scale: 0.5 }" class="swiper-button-next" style="color:white;"></div>
+</Swiper>
+
+</div>
+</template>
+
+<style scoped>
+
+#gallery_of_images{
+  opacity: 100%;
+  animation: gallery_of_image 0.5s;
+}
+
+@keyframes gallery_of_image {
+  from{
+    opacity: 0;
+  }to{
+    opacity: 100%;
+     }
+}
+
+</style>
