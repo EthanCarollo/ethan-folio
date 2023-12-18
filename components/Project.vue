@@ -33,7 +33,7 @@ export default{
     <NuxtLink @mousemove="this.mooveMouseProject" @mouseleave="this.leaveProject" :to="'project/'+this.project.id" v-thover="{ scale: 0.5 }" class ="relative lg:min-h-[16vw] min-h-[16vh] project_card" 
     :class="[this.project.colSpan, this.project.rowSpan, this.project.id]">
         <div class="w-full h-full bg-cover bg-center project_card_inner shadow-lg shadow-black/30" :class="[this.project.id + 'inner']" v-bind:style="{ backgroundImage: 'url('+this.project.image+')' }">
-            <div class="absolute top-0 left-0 w-full h-full bg-black/50 hover_project_class flex flex-col items-center">
+            <div class="absolute top-0 left-0 w-full h-full bg-black/50 hover_project_class lg:opacity-0 flex flex-col items-center">
                 <h1 class="text-white absolute text-left top-0 left-0 w-[70%] text-lg p-3">{{ this.project.title }}</h1>
                 <h1 class="text-white absolute top-0 right-0 p-3">{{ this.project.date }}</h1>
                 <div class ="absolute bottom-0 left-0 w-full flex p-2 h-12 gap-3 fill-white">
@@ -57,7 +57,6 @@ export default{
 }
 
 .hover_project_class{
-    opacity: 0%;
     transition: all 1s;
 }
 

@@ -37,7 +37,7 @@ definePageMeta({
     <div class="w-full h-[50vh] bg-cover bg-center relative project_card_inner shadow-lg shadow-black/30 flex justify-center items-center"
          :class="[project.id + 'inner']" v-bind:style="{ backgroundImage: 'url('+project.image+')' }">
       <div class="w-full h-full absolute top-0 left-0 bg-black/50"></div>
-      <h1 class="text-white text-6xl z-10 relative">{{project.title}}</h1>
+      <h1 class="text-white text-4xl text-center lg:text-6xl z-10 relative">{{project.title}}</h1>
       <div class ="absolute bottom-0 right-0 w-full flex justify-end p-3 gap-3">
         <h1 class="bg-white pl-4 pr-4 text-2xl p-1 ">{{ project.tag }}</h1>
       </div>
