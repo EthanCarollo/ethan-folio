@@ -25,6 +25,7 @@ definePageMeta({
   layout: 'default'
 })
 
+const selectedImage = ref(0)
 const isGalleryActive = ref(false);
 </script>
 
@@ -49,10 +50,10 @@ const isGalleryActive = ref(false);
     {{ project.description }}
     </div>
     <div class = "flex lg:flex-row flex-col gap-5 w-[90vw] mt-8 flex-wrap">
-      <ProjectInformation @activeGallery="isGalleryActive = true"  v-for="info in project.projectinfos.slice(0,3)" :info="info"></ProjectInformation>
+      <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index;"  v-for="(info, index) in project.projectinfos.slice(0,3)" :info="info"></ProjectInformation>
     </div>
     <div class = "flex lg:flex-row-reverse flex-col  gap-5 w-[90vw] mt-8 mb-8 flex-wrap">
-      <ProjectInformation @activeGallery="isGalleryActive = true"  v-for="info in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
+      <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index+3;"  v-for="(info, index) in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
     </div>
     <div v-if="project.ps">
       <h1 class="lg:w-[60vw] w-[90vw] text-base lg:text-lg lg:text-left text-center text-white mt-2 mb-5">{{ project.ps }}</h1>
@@ -64,7 +65,7 @@ const isGalleryActive = ref(false);
       </NuxtLink>
     </div>
   </div>
-    <gallery-image @quitGallery="isGalleryActive = false" :project-informations="project.projectinfos" v-if="isGalleryActive === true"></gallery-image>
+    <gallery-image @quitGallery="isGalleryActive = false" :selected-image="selectedImage" :project-informations="project.projectinfos" v-if="isGalleryActive === true"></gallery-image>
 </div>
 
 </template>

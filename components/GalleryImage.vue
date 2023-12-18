@@ -1,8 +1,9 @@
 <script setup>
 import anime from 'animejs/lib/anime.es.js';
 
-defineProps([
-    "projectInformations"
+const props = defineProps([
+    "projectInformations",
+    "selectedImage"
 ])
 
 const emit = defineEmits(['quitGallery'])
@@ -21,6 +22,10 @@ const quitGallery = () => {
     }
   })
 }
+props
+const onSwiper = (swiper) => {
+  swiper.activeIndex = props.selectedImage
+};
 </script>
 
 <template>
@@ -36,6 +41,7 @@ const quitGallery = () => {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
     }"
+    @swiper="onSwiper"
     :pagination= "{
       enabled:true,
       el: '.swiper-pagination-slider',
