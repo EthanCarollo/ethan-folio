@@ -59,15 +59,13 @@ const onSwiper = (swiper) => {
       },
       next: {
         shadow: false,
-        opacity:0,
-        scale: 0,
-        translate: ['20%', 0, 0],
+        translate: ['100%', 0, 0],
       },
     }"
 >
-  <SwiperSlide v-for="info in projectInformations">
-    <div class="w-full h-[100vh] flex flex-col justify-center items-center">
-      <img :src="info.image" class="max-w-[65vw] max-h-[70vh]"/>
+  <SwiperSlide v-for="info in projectInformations" :lazy="true">
+    <div class="w-full h-[100vh] swiper-no-swiping flex flex-col justify-center items-center">
+      <nuxt-img @mousedown.prevent :quality="20" :src="info.image" class="max-w-[65vw] max-h-[70vh]"/>
       <h1 class="text-2xl text-center w-[60vw] mt-8">{{ info.description }}</h1>
     </div>
   </SwiperSlide>

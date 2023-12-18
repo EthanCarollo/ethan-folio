@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['nuxt-swiper'],
+  modules: ['nuxt-swiper', 'nuxt-simple-sitemap', '@nuxt/image'],
   swiper: {
     // Swiper options
     //----------------------
@@ -11,6 +11,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   build: {
     transpile: ['tetikus'],
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/', 'sitemap.xml'],
+      ignore: ['/tak', '/konfiguration', '/checkout'],
+    },
+  },
+  sitemap: {
+    sources: ['/api/sitemap'],
   },
   css: ['~/assets/main.css'],
   postcss: {
