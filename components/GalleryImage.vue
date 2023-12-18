@@ -60,12 +60,12 @@ const quitGallery = () => {
     }"
 >
   <SwiperSlide v-for="info in projectInformations">
-    <div class="w-full flex flex-col justify-center items-center mb-14">
-      <img :src="info.image" class="w-[65vw]"/>
-      <h1 class="text-3xl w-[60vw] mt-8">{{ info.description }}</h1>
+    <div class="w-full h-[100vh] flex flex-col justify-center items-center">
+      <img :src="info.image" class="max-w-[65vw] max-h-[70vh]"/>
+      <h1 class="text-2xl text-center w-[60vw] mt-8">{{ info.description }}</h1>
     </div>
   </SwiperSlide>
-  <div class="swiper-pagination-slider flex justify-center gap-1"></div>
+  <div class="swiper-pagination-slider fixed bottom-[6%] w-full flex justify-center gap-1"></div>
   <div v-thover="{ scale: 0.5 }" class="swiper-button-prev" style="color:white;"></div>
   <div v-thover="{ scale: 0.5 }" class="swiper-button-next" style="color:white;"></div>
 </Swiper>

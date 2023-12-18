@@ -43,3 +43,7 @@ html {
 .actual-slider-pagination{
     @apply w-5 h-5 relative block bg-white rounded-full transition-all opacity-30
 }
+
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+    bottom:6% !important;
+}
