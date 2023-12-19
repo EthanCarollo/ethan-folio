@@ -49,11 +49,13 @@ const isGalleryActive = ref(false);
     <div class="lg:w-[60vw] w-[90vw] text-white text-base text-center lg:text-left lg:text-xl mt-8">
     {{ project.description }}
     </div>
-    <div class = "flex lg:flex-row flex-col gap-5 w-[90vw] mt-8 flex-wrap">
-      <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index;"  v-for="(info, index) in project.projectinfos.slice(0,3)" :info="info"></ProjectInformation>
-    </div>
-    <div class = "flex lg:flex-row-reverse flex-col  gap-5 w-[90vw] mt-8 mb-8 flex-wrap">
-      <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index+3;"  v-for="(info, index) in project.projectinfos.slice(3,6)" :info="info"></ProjectInformation>
+    <div v-for="n in Math.floor(project.projectinfos.length/3)+1" class="mb-8">
+      <div v-if="(n % 2) === 1" class = "flex lg:flex-row flex-col gap-5 w-[90vw] mt-8 flex-wrap">
+        <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index;"  v-for="(info, index) in project.projectinfos.slice(3*(n-1),3*n)" :info="info"></ProjectInformation>
+      </div>
+      <div v-else  class = "flex lg:flex-row-reverse flex-col  gap-5 w-[90vw] mt-8 flex-wrap">
+        <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index;"  v-for="(info, index) in project.projectinfos.slice(3*(n-1),3*n)" :info="info"></ProjectInformation>
+      </div>
     </div>
     <div v-if="project.ps">
       <h1 class="lg:w-[60vw] w-[90vw] text-base lg:text-lg lg:text-left text-center text-white mt-2 mb-5">{{ project.ps }}</h1>
