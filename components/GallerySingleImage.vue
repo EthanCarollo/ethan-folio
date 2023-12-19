@@ -22,8 +22,9 @@ const launchGif = () => {
 <template>
   <div class="w-full h-[100vh] swiper-no-swiping flex flex-col justify-center items-center">
     <nuxt-img v-thover="{ scale: 0.5 }"  v-if="info.gifImage" @click="launchGif" :src = "playButton" class ="transition-all absolute right-8 top-10 w-12 h-12 fill-white z-[90] invert"></nuxt-img>
-    <nuxt-img @mousedown.prevent :quality="20" :src="image" class="w-[65vw] h-[40vw] object-cover"/>
-    <h1 class="text-2xl text-center w-[60vw] mt-8">{{ info.description }}</h1>
+    <nuxt-img @mousedown.prevent :quality="20" :src="image" class="max-w-[65vw] h-[50vh] object-cover"/>
+    <h1 class="text-3xl text-center w-[60vw] mt-8">{{ info.title }}</h1>
+    <h1 class="text-xl text-center w-[60vw] mt-2">{{ info.description }}</h1>
   </div>
 </template>
 

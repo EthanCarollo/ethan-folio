@@ -12,22 +12,32 @@
             "tag": "jeu-video",
             "icons" : ["unity", "csharp"],
             "date": 2023,
+            "ps": "ce projet est encore en construction, promis je mets a jour la page quand j'ai fini \uD83D\uDC77 ",
             "projectinfos": [
                 {
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/pokefactory/image-1.png",
+                    "title": "L'idee",
+                    "description": "faire un fan-game de pokemon mais plutot dans le style d'un jeu de gestion a la game dev tycoon."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/pokefactory/image-2.png",
+                    "title": "Construction",
+                    "gifImage" : "/image/pokefactory/image-2-gif.gif",
+                    "description": "l'une des feature principale, etait la construction de batiment au sein du jeu."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/pokefactory/image-3.png",
+                    "gifImage" : "/image/pokefactory/image-3-gif.gif",
+                    "title": "Recrutement",
+                    "description": "pouvoir recruter des scientifiques etait aussi une feature principale, car cela permettra au joueur de fabriquer des pokeballs."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/pokefactory/image-4.png",
+                    "gifImage" : "/image/pokefactory/image-4-gif.gif",
+                    "title": "Pokeball",
+                    "description": "et donc, la fabrication et la personnalisation de pokeball a aussi ete un element du gameplay a travaille."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/pokefactory/image-5.png",
+                    "gifImage" : "/image/pokefactory/image-5-gif.gif",
+                    "title": "Pathfinding",
+                    "description": "il y aussi du pathfinding (a*) pour que les petits personnages puissent utiliser les batiments."
                 }
             ]
         },
@@ -77,22 +87,27 @@
             "projectinfos": [
                 {
                     "image": "/image/fallen_necromancer/Image1.png",
-                    "gifImage" : "https://f.hellowork.com/blogdumoderateur/2013/02/nyan-cat-gif-1.gif",
+                    "title": "Essence du projet",
                     "description": "ne sachant pas trop ou le jeu pouvait commencer, j'ai decide que le premier niveau serait un cimetiere car on incarne un necromancien"
                 },{
                     "image": "/image/fallen_necromancer/Image3.png",
+                    "title": "Assets du jeu",
                     "description": "sachant que j'avais a coeur de realiser la plupart des assets du jeu, j'ai decide d'apprendre le pixel art pour faire le personnage principal"
                 },{
                     "image": "/image/fallen_necromancer/Image2.png",
+                    "title": "Animation des personnages",
                     "description": "une partie complique du developpement a ete les animations, je n'avais aucune idee a ce moment de comment un jeu se developpait, mais j'avais tellement envie de realiser mon idee que j'etais pret a tout apprendre"
                 },{
                     "image": "/image/fallen_necromancer/Image4.png",
+                    "title": "'ChAra dEsIgn'",
                     "description": "il a aussi fallu faire des personnages annexes, ce qui m'a permit d'obtenir une vision plus graphique du developpement de mon jeu et de ne pas etre focalise sur l'aspect technique"
                 },{
                     "image": "/image/fallen_necromancer/Image5.png",
+                    "title": "L'Inventaire",
                     "description": "n'ayant pas de competences techniques tres pousses, developper un inventaire etait un enfer, mais a force de perseverer j'ai pu obtenir un resultat fonctionnel et 'beau' (a mes yeux)"
                 },{
                     "image": "/image/fallen_necromancer/Image6.png",
+                    "title": "Le Combat",
                     "description": "une partie plus plaisante du developpement etait le combat, sachant que unity mache le travail avec les blocs de collisions, j'ai pu faire face a cette problematique sans soucis"
                 }
             ],
