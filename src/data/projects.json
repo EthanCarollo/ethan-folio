@@ -152,26 +152,31 @@
             "image": "/image/dragon-ball/dragon-ball-omg.png",
             "ogimage": "/image/dragon-ball/og-dragon-ball-omg.png",
             "tag": "jeu-video",
-            "githubLink": "https://jackytuneur.github.io/dragon-ball-omega-tap/",
-            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
+            "githubLink": "https://ethancarollo.github.io/dragon-ball-omega-tap/",
+            "description" : "petit projet de jeu vidéo fait pendant mes etudes",
             "icons" : ["javascript", "html", "css"],
             "date": 2022,
             "projectinfos": [
                 {
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/dragon-ball/image1.png",
+                    "title": "L'idee",
+                    "description": "le but etait de faire un petit jeu video en javascript, html et css pour pouvoir mettre en pratique ce que l'on avait appris durant le cours."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/dragon-ball/image3.png",
+                    "title": "Le combat",
+                    "description": "l'essence du jeu, le combat, pour se faire il suffit de cliquer le plus vite possible sur la touche espace afin de pouvoir terrasser l'adversaire."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/dragon-ball/image2.png",
+                    "title": "Le choix du personnage",
+                    "description": "il est donc possible de choisir quel personnage on souhaite jouer, cela ne change rien a la facon de jouer, c'est simplement esthetique."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/dragon-ball/image4.png",
+                    "title": "Campagne",
+                    "description": "il y a aussi un petit systeme de campagne qui permet de debloquer les personnages que l'on souhaite avec differents type de difficultes."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/dragon-ball/image5.png",
+                    "title": "Code de triche",
+                    "description": "evidemment, si vous souhaitez jouer avec des personnages mais que vous ne voulez pas faire la campagne, vous pouvez le debloquez en utilisant un code de triche (UNLOCKALL)"
                 }
             ]
         },

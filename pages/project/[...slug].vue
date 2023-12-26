@@ -51,17 +51,21 @@ const isGalleryActive = ref(false);
     </div>
     <div v-for="n in Math.floor(project.projectinfos.length/3)+1" class="mb-8">
       <div v-if="(n % 2) === 1" class = "flex lg:flex-row flex-col gap-5 w-[90vw] mt-8 flex-wrap">
-        <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index;"  v-for="(info, index) in project.projectinfos.slice(3*(n-1),3*n)" :info="info"></ProjectInformation>
+        <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index+(3*(n-1));"  v-for="(info, index) in project.projectinfos.slice(3*(n-1),3*n)" :info="info"></ProjectInformation>
       </div>
       <div v-else  class = "flex lg:flex-row-reverse flex-col  gap-5 w-[90vw] mt-8 flex-wrap">
-        <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index;"  v-for="(info, index) in project.projectinfos.slice(3*(n-1),3*n)" :info="info"></ProjectInformation>
+        <ProjectInformation @activeGallery="isGalleryActive = true; selectedImage = index+(3*(n-1));"  v-for="(info, index) in project.projectinfos.slice(3*(n-1),3*n)" :info="info"></ProjectInformation>
       </div>
     </div>
     <div v-if="project.ps">
       <h1 class="lg:w-[60vw] w-[90vw] text-base lg:text-lg lg:text-left text-center text-white mt-2 mb-5">{{ project.ps }}</h1>
     </div>
     <div class="w-[60vw] relative flex flex-col items-center z-30">
-      <div class="w-full bg-amber-50 h-0.5 mb-8 mt-2"></div>
+      <div class="w-full mb-8 mt-2 flex justify-center">
+        <a :href="project.githubLink" target="_blank" v-thover="{ scale: 0.5 }" class ="h-12" v-if="project.githubLink !== ''">
+          <Icon icon="window"></Icon>
+        </a>
+      </div>
       <NuxtLink to="/" v-thover="{ scale: 0.5 }" class="text-white relative mb-8 text-white text-3xl lg:text-left text-center">
         retour a l'accueil
       </NuxtLink>
