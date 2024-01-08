@@ -50,37 +50,46 @@
             "ogimage": "/image/galaktoon/og-galaktoon.png",
             "tag": "jeu-video",
             "githubLink": "",
-            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
+            "description" : "Projet final de ma premiere annee d'etudes a l'ecole by cci campus gobelin",
             "icons" : ["javascript", "p5js", "electron"],
             "date": 2023,
             "projectinfos": [
                 {
                     "image": "/image/galaktoon/galaktoon-1.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Le projet",
+                    "description": "projet final de ma premiere annee d'etudes dans le domaine du developpement web, le but etait de creer un jeu video 2D en utilisant simplement la bibliotheque p5.js (sans manipuler le DOM)"
                 },{
                     "image": "/image/galaktoon/galaktoon-2.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "L'histoire",
+                    "description": "pour presenter au mieux l'histoire, l'affichage de petit bande dessinees a ete developpe"
                 },{
                     "image": "/image/galaktoon/galaktoon-3.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Les dialogues",
+                    "description": "afin de pouvoir interagir avec les 'pnj' et de mieux comprendre l'histoire, un systeme de dialogue a ete mis en place"
                 },{
                     "image": "/image/galaktoon/galaktoon-4.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Le deplacement et la carte",
+                    "description": "dans ce jeu en vue du dessus, il est possible de se deplacer et de changer de 'map' pour pouvoir se balader dans le jeu"
                 },{
                     "image": "/image/galaktoon/galaktoon-5.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Le combat",
+                    "description": "le combat se fait au tour par tour avec des cartes, un peu a la maniere de Dofus, le joueur lance des sorts avec des cartes lorsqu'il est a portee de l'ennemi"
                 },{
                     "image": "/image/galaktoon/galaktoon-6.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Le vaisseau",
+                    "description": "le vaisseau est l'endroit ou commence le joueur qui incarne dans l'histoire le personnage de Void, un etre synthetique qui ne sait rien de ses origines"
                 },{
                     "image": "/image/galaktoon/galaktoon-7.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Les quetes",
+                    "description": "afin de suivre l'histoire au mieux a travers des objectifs, le systeme de quete a ete mis en place"
                 },{
                     "image": "/image/galaktoon/galaktoon-8.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "Le lit",
+                    "description": "lorsque le joueur perd de la vie, il peut simplement la regagner en utilisant le lit"
                 },{
                     "image": "/image/galaktoon/galaktoon-9.png",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "title": "L'antre de Dark Woaf",
+                    "description": "l'antre de Dark Woaf est la carte final ou va se derouler le combat final contre le plus grand tyran de la galaxie Dark Woaf."
                 }
             ]
         },
