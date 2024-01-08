@@ -55,19 +55,31 @@
             "date": 2023,
             "projectinfos": [
                 {
-                    "image": "https://placehold.co/600x400",
+                    "image": "/image/galaktoon/galaktoon-1.png",
                     "description": "a beautiful place holder, isn't it ?"
                 },{
-                    "image": "https://placehold.co/600x400",
+                    "image": "/image/galaktoon/galaktoon-2.png",
                     "description": "a beautiful place holder, isn't it ?"
                 },{
-                    "image": "https://placehold.co/600x400",
+                    "image": "/image/galaktoon/galaktoon-3.png",
                     "description": "a beautiful place holder, isn't it ?"
                 },{
-                    "image": "https://placehold.co/600x400",
+                    "image": "/image/galaktoon/galaktoon-4.png",
                     "description": "a beautiful place holder, isn't it ?"
                 },{
-                    "image": "https://placehold.co/600x400",
+                    "image": "/image/galaktoon/galaktoon-5.png",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "/image/galaktoon/galaktoon-6.png",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "/image/galaktoon/galaktoon-7.png",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "/image/galaktoon/galaktoon-8.png",
+                    "description": "a beautiful place holder, isn't it ?"
+                },{
+                    "image": "/image/galaktoon/galaktoon-9.png",
                     "description": "a beautiful place holder, isn't it ?"
                 }
             ]
