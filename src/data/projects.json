@@ -208,16 +208,26 @@
             "rowSpan": "lg:row-span-1",
             "image": "/image/star_foundation/star_foundation_logo.png",
             "ogimage": "/image/star_foundation/og-star_foundation_logo.png",
-            "description" : "petit projet de jeu video textuel en groupe pendant le cours de structure de donnee de 2/3, le but etait de faire un rpg textuel en soignant la structure de donnee et en utilisant des formats de donnees vus en cours",
+            "description" : "petit projet de jeu video textuel en groupe pendant le cours de structure de donnee de 2/3, le but etait de faire un rpg textuel en soignant la structure de donnee et en utilisant des formats de donnees vus en cours et avec le langage de programmation de notre choix. Pour ce projet, j'etais en groupe avec mon collegue Pierre Louis",
             "tag": "jeu-video",
             "githubLink": "",
             "icons" : ["ruby"],
             "date": 2023,
+            "collaborators": [
+                {
+                    "name": "Pierre Louis",
+                    "link": "https://www.pierrelouisrousseaux.fr"
+                }
+            ],
             "projectinfos": [
                 {
                     "image": "/image/star_foundation/star-foundation-0.png",
                     "title": "L'histoire",
                     "description": "l'histoire de notre jeu etait assez simple, un brigand de l'espace qui a ete trahi par son equipage qui decide de se venger"
+                },{
+                    "image": "/image/star_foundation/star-foundation-5.png",
+                    "title": "Pourquoi du Ruby ?",
+                    "description": "pourquoi Ruby pour un projet du genre ? en soi, il n'y avait pas vraiment de raison, on voulait simplement profiter de la liberte de pouvoir choisir son langage de programmation afin d'en decouvrir un nouveau bien que ce ne soit peut etre pas la solution la plus fiable pour un rpg textuel"
                 },{
                     "image": "/image/star_foundation/star-foundation-2.png",
                     "title": "Le jeu",

@@ -61,6 +61,12 @@ const isGalleryActive = ref(false);
       <h1 class="lg:w-[60vw] w-[90vw] text-base lg:text-lg lg:text-left text-center text-white mt-2 mb-5">{{ project.ps }}</h1>
     </div>
     <div class="w-[60vw] relative flex flex-col items-center z-30">
+      <div v-if="project.collaborators">
+        <div v-for="collaborator in project.collaborators" class="flex gap-3">
+          <h1 class="text-white">Merci a</h1>
+          <a class="text-white underline" :href="collaborator.link" target="_blank" v-thover="{ scale: 0.5 }">{{ collaborator.name }}</a>
+        </div>
+      </div>
       <div class="w-full mb-8 mt-2 flex justify-center">
         <a :href="project.githubLink" target="_blank" v-thover="{ scale: 0.5 }" class ="h-12" v-if="project.githubLink !== ''">
           <Icon icon="window"></Icon>
