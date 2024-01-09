@@ -208,27 +208,32 @@
             "rowSpan": "lg:row-span-1",
             "image": "/image/star_foundation/star_foundation_logo.png",
             "ogimage": "/image/star_foundation/og-star_foundation_logo.png",
-            "description" : "petit projet de jeu video fait avec unity en solo, j'avais envie de faire un petit jeu video de gestion dans l'univers de pokemon",
+            "description" : "petit projet de jeu video textuel en groupe pendant le cours de structure de donnee de 2/3, le but etait de faire un rpg textuel en soignant la structure de donnee et en utilisant des formats de donnees vus en cours",
             "tag": "jeu-video",
             "githubLink": "",
             "icons" : ["ruby"],
             "date": 2023,
             "projectinfos": [
                 {
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/star_foundation/star-foundation-0.png",
+                    "title": "L'histoire",
+                    "description": "l'histoire de notre jeu etait assez simple, un brigand de l'espace qui a ete trahi par son equipage qui decide de se venger"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/star_foundation/star-foundation-2.png",
+                    "title": "Le jeu",
+                    "description": "etant donc un rpg textuel, on peut choisir ses competences et les choix des evenements se font avec des lancees de dees a la facon d'un jeu de role sur table, plus le nombre est grand, plus la reussite est 'critique', plus il est petit, plus l'echec est 'critique' à son tour."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/star_foundation/star-foundation-3.png",
+                    "title": "Structure de donnee",
+                    "description": "pour les evenements de notre jeu, nous sommes parti sur quelque chose d'assez simple et pour le format, la contrainte etait de partir sur du json"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/star_foundation/star-foundation-4.png",
+                    "title": "La sauvegarde",
+                    "description": "pour la sauvegarde, la contrainte etait d'utiliser du xml"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/star_foundation/star-foundation-1.png",
+                    "title": "Le recapitulatif",
+                    "description": "et a la fin de l'histoire un petit recapitulatif est disponible dans un dossier du jeu au format markdown (c'etait aussi une contrainte)"
                 }
             ]
         }
