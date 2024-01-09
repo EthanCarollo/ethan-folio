@@ -143,25 +143,34 @@
             "ogimage": "/image/osirus/og-devlog_osirus.png",
             "tag": "web-app",
             "githubLink": "",
-            "description" : "petit projet de jeu vidéo fait avec unity en solo, j'avais envie de faire un petit jeu vidéo de gestion dans l'univers de pokemon",
+            "description" : "projet de reseau social 'flash' en cours de vue.js pendant mes etudes, la seule contrainte etait d'utiliser vue.js mais j'ai voulu rajouter Firebase parce que j'avais envie d'essayer l'authentification malgre mon manque d'experience, ce projet etait donc un reseau social pour que les developpeurs puissent partager uniquement des snippets de code entre eux",
             "icons" : ["vue", "firebase"],
             "date": 2022,
             "projectinfos": [
                 {
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/osirus/osirus-0.png",
+                    "title": "L'authentification",
+                    "description": "l'authentification se fait a l'aide de Firebase car ils ont une superbe API, ne m'y connaissant pas en authentification a ce moment la, j'ai pu tout de meme en mettre une en place facilement grace a la simplicite d'utilisation de l'API que proposait Google Firebase"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/osirus/osirus-1.png",
+                    "title": "Les posts",
+                    "description": "etant un reseau social, il y a des posts que l'on peut upvoter ou downvoter (a la maniere d'un reddit), ces posts sont aussi stocke sur Firebase et lie aux comptes des utilisateurs"
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/osirus/osirus-2.png",
+                    "title": "Les commentaires",
+                    "description": "on peut aussi commenter les posts des autres."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/osirus/osirus-3.png",
+                    "title": "Transformation du code en 'jolie' code",
+                    "description": "pour les posts, je voulais que l'on puisse avoir de belles previsualisations de code sur le front mais pas que l'on poste d'image directemment, pour se faire, j'ai utilise l'api sourcecodeshots qui permet de transformer du texte en jolie image de code, et on peut choisir la couleur du fond, le langage (pour la coloration syntaxique),.."
                 },{
-                    "image": "https://placehold.co/600x400",
-                    "description": "a beautiful place holder, isn't it ?"
+                    "image": "/image/osirus/osirus-4.png",
+                    "title": "Modification du pseudo de l'utilisateur",
+                    "description": "il est aussi possible de modifier le nom d'utilisateur de son compte sur la page 'mon compte'"
+                },{
+                    "image": "/image/osirus/osirus-5.png",
+                    "title": "Fonction de recherche",
+                    "description": "pour la fonctionnalite de recherche, j'ai aussi pu la mettre facilement en place grace a Firebase"
                 }
             ]
         },
@@ -174,7 +183,7 @@
             "ogimage": "/image/dragon-ball/og-dragon-ball-omg.png",
             "tag": "jeu-video",
             "githubLink": "https://ethancarollo.github.io/dragon-ball-omega-tap/",
-            "description" : "petit projet de jeu vidéo fait pendant mes etudes",
+            "description" : "petit projet de jeu video fait pendant un cours de Javascript",
             "icons" : ["javascript", "html", "css"],
             "date": 2022,
             "projectinfos": [

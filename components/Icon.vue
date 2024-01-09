@@ -33,5 +33,7 @@ export default{
   <IconsFirebase v-if="this.icon === 'firebase'"></IconsFirebase>
   <IconsElectron v-if="this.icon === 'electron'"></IconsElectron>
   <IconsWindow v-if="this.icon === 'window'"></IconsWindow>
+  <IconsFigma v-if="this.icon === 'figma'"></IconsFigma>
+  <IconsNuxt v-if="this.icon === 'nuxt'"></IconsNuxt>
 
 </template>
