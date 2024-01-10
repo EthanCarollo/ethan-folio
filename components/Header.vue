@@ -7,10 +7,18 @@
     </header>
     <header class= "fixed top-8 right-4 w-[100vw] justify-end z-50 flex lg:hidden">
         <div class="bg-slate-800 flex shadow-xl p-2 gap-4 rounded-full pr-4 pl-4">
-            <a href="#home" class="bg-white text-center align-middle rounded-full w-12 h-12"></a>
-            <a href="#projets" class="bg-white text-center align-middle rounded-full w-12 h-12"></a>
-            <a href="#techno" class="bg-white text-center align-middle rounded-full w-12 h-12"></a>
-            <a href="#contact" class="bg-white text-center align-middle rounded-full w-12 h-12"></a>
+            <a href="#home" class="bg-white text-center align-middle rounded-full w-12 h-12 flex justify-center items-center">
+              <IconsHomeIcon></IconsHomeIcon>
+            </a>
+            <a href="#projets" class="bg-white text-center align-middle rounded-full w-12 h-12 flex justify-center items-center">
+              <IconsArchiveIcon></IconsArchiveIcon>
+            </a>
+            <a href="#techno" class="bg-white text-center align-middle rounded-full w-12 h-12 flex justify-center items-center">
+              <IconsDevFileIcon></IconsDevFileIcon>
+            </a>
+            <a href="#contact" class="bg-white text-center align-middle rounded-full w-12 h-12 flex justify-center items-center">
+              <IconsUserIcon></IconsUserIcon>
+            </a>
         </div>
     </header>
 </template>
@@ -20,3 +28,5 @@
         font-family: "LiveMono";
     }
 </style>
+<script setup lang="ts">
+</script>
