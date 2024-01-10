@@ -1,39 +1,71 @@
-<script>
-export default{
-    props:[
-        "icon"
-    ]
-}
+<script setup>
+import IconsJavascript from '~/components/icons/Javascript.vue';
+import IconsUnity from '~/components/icons/Unity.vue';
+import IconsHTML from '~/components/icons/HTML.vue';
+import IconsCSS from '~/components/icons/CSS.vue';
+import IconsP5 from '~/components/icons/P5.vue';
+import IconsCS from '~/components/icons/CS.vue';
+import IconsGithub from '~/components/icons/Github.vue';
+import IconsGithubPage from '~/components/icons/GithubPage.vue';
+import IconsVUE from '~/components/icons/VUE.vue';
+import IconsPHP from '~/components/icons/PHP.vue';
+import IconsMySQL from '~/components/icons/MySQL.vue';
+import IconsElasticSearch from '~/components/icons/ElasticSearch.vue';
+import IconsPsIcon from '~/components/icons/PsIcon.vue';
+import IconsAsepriteIcon from '~/components/icons/AsepriteIcon.vue';
+import IconsTailwindIcon from '~/components/icons/TailwindIcon.vue';
+import IconsJetbrains from '~/components/icons/Jetbrains.vue';
+import IconsMore from '~/components/icons/More.vue';
+import IconsGit from '~/components/icons/Git.vue';
+import IconsGame from '~/components/icons/Game.vue';
+import IconsNode from '~/components/icons/Node.vue';
+import IconsLinkedin from '~/components/icons/Linkedin.vue';
+import IconsRuby from '~/components/icons/Ruby.vue';
+import IconsFirebase from '~/components/icons/Firebase.vue';
+import IconsElectron from '~/components/icons/Electron.vue';
+import IconsWindow from '~/components/icons/Window.vue';
+import IconsFigma from '~/components/icons/Figma.vue';
+import IconsNuxt from '~/components/icons/Nuxt.vue';
+import IconsGmail from '~/components/icons/Gmail.vue';
+
+const props = defineProps(["icon"])
+
+const iconComponentMap = {
+  javascript: IconsJavascript,
+  unity: IconsUnity,
+  html: IconsHTML,
+  css: IconsCSS,
+  p5js: IconsP5,
+  csharp: IconsCS,
+  github: IconsGithub,
+  githubPage: IconsGithubPage,
+  vue: IconsVUE,
+  php: IconsPHP,
+  mysql: IconsMySQL,
+  elasticsearch: IconsElasticSearch,
+  photoshop: IconsPsIcon,
+  aseprite: IconsAsepriteIcon,
+  tailwind: IconsTailwindIcon,
+  jetbrains: IconsJetbrains,
+  more: IconsMore,
+  git: IconsGit,
+  game: IconsGame,
+  node: IconsNode,
+  linkedin: IconsLinkedin,
+  ruby: IconsRuby,
+  firebase: IconsFirebase,
+  electron: IconsElectron,
+  window: IconsWindow,
+  figma: IconsFigma,
+  nuxt: IconsNuxt,
+  gmail: IconsGmail,
+  // Add more mappings as needed
+};
+
+const iconComponent = iconComponentMap[props.icon] || null;
+
 </script>
 
 <template>
-
-  <IconsJavascript v-if="this.icon === 'javascript'"></IconsJavascript>
-  <IconsUnity v-if="this.icon === 'unity'"></IconsUnity>
-  <IconsHTML v-if="this.icon === 'html'"></IconsHTML>
-  <IconsCSS v-if="this.icon === 'css'"></IconsCSS>
-  <IconsP5 v-if="this.icon === 'p5js'"></IconsP5>
-  <IconsCS v-if="this.icon === 'csharp'"></IconsCS>
-  <IconsGithub v-if="this.icon === 'github'"></IconsGithub>
-  <IconsGithubPage v-if="this.icon === 'githubPage'"></IconsGithubPage>
-  <IconsVUE v-if="this.icon === 'vue'"></IconsVUE>
-  <IconsPHP v-if="this.icon === 'php'"></IconsPHP>
-  <IconsMySQL v-if="this.icon === 'mysql'"></IconsMySQL>
-  <IconsElasticSearch v-if="this.icon === 'elasticsearch'"></IconsElasticSearch>
-  <IconsPsIcon v-if="this.icon === 'photoshop'"></IconsPsIcon>
-  <IconsAsepriteIcon v-if="this.icon === 'aseprite'"></IconsAsepriteIcon>
-  <IconsTailwindIcon v-if="this.icon === 'tailwind'"></IconsTailwindIcon>
-  <IconsJetbrains v-if="this.icon === 'jetbrains'"></IconsJetbrains>
-  <IconsMore v-if="this.icon === 'more'"></IconsMore>
-  <IconsGit v-if="this.icon === 'git'"></IconsGit>
-  <IconsGame v-if="this.icon === 'game'"></IconsGame>
-  <IconsNode v-if="this.icon === 'node'"></IconsNode>
-  <IconsLinkedin v-if="this.icon === 'linkedin'"></IconsLinkedin>
-  <IconsRuby v-if="this.icon === 'ruby'"></IconsRuby>
-  <IconsFirebase v-if="this.icon === 'firebase'"></IconsFirebase>
-  <IconsElectron v-if="this.icon === 'electron'"></IconsElectron>
-  <IconsWindow v-if="this.icon === 'window'"></IconsWindow>
-  <IconsFigma v-if="this.icon === 'figma'"></IconsFigma>
-  <IconsNuxt v-if="this.icon === 'nuxt'"></IconsNuxt>
-
+  <component :is="iconComponent"></component>
 </template>

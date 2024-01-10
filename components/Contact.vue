@@ -9,6 +9,9 @@
             <h1 class ="mt-1 text-base text-white mb-1">mail : ethancarollo@gmail.com</h1>
             <h1 class ="mt-1 text-base text-white mb-1">tel : 06.12.50.69.05</h1>
             <div class ="flex justify-center fill-white w-full p-2">
+                <a v-thover="{ scale: 0.4 }"  href="mailto:ethancarollo@gmail.com"  class="h-12 w-12 pt-2 pr-2 flex items-center fill-white">
+                  <Icon icon="gmail"></Icon>
+                </a>
                 <a target="_blank" v-thover="{ scale: 0.4 }"  href="https://www.linkedin.com/in/ethan-carollo-159332258/"  class="h-14 w-14 flex items-center fill-white">
                     <Icon icon="linkedin"></Icon>
                 </a>
@@ -25,3 +28,5 @@
     font-family: "LiveMono";
 }
 </style>
+<script setup lang="ts">
+</script>
