@@ -50,7 +50,7 @@
             "ogimage": "/image/galaktoon/og-galaktoon.png",
             "tag": "jeu-video",
             "githubLink": "",
-            "description" : "Projet final de ma premiere annee d'etudes a l'ecole by cci campus gobelin",
+            "description" : "Projet final de ma premiere annee d'etudes a l'ecole by cci campus gobelin en groupe avec 3 designers graphiques",
             "icons" : ["javascript", "p5js", "electron"],
             "date": 2023,
             "projectinfos": [
@@ -90,6 +90,18 @@
                     "image": "/image/galaktoon/galaktoon-9.png",
                     "title": "L'antre de Dark Woaf",
                     "description": "l'antre de Dark Woaf est la carte final ou va se derouler le combat final contre le plus grand tyran de la galaxie Dark Woaf."
+                },{
+                    "image": "/image/galaktoon/galaktoon-10.png",
+                    "title": "L'outil de creation de map'",
+                    "description": "pour assurer un bon workflow avec mes designers, un outil de creation de map a ete fait, toujours en utilisant p5.js mais cette fois ci avec une couche de Electron pour en faire un petit soft"
+                },{
+                    "image": "/image/galaktoon/galaktoon-11.png",
+                    "title": "Outil d'ajout de tuiles",
+                    "description": "pour pouvoir importer les assets graphiques, il y a un petit onglet import tile pour pouvoir importer une 'tuile' de map qui va permettre a l'utilisateur de composer la map"
+                },{
+                    "image": "/image/galaktoon/galaktoon-12.png",
+                    "title": "L'export de map",
+                    "description": "l'export de map suit la structure que j'ai utilise pour les cartes du jeu video, les designers n'ont plus qu'a m'envoyer le dossier ou se trouve le fichier json et je m'occupe du reste"
                 }
             ]
         },
