@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   sitemap: {
     sources: ['/api/sitemap'],
   },
-  css: ['~/assets/main.css'],
+  css: ['~/assets/main.css', '~/assets/toruskit.blobz/blobz.css'],
   postcss: {
     plugins: {
       tailwindcss: {},

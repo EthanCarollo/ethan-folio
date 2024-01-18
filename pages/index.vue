@@ -12,7 +12,7 @@ useSeoMeta({
     <div>
     <Header></Header>
     <SplashScreen></SplashScreen>
-    <div id = "home" class ="w-screen h-screen relative z-0">
+    <div id = "home" class ="w-screen h-screen relative z-0 pointer-events-none">
     </div>
     <ProjectsList></ProjectsList>
     <Technologies></Technologies>
