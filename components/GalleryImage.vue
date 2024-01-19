@@ -32,8 +32,8 @@ const onSwiper = (swiper) => {
 <template>
 
   <div v-thover="{ scale: 0.5 }" @click="quitGallery" class ="fixed left-8 top-10 w-12 fill-white z-[90]">
-  <IconsLeftIcon></IconsLeftIcon>
-</div>
+    <IconsLeftIcon></IconsLeftIcon>
+  </div>
 <div id="gallery_of_images" class="fixed top-0 left-0 pr-[2vw] pl-[2vw] text-white w-[100vw] h-[100vh] bg-black/50 z-[80] flex justify-center items-center backdrop-blur-lg">
 <Swiper
     :modules="[SwiperNavigation, SwiperEffectCreative, SwiperPagination]"
@@ -71,7 +71,6 @@ const onSwiper = (swiper) => {
   <div v-thover="{ scale: 0.5 }" class="swiper-button-prev" style="color:white;"></div>
   <div v-thover="{ scale: 0.5 }" class="swiper-button-next" style="color:white;"></div>
 </Swiper>
-
 </div>
 </template>
 
