@@ -68,8 +68,8 @@ const onSwiper = (swiper) => {
     <gallery-single-image :info="info"></gallery-single-image>
   </SwiperSlide>
   <div class="swiper-pagination-slider fixed bottom-[6%] w-full flex justify-center gap-1"></div>
-  <div v-thover="{ scale: 0.5 }" class="swiper-button-prev" style="color:white;"></div>
-  <div v-thover="{ scale: 0.5 }" class="swiper-button-next" style="color:white;"></div>
+  <div v-thover="{ scale: 0.5 }" class="swiper-button-prev drop-shadow-2xl" style="color:white;"></div>
+  <div v-thover="{ scale: 0.5 }" class="swiper-button-next drop-shadow-2xl" style="color:white;"></div>
 </Swiper>
 </div>
 </template>
@@ -87,6 +87,14 @@ const onSwiper = (swiper) => {
   }to{
     opacity: 100%;
      }
+}
+
+.swiper-button-prev:after{
+  filter: drop-shadow(3px 6px 6px #000000);
+}
+
+.swiper-button-next:after{
+  filter: drop-shadow(3px 6px 6px #000000);
 }
 
 </style>

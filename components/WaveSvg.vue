@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container overflow-x-hidden">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -19,7 +19,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: visible;
+  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 .blob {
@@ -74,24 +75,24 @@
 
 @keyframes move {
   from {
-    transform: translate(-100px, -50px) rotate(-90deg);
+    transform: translate(-15vw, -5vh) rotate(-90deg);
     border-radius: 24% 76% 35% 65% / 27% 36% 64% 73%;
   }
 
   to {
-    transform: translate(500px, 100px) rotate(-10deg);
+    transform: translate(30vw, 10vh) rotate(-10deg);
     border-radius: 76% 24% 33% 67% / 68% 55% 45% 32%;
   }
 }
 
 @keyframes move-2 {
   to {
-    transform: translate(-200px, -50px) rotate(-110deg);
+    transform: translate(-27vw, -5vh) rotate(-110deg);
     border-radius: 24% 76% 35% 65% / 27% 36% 64% 73%;
   }
 
   from {
-    transform: translate(400px, 100px) rotate(-0deg);
+    transform: translate(40vw, 10vh) rotate(-0deg);
     border-radius: 76% 24% 33% 67% / 68% 55% 45% 32%;
   }
 }

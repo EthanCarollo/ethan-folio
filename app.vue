@@ -9,7 +9,7 @@ useHead({
 </script>
 
 <template>
-  <div class="bg-gradient-to-tr from-slate-800 via-slate-700 via-50% to-purple-300 h-[100vh] w-full fixed top-0 left-0 z-[-50]"></div>
+  <div class="bg-gradient-to-tr from-slate-800 via-slate-700 via-50% to-purple-300 h-full w-[100vw] fixed top-0 left-0 z-[-50]"></div>
   <NuxtLayout>
   <div>
 
