@@ -26,8 +26,10 @@ export default{
             </div>
             
         </div>
-      <div class="w-[60vw] bg-amber-50 h-0.5 mb-4 mt-4 mt-2"></div>
     </div>
+  <div class="w-full flex flex-col items-center">
+    <div class="w-[60vw] bg-amber-50 h-0.5 mb-4 mt-2"></div>
+  </div>
 </template>
 
 <style scoped>
