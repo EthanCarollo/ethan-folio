@@ -1,5 +1,5 @@
 <template>
-  <div class="container overflow-x-hidden">
+  <div class="container">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -19,8 +19,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-y: visible;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 .blob {
