@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     'nuxt-simple-sitemap',
     '@nuxt/image',
     '@nuxtjs/tailwindcss',
-    "@nuxt/fonts"
+    "@nuxt/fonts",
+    '@nuxtjs/fontaine'
   ],
   swiper: {
     // Swiper options

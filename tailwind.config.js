@@ -13,6 +13,7 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
+      'sans': ['Roboto', 'Roboto fallback', ...fontFamily.sans],
       'medium': ['medium-unique'],
     }
   },
