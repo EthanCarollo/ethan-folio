@@ -1,6 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['nuxt-swiper', 'nuxt-simple-sitemap', '@nuxt/image'],
+  modules: [
+    'nuxt-swiper',
+    'nuxt-simple-sitemap',
+    '@nuxt/image',
+    '@nuxtjs/tailwindcss',
+    "@nuxt/fonts"
+  ],
   swiper: {
     // Swiper options
     //----------------------

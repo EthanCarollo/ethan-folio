@@ -11,7 +11,9 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxt/fonts": "^0.3.0",
     "@nuxt/image": "^1.1.0",
+    "@nuxtjs/tailwindcss": "^6.11.4",
     "autoprefixer": "^10.4.16",
     "nuxt": "^3.8.2",
     "nuxt-simple-sitemap": "^4.1.17",
@@ -25,6 +27,7 @@
     "animejs": "^3.2.2",
     "kute.js": "^2.2.4",
     "letterizejs": "^2.0.1",
-    "nuxt-swiper": "^1.2.2"
+    "nuxt-swiper": "^1.2.2",
+    "nuxt-webfontloader": "^1.1.0"
   }
 }

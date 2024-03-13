@@ -12,6 +12,9 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      'medium': ['medium-unique'],
+    }
   },
   plugins: [],
 }
