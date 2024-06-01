@@ -27,6 +27,7 @@ import IconsWindow from '~/components/icons/Window.vue';
 import IconsFigma from '~/components/icons/Figma.vue';
 import IconsNuxt from '~/components/icons/Nuxt.vue';
 import IconsGmail from '~/components/icons/Gmail.vue';
+import IconsGleam from '~/components/icons/Gleam.vue';
 
 const props = defineProps(["icon"])
 
@@ -59,6 +60,7 @@ const iconComponentMap = {
   figma: IconsFigma,
   nuxt: IconsNuxt,
   gmail: IconsGmail,
+  gleam: IconsGleam
   // Add more mappings as needed
 };
 
