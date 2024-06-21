@@ -16,6 +16,7 @@ import IconsAsepriteIcon from '~/components/icons/AsepriteIcon.vue';
 import IconsTailwindIcon from '~/components/icons/TailwindIcon.vue';
 import IconsJetbrains from '~/components/icons/Jetbrains.vue';
 import IconsMore from '~/components/icons/More.vue';
+import IconsPython from '~/components/icons/Python.vue';
 import IconsGit from '~/components/icons/Git.vue';
 import IconsGame from '~/components/icons/Game.vue';
 import IconsNode from '~/components/icons/Node.vue';
@@ -40,6 +41,7 @@ const iconComponentMap = {
   csharp: IconsCS,
   github: IconsGithub,
   githubPage: IconsGithubPage,
+  python: IconsPython,
   vue: IconsVUE,
   php: IconsPHP,
   mysql: IconsMySQL,
