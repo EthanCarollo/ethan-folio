@@ -50,7 +50,7 @@
             "ogimage": "/image/galaktoon/og-galaktoon.png",
             "tag": "jeu-video",
             "githubLink": "",
-            "description" : "Projet final de ma premiere annee d'etudes a l'ecole by cci campus gobelin en groupe avec 3 designers graphiques",
+            "description" : "Projet final de ma premiere annee d'etudes à l'ecole CCI Campus Gobelin, realise en groupe avec trois designers graphiques.",
             "icons" : ["javascript", "p5js", "electron"],
             "date": 2023,
             "projectinfos": [
