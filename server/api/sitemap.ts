@@ -1,5 +1,4 @@
 import data from '../../src/data/projects.json';
-import {a} from "vite-node/types-516036fa";
 
 export default defineSitemapEventHandler(async (e) => {
     // Fetch every project showed and then create a beautiful sitemaps 🐹
