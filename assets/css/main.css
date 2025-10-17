@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================
+   HELPER CLASSES FOR TAILWIND
+   ============================ */
+
+/* Backgrounds */
+.bg-background { background-color: theme('colors.background'); }
+.bg-card { background-color: theme('colors.card'); }
+.bg-primary { background-color: theme('colors.primary'); }
+.bg-secondary { background-color: theme('colors.secondary'); }
+.bg-accent { background-color: theme('colors.accent'); }
+.bg-destructive { background-color: theme('colors.destructive'); }
+.bg-muted { background-color: theme('colors.muted'); }
+.bg-popover { background-color: theme('colors.popover'); }
+
+/* Text colors */
+.text-background { color: theme('colors.background'); }
+.text-card { color: theme('colors.card-foreground'); }
+.text-primary { color: theme('colors.primary-foreground'); }
+.text-secondary { color: theme('colors.secondary-foreground'); }
+.text-accent { color: theme('colors.accent-foreground'); }
+.text-destructive { color: theme('colors.destructive-foreground'); }
+.text-muted { color: theme('colors.muted-foreground'); }
+.text-popover { color: theme('colors.popover-foreground'); }
+
+/* Borders */
+.border-background { border-color: theme('colors.background'); }
+.border-card { border-color: theme('colors.card-foreground'); }
+.border-primary { border-color: theme('colors.primary-foreground'); }
+.border-secondary { border-color: theme('colors.secondary-foreground'); }
+.border-accent { border-color: theme('colors.accent-foreground'); }
+.border-destructive { border-color: theme('colors.destructive-foreground'); }
+.border-muted { border-color: theme('colors.muted-foreground'); }
+.border-popover { border-color: theme('colors.popover-foreground'); }
