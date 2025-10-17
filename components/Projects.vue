@@ -38,7 +38,7 @@
                                 <Github class="w-4 h-4" />
                                 Code
                             </a>
-                            <a
+                            <a v-if="project.demo"
                                 :href="project.demo"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -58,15 +58,15 @@
 <script setup lang="ts">
 import { Github, ExternalLink } from 'lucide-vue-next';
 const projects = [
-    /*{
-        title: "E-Commerce Platform",
+    {
+        title: "PersonaBot",
         description:
-            "A full-featured online store with cart, checkout, and payment integration. Built with Nuxt, Stripe, and PostgreSQL.",
-        tags: ["Nuxt", "TypeScript", "Stripe", "PostgreSQL"],
+            "An iOS app that lets users create and customize intelligent bots with unique knowledge bases and behaviors. It combines a Swift frontend with a Python backend using Retrieval-Augmented Generation (RAG) via OpenAI’s ChatGPT and LlamaIndex for fully personalized bot experiences.",
+        tags: ["Swift", "Python", "LlamaIndew"],
         color: "bg-primary",
-        github: "https://github.com/EthanCarollo",
-        demo: "https://games.ethan-folio.fr",
+        github: "https://github.com/EthanCarollo/PersonaBot"
     },
+    /*
     {
         title: "Task Management App",
         description:
