@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { /* Add any icons you need here */ } from 'lucide-vue-next';
 const skillCategories = [
     {
         title: "Frontend",

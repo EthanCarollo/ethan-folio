@@ -25,7 +25,7 @@
                     class="px-6 py-3 bg-foreground text-background border-4 border-foreground shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all font-bold text-lg inline-flex items-center gap-2"
                 >
                     View My Work
-                    <Icon name="lucide:arrow-right" class="w-5 h-5" />
+                    <ArrowRightIcon class="w-5 h-5" />
                 </button>
                 <button
                     class="px-6 py-3 bg-background border-4 border-foreground shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all font-bold text-lg"
@@ -41,17 +41,22 @@
                     rel="noopener noreferrer"
                     class="p-3 bg-card border-4 border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
                 >
-                    <Icon name="lucide:github" class="w-6 h-6" />
+                    <GithubIcon class="w-6 h-6" />
                     <span class="sr-only">GitHub</span>
                 </a>
                 <a
                     href="mailto:alex@example.com"
                     class="p-3 bg-card border-4 border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
                 >
-                    <Icon name="lucide:mail" class="w-6 h-6" />
+                    <LucideMail class="w-6 h-6" />
                     <span class="sr-only">Email</span>
                 </a>
             </div>
         </div>
     </section>
 </template>
+
+<script setup lang="ts">
+import { GithubIcon, LucideMail, ArrowRightIcon } from 'lucide-vue-next';
+
+</script>

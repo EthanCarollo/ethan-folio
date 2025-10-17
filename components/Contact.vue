@@ -13,7 +13,7 @@
                 <div class="grid md:grid-cols-3 gap-6 mb-8">
                     <div class="flex flex-col items-center gap-3 p-6 bg-muted border-2 border-foreground">
                         <div class="p-3 bg-primary border-2 border-foreground">
-                            <Icon name="lucide:mail" class="w-6 h-6 text-foreground" />
+                            <LucideMail name="lucide:mail" class="w-6 h-6 text-foreground" />
                         </div>
                         <span class="font-bold text-foreground">Email</span>
                         <span class="text-sm text-foreground/80">ethan@example.com</span>
@@ -21,7 +21,7 @@
 
                     <div class="flex flex-col items-center gap-3 p-6 bg-muted border-2 border-foreground">
                         <div class="p-3 bg-secondary border-2 border-foreground">
-                            <Icon name="lucide:phone" class="w-6 h-6 text-foreground" />
+                            <Phone name="lucide:phone" class="w-6 h-6 text-foreground" />
                         </div>
                         <span class="font-bold text-foreground">Phone</span>
                         <span class="text-sm text-foreground/80">+33 6 12 34 56 78</span>
@@ -29,7 +29,7 @@
 
                     <div class="flex flex-col items-center gap-3 p-6 bg-muted border-2 border-foreground">
                         <div class="p-3 bg-accent border-2 border-foreground">
-                            <Icon name="lucide:map-pin" class="w-6 h-6 text-foreground" />
+                            <MapPinIcon name="lucide:map-pin" class="w-6 h-6 text-foreground" />
                         </div>
                         <span class="font-bold text-foreground">Location</span>
                         <span class="text-sm text-foreground/80">Annecy, France</span>
@@ -54,3 +54,7 @@
         </div>
     </section>
 </template>
+
+<script setup>
+import { Phone, LucideMail, MapPinIcon } from 'lucide-vue-next';
+</script>

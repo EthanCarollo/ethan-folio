@@ -31,6 +31,9 @@
 </template>
 
 <script setup lang="ts">
+
+
+
 const items = [
     "Develop web applications",
     "Create mobile applications",
