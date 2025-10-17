@@ -1,6 +1,6 @@
 <template>
-    <section class="py-20 px-4">
-        <div class="max-w-6xl mx-auto">
+    <section class="py-20 px-4" id="projects">
+        <div class="max-w-5xl mx-auto">
             <div class="inline-block mb-12 px-6 py-3 bg-primary border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-1">
                 <h2 class="text-4xl md:text-5xl font-black text-foreground">PROJECTS</h2>
             </div>
@@ -62,7 +62,7 @@ const projects = [
         title: "PersonaBot",
         description:
             "An iOS app that lets users create and customize intelligent bots with unique knowledge bases and behaviors. It combines a Swift frontend with a Python backend using Retrieval-Augmented Generation (RAG) via OpenAI’s ChatGPT and LlamaIndex for fully personalized bot experiences.",
-        tags: ["Swift", "Python", "LlamaIndew"],
+        tags: ["Swift", "Python", "LlamaIndex"],
         color: "bg-primary",
         github: "https://github.com/EthanCarollo/PersonaBot"
     },
