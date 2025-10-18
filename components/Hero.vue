@@ -82,7 +82,7 @@
                 class="inline-block mb-8 px-8 py-4 bg-pink-400 border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] -rotate-1 transition-all duration-300 hover:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 cursor-pointer"
                 @click="cycleTitle"
             >
-                <p class="text-xl md:text-2xl font-bold text-black transition-all duration-300">
+                <p class="text-xl md:text-2xl cursor-pointer font-bold text-black transition-all duration-300">
                     {{ currentTitle }}
                 </p>
             </div>
