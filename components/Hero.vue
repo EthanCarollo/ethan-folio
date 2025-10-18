@@ -67,7 +67,7 @@
                 <span
                     v-for="(char, index) in name"
                     :key="index"
-                    class="inline-block transition-all duration-300 hover:-rotate-12 hover:text-yellow-400"
+                    class="inline-block transition-all duration-300 hover:-rotate-12 hover:text-yellow-400 cursor-default"
                     :style="{
                         animationDelay: `${index * 0.05}s`,
                         opacity: isLoaded ? 1 : 0
