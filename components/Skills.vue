@@ -60,6 +60,8 @@ const skills = tripleArray([
     { name: "Kotlin", color: "bg-purple-400" },
     { name: "Python", color: "bg-yellow-400" },
     { name: "Three.JS", color: "bg-pink-400" },
+    { name: "Swift", color: "bg-orange-400" },
+    { name: "P5.js", color: "bg-yellow-400" },
 ]);
 
 // Double the skills array for seamless infinite loop
@@ -69,6 +71,9 @@ const skills2 = tripleArray([
     { name: "PostgreSQL", color: "bg-cyan-400" },
     { name: "PHP", color: "bg-indigo-400" },
     { name: "Gleam", color: "bg-purple-400" },
+    { name: "Ruby", color: "bg-red-400" },
+    { name: "Strapi", color: "bg-yellow-400" },
+    { name: "WordPress", color: "bg-indigo-400" },
 ]);
 
 // Reversed array for opposite direction
@@ -78,6 +83,7 @@ const skills3 = tripleArray([
     { name: "Docker", color: "bg-sky-400" },
     { name: "Coolify", color: "bg-teal-400" },
     { name: "Unity", color: "bg-yellow-400" },
+    { name: "Ubuntu", color: "bg-orange-400" },
 ]);
 </script>
 
