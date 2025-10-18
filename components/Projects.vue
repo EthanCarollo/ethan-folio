@@ -14,27 +14,27 @@
                     class="bg-card border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
                 >
                     <!-- Image -->
-                    <div class="relative h-64 overflow-hidden border-b-4 border-foreground">
+                    <div class="cursor-pointer relative h-64 overflow-hidden border-b-4 border-foreground">
                         <div :class="`${project.color} absolute inset-0 opacity-20`"></div>
                         <div
-                            class="relative h-full bg-center bg-cover group-hover:scale-110 transition-transform duration-300"
+                            class="cursor-pointer  relative h-full bg-center bg-cover group-hover:scale-110 transition-transform duration-300"
                             :style="'background-image: url('+ project.image + ')'"
                         ></div>
                     </div>
 
                     <!-- Compact Info -->
-                    <div class="p-4">
-                        <h3 class="text-xl font-black text-foreground mb-2 group-hover:underline">{{ project.title }}</h3>
-                        <div class="flex flex-wrap gap-2 mb-3">
+                    <div class="p-4 cursor-pointer">
+                        <h3 class="text-xl font-black text-foreground mb-2 group-hover:underline cursor-pointer">{{ project.title }}</h3>
+                        <div class="flex flex-wrap gap-2 mb-3 cursor-pointer">
                             <span
                                 v-for="(tag, tagIndex) in project.tags.slice(0, 3)"
                                 :key="tagIndex"
-                                class="px-2 py-1 bg-background border-2 border-foreground font-mono text-xs font-bold"
+                                class="px-2 py-1 bg-background border-2 cursor-pointer border-foreground font-mono text-xs font-bold"
                             >
                                 {{ tag }}
                             </span>
                         </div>
-                        <p class="text-sm text-foreground/70 font-bold">Click to view details →</p>
+                        <p class="text-sm text-foreground/70 font-bold cursor-pointer">Click to view details →</p>
                     </div>
                 </div>
             </div>
@@ -45,25 +45,25 @@
                     <div
                         v-if="selectedProject"
                         @click="closeModal"
-                        class="fixed inset-0 bg-foreground/80 flex items-center justify-center p-4 z-50"
+                        class="fixed inset-0 bg-foreground/80 flex items-center justify-center p-4 z-50 cursor-pointer"
                     >
                         <div
                             @click.stop
-                            class="bg-card border-4 border-foreground shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
+                            class="bg-card border-4 border-foreground shadow-[20px_20px_0px_0px_rgba(0,0,0,1)] max-w-4xl w-full max-h-[90vh] overflow-y-auto cursor-pointer relative"
                         >
                             <!-- Close Button -->
                             <button
                                 @click="closeModal"
-                                class="absolute top-4 right-4 w-10 h-10 bg-foreground text-background border-4 border-foreground hover:bg-destructive hover:border-destructive transition-colors font-black text-xl z-10"
+                                class="absolute top-4 right-4 w-10 h-10 cursor-pointer bg-foreground text-background border-4 border-foreground hover:bg-destructive hover:border-destructive transition-colors font-black text-xl z-10"
                             >
                                 ✕
                             </button>
 
-                            <div class="grid md:grid-cols-5 gap-0">
+                            <div class="grid md:grid-cols-5 gap-0 ">
                                 <!-- Project Image -->
-                                <div class="md:col-span-2 relative overflow-hidden border-b-4 md:border-b-0 md:border-r-4 border-foreground">
-                                    <div :class="`${selectedProject.color} absolute inset-0 opacity-20`"></div>
-                                    <div class="relative h-64 md:h-full flex items-center justify-center p-8 bg-center bg-cover"
+                                <div class="md:col-span-2 relative  overflow-hidden border-b-4 md:border-b-0 md:border-r-4 border-foreground">
+                                    <div :class="`${selectedProject.color}  absolute inset-0 opacity-20`"></div>
+                                    <div class="relative h-64 md:h-full  flex items-center justify-center p-8 bg-center bg-cover"
                                          :style="'background-image: url('+ selectedProject.image + ')'">
                                     </div>
                                 </div>

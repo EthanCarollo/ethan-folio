@@ -2,9 +2,11 @@
     <div
         ref="cursor"
         class="custom-cursor"
+        :class="{ 'is-pointer': isPointer }"
         :style="{
       left: `${position.x}px`,
       top: `${position.y}px`,
+      backgroundImage: `url(${currentCursor})`
     }"
     />
 </template>
@@ -12,29 +14,45 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const normalCursor = '/cursors/normal.png'
+const pointerCursor = '/cursors/pointer.png'
+
 const cursor = ref(null)
 const position = ref({ x: 0, y: 0 })
+const isPointer = ref(false)
+const currentCursor = ref(normalCursor)
 
 const updatePosition = (e) => {
     position.value = {
         x: e.clientX,
         y: e.clientY
     }
+
+    // Vérifier si on survole un élément cliquable
+    const target = e.target
+    const isClickable = target.tagName === 'A' ||
+        target.tagName === 'BUTTON' ||
+        target.onclick !== null ||
+        target.style.cursor === 'pointer' ||
+        target.className.includes('cursor-pointer') ||
+        window.getComputedStyle(target).cursor === 'pointer'
+
+    isPointer.value = isClickable
+    currentCursor.value = isClickable ? pointerCursor : normalCursor
 }
 
 onMounted(() => {
-    // Cacher le curseur par défaut
     document.body.style.cursor = 'none'
 
-    // Écouter les mouvements de souris
+    const style = document.createElement('style')
+    style.innerHTML = '* { cursor: none !important; }'
+    document.head.appendChild(style)
+
     window.addEventListener('mousemove', updatePosition)
 })
 
 onUnmounted(() => {
-    // Restaurer le curseur par défaut
     document.body.style.cursor = 'auto'
-
-    // Nettoyer l'écouteur
     window.removeEventListener('mousemove', updatePosition)
 })
 </script>
@@ -42,19 +60,12 @@ onUnmounted(() => {
 <style scoped>
 .custom-cursor {
     position: fixed;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgba(59, 130, 246, 0.6);
-    border: 2px solid rgba(59, 130, 246, 1);
+    width: 48px;
+    height: 48px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease;
     z-index: 9999;
-    mix-blend-mode: difference;
-}
-
-.custom-cursor:hover {
-    transform: translate(-50%, -50%) scale(1.5);
 }
 </style>

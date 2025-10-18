@@ -1,6 +1,6 @@
 <template>
     <section class="py-20 px-4 bg-stone-100 overflow-hidden">
-        <div class="max-w-4xl mx-auto mb-12">
+        <div class="max-w-5xl mx-auto mb-12">
             <div class="inline-block px-8 py-4 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-2">
                 <h2 class="text-5xl md:text-6xl font-black">SKILLS</h2>
             </div>

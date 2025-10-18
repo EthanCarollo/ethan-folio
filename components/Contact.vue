@@ -1,6 +1,6 @@
 <template>
     <section class="py-20 px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-5xl mx-auto">
             <div class="inline-block mb-12 px-6 py-3 bg-accent border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-1">
                 <h2 class="text-4xl md:text-5xl font-black text-foreground">GET IN TOUCH</h2>
             </div>
