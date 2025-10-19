@@ -8,7 +8,7 @@
         <!-- Animated Decorative elements - subtle parallax movement -->
         <div
             ref="shape1"
-            class="absolute top-20 right-20 w-32 h-32 bg-yellow-400 border-4 border-black rotate-12 cursor-pointer  hover:scale-110 animate-float"
+            class="absolute top-20 right-20 w-32 h-32 z-20 bg-yellow-400 border-4 border-black rotate-12 cursor-pointer  hover:scale-110 animate-float"
             @click="triggerShapeAnimation($event, 0)"
             :style="{
                 transform: `translate(${mouseVelocity.x * 15}px, ${mouseVelocity.y * 15}px) rotate(${12 + shapeRotations[0]}deg)`,
@@ -17,7 +17,7 @@
         />
         <div
             ref="shape2"
-            class="absolute bottom-40 left-10 w-24 h-24 bg-pink-400 border-4 border-black -rotate-6 cursor-pointer hover:scale-110 animate-float-delayed"
+            class="absolute bottom-40 left-10 w-24 h-24 z-20 bg-pink-400 border-4 border-black -rotate-6 cursor-pointer hover:scale-110 animate-float-delayed"
             @click="triggerShapeAnimation($event, 1)"
             :style="{
                 transform: `translate(${mouseVelocity.x * -20}px, ${mouseVelocity.y * -20}px) rotate(${-6 + shapeRotations[1]}deg)`,
@@ -26,7 +26,7 @@
         />
         <div
             ref="shape3"
-            class="absolute top-1/2 right-[10%] w-16 h-16 bg-cyan-400 border-4 border-black rotate-45 cursor-pointer hover:scale-110 animate-float-slow"
+            class="absolute top-1/2 right-[10%] w-16 h-16 z-20 bg-cyan-400 border-4 border-black rotate-45 cursor-pointer hover:scale-110 animate-float-slow"
             @click="triggerShapeAnimation($event, 2)"
             :style="{
                 transform: `translate(${mouseVelocity.x * 12}px, ${mouseVelocity.y * 12}px) rotate(${45 + shapeRotations[2]}deg)`,
@@ -52,11 +52,11 @@
 
         <div class="max-w-5xl mx-auto text-center relative z-10">
             <div
-                class="inline-block mb-6 px-6 py-2 bg-yellow-400 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-1 transition-all duration-300 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 hover:rotate-2 cursor-pointer animate-bounce-subtle"
+                class="inline-block mb-6 px-6 py-2 cursor-pointer bg-yellow-400 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-1 transition-all duration-300 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 hover:rotate-2 cursor-pointer animate-bounce-subtle"
                 @mouseenter="tagHovered = true"
                 @mouseleave="tagHovered = false"
             >
-                <p class="font-mono text-sm font-bold text-black">
+                <p class="font-mono text-sm font-bold cursor-pointer text-black">
                     {{ tagHovered ? "< CLICK_ME />" : "< DEVELOPER />" }}
                 </p>
             </div>
@@ -98,11 +98,11 @@
                     View My Work
                     <ArrowRightIcon class="w-5 h-5" />
                 </a>
-                <button
+                <a href="#contact"
                     class="px-6 py-3 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all font-bold text-lg"
                 >
                     Get In Touch
-                </button>
+                </a>
             </div>
 
             <div class="flex gap-4 justify-center">
@@ -116,7 +116,7 @@
                     <span class="sr-only">GitHub</span>
                 </a>
                 <a
-                    href="mailto:alex@example.com"
+                    href="mailto:etcarollo@gmail.com"
                     class="p-3 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
                 >
                     <LucideMail class="w-6 h-6" />
@@ -178,7 +178,7 @@ const createParticles = (x: number, y: number) => {
     const colors = ['bg-yellow-400', 'bg-pink-400', 'bg-cyan-400'];
     for (let i = 0; i < 6; i++) {
         const particle = document.createElement('div');
-        particle.className = `absolute w-3 h-3 border-2 border-black ${colors[Math.floor(Math.random() * colors.length)]} pointer-events-none`;
+        particle.className = `z-50 absolute w-3 h-3 border-2 border-black ${colors[Math.floor(Math.random() * colors.length)]} pointer-events-none`;
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
         particle.style.transform = `translate(-50%, -50%)`;

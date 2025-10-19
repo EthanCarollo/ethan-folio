@@ -67,8 +67,6 @@ onUnmounted(() => {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    /* Offset to center the cursor on the pointer */
-    transform: translate(-50%, -50%);
 }
 
 .custom-cursor img {
