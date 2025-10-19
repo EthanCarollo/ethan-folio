@@ -4,11 +4,16 @@
         class="custom-cursor"
         :class="{ 'is-pointer': isPointer }"
         :style="{
-      left: `${position.x}px`,
-      top: `${position.y}px`,
-      backgroundImage: `url(${currentCursor})`
-    }"
-    />
+            left: `${position.x}px`,
+            top: `${position.y}px`
+        }"
+    >
+        <img
+            :src="currentCursor"
+            alt=""
+            draggable="false"
+        />
+    </div>
 </template>
 
 <script setup>
@@ -28,7 +33,7 @@ const updatePosition = (e) => {
         y: e.clientY
     }
 
-    // Vérifier si on survole un élément cliquable
+    // Check if hovering over a clickable element
     const target = e.target
     const isClickable = target.tagName === 'A' ||
         target.tagName === 'BUTTON' ||
@@ -60,12 +65,17 @@ onUnmounted(() => {
 <style scoped>
 .custom-cursor {
     position: fixed;
-    width: 48px;
-    height: 48px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
     pointer-events: none;
     z-index: 9999;
+    /* Offset to center the cursor on the pointer */
+    transform: translate(-50%, -50%);
+}
+
+.custom-cursor img {
+    display: block;
+    width: 48px;
+    height: auto; /* Maintains aspect ratio */
+    pointer-events: none;
+    user-select: none;
 }
 </style>
