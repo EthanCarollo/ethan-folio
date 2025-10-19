@@ -1,8 +1,8 @@
 <template>
     <section class="py-20 px-4 bg-stone-100 overflow-hidden">
         <div class="max-w-5xl mx-auto mb-12">
-            <div class="inline-block px-8 py-4 bg-yellow-300 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-2">
-                <h2 class="text-4xl md:text-5xl font-black">SKILLS</h2>
+            <div class="inline-block px-8 py-4 bg-yellow-300 border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-2 hover:rotate-1 transition-transform">
+                <h2 class="text-4xl md:text-5xl font-black text-foreground">SKILLS</h2>
             </div>
         </div>
 
@@ -49,6 +49,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 const tripleArray = (arr) => {
     return [...arr, ...arr, ...arr]
 }
@@ -59,12 +60,11 @@ const skills = tripleArray([
     { name: "TypeScript", color: "bg-blue-400" },
     { name: "Kotlin", color: "bg-purple-400" },
     { name: "Python", color: "bg-yellow-400" },
-    { name: "Three.JS", color: "bg-pink-400" },
+    { name: "Three.js", color: "bg-pink-400" },
     { name: "Swift", color: "bg-orange-400" },
     { name: "P5.js", color: "bg-yellow-400" },
 ]);
 
-// Double the skills array for seamless infinite loop
 const skills2 = tripleArray([
     { name: "Node.js", color: "bg-lime-400" },
     { name: "Express", color: "bg-orange-400" },
@@ -76,7 +76,6 @@ const skills2 = tripleArray([
     { name: "WordPress", color: "bg-indigo-400" },
 ]);
 
-// Reversed array for opposite direction
 const skills3 = tripleArray([
     { name: "Git", color: "bg-red-400" },
     { name: "GH Actions", color: "bg-violet-400" },

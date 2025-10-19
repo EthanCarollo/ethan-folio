@@ -1,7 +1,7 @@
 <template>
-    <section class="py-20 px-4 bg-muted">
+    <section class="py-20 px-4 bg-muted" id="about">
         <div class="max-w-5xl mx-auto">
-            <div class="inline-block mb-12 px-6 py-3 bg-accent border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-1">
+            <div class="inline-block mb-12 px-6 py-3 bg-accent border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-1 hover:-rotate-1 transition-transform">
                 <h2 class="text-4xl md:text-5xl font-black text-foreground">ABOUT ME</h2>
             </div>
 
@@ -19,9 +19,9 @@
                 <div class="bg-card border-4 border-foreground shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8">
                     <h3 class="text-2xl font-black mb-4 text-foreground">What I Do</h3>
                     <ul class="space-y-3">
-                        <li v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
+                        <li v-for="(item, index) in items" :key="index" class="flex items-center gap-3">
                             <span class="inline-block w-6 h-6 bg-primary border-2 border-foreground flex-shrink-0 mt-1" />
-                            <span class="text-foreground/80 leading-relaxed">{{ item }}</span>
+                            <span class="text-foreground/80 leading-relaxed mt-[2px]">{{ item }}</span>
                         </li>
                     </ul>
                 </div>
@@ -31,9 +31,6 @@
 </template>
 
 <script setup lang="ts">
-
-
-
 const items = [
     "Develop web applications",
     "Create mobile applications",
