@@ -27,7 +27,7 @@
                             </div>
                             <div class="w-full">
                                 <span class="block font-black text-lg text-foreground mb-2">EMAIL</span>
-                                <span class="block text-base text-foreground/90 font-mono break-all">ethan@example.com</span>
+                                <span class="block text-base text-foreground/90 font-mono break-all">etcarollo@gmail.com</span>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                             </div>
                             <div class="w-full">
                                 <span class="block font-black text-lg text-foreground mb-2">PHONE</span>
-                                <span class="block text-base text-foreground/90 font-mono">+33 6 12 34 56 78</span>
+                                <span class="block text-base text-foreground/90 font-mono">+33 6 12 50 69 05</span>
                             </div>
                         </div>
                     </div>
