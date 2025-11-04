@@ -4,16 +4,40 @@
         "description": "An iOS app that lets users create and customize intelligent bots with unique knowledge bases and behaviors. It combines a Swift frontend with a Python backend using Retrieval-Augmented Generation (RAG) via OpenAI's ChatGPT and LlamaIndex for fully personalized bot experiences.",
         "tags": ["Swift", "Python", "LlamaIndex"],
         "color": "bg-primary",
+        "year": "2025",
+        "role": "Solo Developer",
         "github": "https://github.com/EthanCarollo/PersonaBot",
-        "image": "images/personabot/personabot-thumbnail.png"
+        "image": "images/personabot/personabot-thumbnail.png",
+        "gallery": [
+            "images/personabot/personabot-thumbnail.png",
+            "images/project-placeholder.svg",
+            "images/project-placeholder.svg"
+        ],
+        "highlights": [
+            "Customizable knowledge bases per persona, synced with iCloud.",
+            "Hybrid SwiftUI interface powered by a Python FastAPI backend.",
+            "Retrieval-Augmented Generation pipeline using LlamaIndex and OpenAI models."
+        ]
     },
     {
         "title": "GamesFolio",
         "description": "A simple portfolio built with Three.js showcasing all the games I’ve created in my free time or during my studies, mostly developed with Unity.",
         "tags": ["Nuxt", "Three.js"],
         "color": "bg-secondary",
+        "year": "2025",
+        "role": "Solo Developer",
         "github": "https://github.com/EthanCarollo/games-ethan-folio",
         "link": "https://games.ethan-folio.fr",
-        "image": "images/games-folio/games-thumbnail.png"
+        "image": "images/games-folio/games-thumbnail.png",
+        "gallery": [
+            "images/games-folio/games-thumbnail.png",
+            "images/project-placeholder.svg",
+            "images/project-placeholder.svg"
+        ],
+        "highlights": [
+            "Interactive gallery built with Three.js scenes for each project.",
+            "Dynamic content sourced from Markdown files for easy updates.",
+            "Optimized bundle with lazy loaded scenes for faster first paint."
+        ]
     }
 ]

@@ -49,21 +49,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import { Github, ExternalLink } from 'lucide-vue-next';
 import projects from '~/data/projects.json';
 
 const selectedProject = ref(null);
 
+const lockBodyScroll = () => {
+    if (typeof window === 'undefined') return;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+};
+
+const unlockBodyScroll = () => {
+    if (typeof window === 'undefined') return;
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+};
+
 const openModal = (project) => {
     selectedProject.value = project;
-    document.body.style.overflow = 'hidden';
+    lockBodyScroll();
 };
 
 const closeModal = () => {
     selectedProject.value = null;
-    document.body.style.overflow = '';
+    unlockBodyScroll();
 };
+
+onUnmounted(() => {
+    if (selectedProject.value) {
+        unlockBodyScroll();
+    }
+});
 </script>
 
 <style scoped>
