@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Github, ExternalLink } from 'lucide-vue-next';
+import projects from '~/data/projects.json';
 
 const selectedProject = ref(null);
 
@@ -63,28 +64,6 @@ const closeModal = () => {
     selectedProject.value = null;
     document.body.style.overflow = '';
 };
-
-const projects = [
-    {
-        title: "PersonaBot",
-        description:
-            "An iOS app that lets users create and customize intelligent bots with unique knowledge bases and behaviors. It combines a Swift frontend with a Python backend using Retrieval-Augmented Generation (RAG) via OpenAI's ChatGPT and LlamaIndex for fully personalized bot experiences.",
-        tags: ["Swift", "Python", "LlamaIndex"],
-        color: "bg-primary",
-        github: "https://github.com/EthanCarollo/PersonaBot",
-        image: "images/personabot/personabot-thumbnail.png",
-    },
-    {
-        title: "GamesFolio",
-        description:
-            "A simple portfolio built with Three.js showcasing all the games I’ve created in my free time or during my studies, mostly developed with Unity.",
-        tags: ["Nuxt", "Three.js"],
-        color: "bg-secondary",
-        github: "https://github.com/EthanCarollo/games-ethan-folio",
-        link: "https://games.ethan-folio.fr",
-        image: "images/games-folio/games-thumbnail.png",
-    },
-]
 </script>
 
 <style scoped>
