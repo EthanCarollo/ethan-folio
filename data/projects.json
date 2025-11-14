@@ -21,7 +21,7 @@
     },
     {
         "title": "GamesFolio",
-        "description": "A simple portfolio built with Three.js showcasing all the games I’ve created in my free time or during my studies, mostly developed with Unity.",
+        "description": "A simple portfolio built with Three.js showcasing all the games I've created in my free time or during my studies, mostly developed with Unity.",
         "tags": ["Nuxt", "Three.js"],
         "color": "bg-secondary",
         "year": "2025",
@@ -38,6 +38,30 @@
             "Interactive gallery built with Three.js scenes for each project.",
             "Dynamic content sourced from Markdown files for easy updates.",
             "Optimized bundle with lazy loaded scenes for faster first paint."
+        ]
+    },
+    {
+        "title": "StarFoundation",
+        "description": "A small collaborative text-based RPG built during a data-structures class. We focused on clean data modeling, reused the serialization formats from the syllabus, and picked Ruby to explore a new language. I built it with my teammate Pierre Louis.",
+        "tags": ["Ruby"],
+        "color": "bg-primary",
+        "year": "2023",
+        "role": "Co-developer",
+        "github": "https://github.com/EthanCarollo/star-foundation",
+        "image": "images/star_foundation/star_foundation_logo.png",
+        "gallery": [
+            "images/star_foundation/star_foundation_logo.png",
+            "images/star_foundation/star-foundation-0.png",
+            "images/star_foundation/star-foundation-5.png",
+            "images/star_foundation/star-foundation-2.png",
+            "images/star_foundation/star-foundation-3.png",
+            "images/star_foundation/star-foundation-4.png",
+            "images/star_foundation/star-foundation-1.png"
+        ],
+        "highlights": [
+            "Narrative text RPG about a space outlaw seeking revenge, with branching encounters resolved by dice rolls.",
+            "Events modeled in JSON, saves stored in XML, and a final adventure recap exported to Markdown.",
+            "Built in Ruby alongside Pierre Louis to explore a new language under classroom constraints."
         ]
     }
 ]
