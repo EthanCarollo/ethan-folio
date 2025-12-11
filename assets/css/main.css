@@ -2,190 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================
-   HELPER CLASSES FOR TAILWIND
-   ============================ */
-
-/* Backgrounds */
-.bg-background { background-color: theme('colors.background'); }
-.bg-card { background-color: theme('colors.card'); }
-.bg-primary { background-color: theme('colors.primary'); }
-.bg-secondary { background-color: theme('colors.secondary'); }
-.bg-accent { background-color: theme('colors.accent'); }
-.bg-destructive { background-color: theme('colors.destructive'); }
-.bg-muted { background-color: theme('colors.muted'); }
-.bg-popover { background-color: theme('colors.popover'); }
-
-/* Text colors */
-.text-background { color: theme('colors.background'); }
-.text-card { color: theme('colors.card-foreground'); }
-.text-primary { color: theme('colors.primary-foreground'); }
-.text-secondary { color: theme('colors.secondary-foreground'); }
-.text-accent { color: theme('colors.accent-foreground'); }
-.text-destructive { color: theme('colors.destructive-foreground'); }
-.text-muted { color: theme('colors.muted-foreground'); }
-.text-popover { color: theme('colors.popover-foreground'); }
-
-/* Borders */
-.border-background { border-color: theme('colors.background'); }
-.border-card { border-color: theme('colors.card-foreground'); }
-.border-primary { border-color: theme('colors.primary-foreground'); }
-.border-secondary { border-color: theme('colors.secondary-foreground'); }
-.border-accent { border-color: theme('colors.accent-foreground'); }
-.border-destructive { border-color: theme('colors.destructive-foreground'); }
-.border-muted { border-color: theme('colors.muted-foreground'); }
-.border-popover { border-color: theme('colors.popover-foreground'); }
-
-*{
+* {
     scroll-behavior: smooth;
 }
 
-/* ============================
-   NEO-BRUTALIST PAGE TRANSITIONS
-   ============================ */
-
-.neo-brutal-enter-active,
-.neo-brutal-leave-active {
-    transition: all 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    position: relative;
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Space Mono', monospace;
 }
 
-.neo-brutal-enter-from {
-    opacity: 0;
-    transform: translateX(30px) scale(0.97);
-    filter: blur(3px);
+/* Terminal-style page transitions */
+.terminal-enter-active,
+.terminal-leave-active {
+    transition: opacity 0.2s ease;
 }
 
-.neo-brutal-enter-to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0);
-}
-
-.neo-brutal-leave-from {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0);
-}
-
-.neo-brutal-leave-to {
-    opacity: 0;
-    transform: translateX(-30px) scale(0.97);
-    filter: blur(3px);
-}
-
-/* Brutal border flash effect */
-.neo-brutal-enter-active::before,
-.neo-brutal-leave-active::before {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border: 6px solid rgb(38, 38, 38);
-    pointer-events: none;
-    z-index: 9999;
+.terminal-enter-from,
+.terminal-leave-to {
     opacity: 0;
 }
 
-.neo-brutal-enter-active::before {
-    animation: brutal-border-flash 0.25s ease;
+/* Terminal cursor blink */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
 }
 
-.neo-brutal-leave-active::before {
-    animation: brutal-border-flash-reverse 0.25s ease;
-}
-
-@keyframes brutal-border-flash {
-    0% {
-        opacity: 0;
-        transform: scale(1.02);
-        border-width: 8px;
-    }
-    50% {
-        opacity: 1;
-        border-width: 10px;
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1);
-        border-width: 6px;
-    }
-}
-
-@keyframes brutal-border-flash-reverse {
-    0% {
-        opacity: 0;
-        transform: scale(1);
-        border-width: 6px;
-    }
-    50% {
-        opacity: 1;
-        border-width: 10px;
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0.98);
-        border-width: 8px;
-    }
-}
-
-/* Sharp glitch effect */
-@keyframes brutal-glitch {
-    0%, 100% {
-        transform: translate(0);
-    }
-    10% {
-        transform: translate(-3px, 3px);
-    }
-    20% {
-        transform: translate(3px, -3px);
-    }
-    30% {
-        transform: translate(-3px, -3px);
-    }
-    40% {
-        transform: translate(3px, 3px);
-    }
-    50% {
-        transform: translate(0);
-    }
-}
-
-.neo-brutal-enter-active {
-    animation: brutal-glitch 0.25s ease;
-}
-
-/* Sharp shadow pop effect */
-.neo-brutal-enter-active {
-    animation: brutal-shadow-pop 0.25s ease, brutal-glitch 0.25s ease;
-}
-
-.neo-brutal-leave-active {
-    animation: brutal-shadow-pop-reverse 0.25s ease;
-}
-
-@keyframes brutal-shadow-pop {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    }
-    50% {
-        box-shadow: 16px 16px 0 0 rgba(0, 0, 0, 0.4);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    }
-}
-
-@keyframes brutal-shadow-pop-reverse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    }
-    50% {
-        box-shadow: -16px -16px 0 0 rgba(0, 0, 0, 0.4);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    }
+.cursor-blink {
+    animation: blink 1s infinite;
 }

@@ -11,7 +11,6 @@ export default defineNuxtConfig({
 
     googleFonts: {
         families: {
-            "Space Grotesk": [400, 700, 900],
             "Space Mono": [400, 700],
         },
     },
@@ -35,7 +34,7 @@ export default defineNuxtConfig({
     
     app: {
         pageTransition: {
-            name: 'neo-brutal',
+            name: 'terminal',
             mode: 'out-in'
         }
     }
