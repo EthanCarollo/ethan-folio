@@ -1,10 +1,10 @@
 <template>
     <div>
-        <Cursor />
+        <MouseTrail />
         <slot />
     </div>
 </template>
 
 <script setup lang="ts">
-import Cursor from "../components/Cursor.vue";
+import MouseTrail from "../components/MouseTrail.vue";
 </script>
