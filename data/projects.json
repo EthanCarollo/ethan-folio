@@ -1,5 +1,6 @@
 [
     {
+        "slug": "personabot",
         "title": "PersonaBot",
         "description": "An iOS app that lets users create and customize intelligent bots with unique knowledge bases and behaviors. It combines a Swift frontend with a Python backend using Retrieval-Augmented Generation (RAG) via OpenAI's ChatGPT and LlamaIndex for fully personalized bot experiences.",
         "tags": ["Swift", "Python", "LlamaIndex"],
@@ -20,6 +21,7 @@
         ]
     },
     {
+        "slug": "gamesfolio",
         "title": "GamesFolio",
         "description": "A simple portfolio built with Three.js showcasing all the games I've created in my free time or during my studies, mostly developed with Unity.",
         "tags": ["Nuxt", "Three.js"],
@@ -41,9 +43,10 @@
         ]
     },
     {
+        "slug": "starfoundation",
         "title": "StarFoundation",
         "description": "A small collaborative text-based RPG built during a data-structures class. We focused on clean data modeling, reused the serialization formats from the syllabus, and picked Ruby to explore a new language. I built it with my teammate Pierre Louis.",
-        "tags": ["Ruby"],
+        "tags": ["Ruby", "curses"],
         "color": "bg-primary",
         "year": "2023",
         "role": "Co-developer",
@@ -62,6 +65,20 @@
             "Narrative text RPG about a space outlaw seeking revenge, with branching encounters resolved by dice rolls.",
             "Events modeled in JSON, saves stored in XML, and a final adventure recap exported to Markdown.",
             "Built in Ruby alongside Pierre Louis to explore a new language under classroom constraints."
+        ],
+        "tools": [
+            {
+                "name": "Aseprite",
+                "url": null
+            },
+            {
+                "name": "Photoshop",
+                "url": null
+            },
+            {
+                "name": "Pixel Space Background Generator",
+                "url": "https://deep-fold.itch.io/space-background-generator"
+            }
         ]
     }
 ]

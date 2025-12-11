@@ -7,11 +7,11 @@
 
             <!-- Grid of compact cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div
+                <NuxtLink
                     v-for="(project, index) in projects"
                     :key="index"
-                    @click="openModal(project)"
-                    class="bg-card border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                    :to="`/projects/${project.slug}`"
+                    class="bg-card border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 cursor-pointer group block"
                 >
                     <!-- Image -->
                     <div class="cursor-pointer relative h-64 overflow-hidden border-b-4 border-foreground">
@@ -36,75 +36,13 @@
                         </div>
                         <p class="text-sm text-foreground/70 font-bold cursor-pointer">Click to view details →</p>
                     </div>
-                </div>
+                </NuxtLink>
             </div>
-
-            <!-- Modal -->
-            <ProjectModal
-                :project="selectedProject"
-                @close="closeModal"
-            />
         </div>
     </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue';
-import { Github, ExternalLink } from 'lucide-vue-next';
 import projects from '~/data/projects.json';
-
-const selectedProject = ref(null);
-
-const lockBodyScroll = () => {
-    if (typeof window === 'undefined') return;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-};
-
-const unlockBodyScroll = () => {
-    if (typeof window === 'undefined') return;
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-};
-
-const openModal = (project) => {
-    selectedProject.value = project;
-    lockBodyScroll();
-};
-
-const closeModal = () => {
-    selectedProject.value = null;
-    unlockBodyScroll();
-};
-
-onUnmounted(() => {
-    if (selectedProject.value) {
-        unlockBodyScroll();
-    }
-});
 </script>
 
-<style scoped>
-.modal-enter-active,
-.modal-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-    opacity: 0;
-}
-
-.modal-enter-active > div,
-.modal-leave-active > div {
-    transition: transform 0.3s ease;
-}
-
-.modal-enter-from > div,
-.modal-leave-to > div {
-    transform: scale(0.9);
-}
-</style>

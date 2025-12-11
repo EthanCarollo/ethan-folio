@@ -32,4 +32,11 @@ export default defineNuxtConfig({
     },
 
     css: ["~/assets/css/main.css"],
+    
+    app: {
+        pageTransition: {
+            name: 'neo-brutal',
+            mode: 'out-in'
+        }
+    }
 })
