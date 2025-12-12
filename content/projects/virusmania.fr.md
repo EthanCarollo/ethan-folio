@@ -83,9 +83,9 @@ src="/virusmania_media/toon_on_guy.webm"
 title="toon2.mp4">
 </TerminalVideoPlayer>
 
-> Et hop on avait notre shader de Toon ! Avec certes quelques defauts
-> (actuellement il ne prend pas en compte l'ombre si un objet est
-> devant) mais c'est parfait et on avait pas besoin de mieux !
+> Et hop, on tenait notre shader de Toon ! Avec certes quelques défauts
+> (actuellement il ne prend pas en compte l'ombre si un objet se trouve
+> devant), mais c'était suffisant et nous n'avions pas besoin de mieux !
 
 
 ```js
