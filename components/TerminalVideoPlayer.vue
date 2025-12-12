@@ -43,7 +43,7 @@
           </div>
           
           <button 
-            v-if="!isMuted"
+            v-if="!props.forceMute && !isMuted"
             @click="toggleMute" 
             class="control-btn volume-btn"
             aria-label="Mute"
@@ -53,7 +53,7 @@
           </button>
           
           <button 
-            v-else
+            v-else-if="!props.forceMute"
             @click="toggleMute" 
             class="control-btn volume-btn"
             aria-label="Unmute"
@@ -62,7 +62,7 @@
           </button>
           
           <input
-            v-if="!isMuted"
+            v-if="!props.forceMute && !isMuted"
             v-model="volume"
             type="range"
             min="0"
@@ -98,10 +98,12 @@ interface Props {
   poster?: string
   title?: string
   autoplay?: boolean
+  forceMute?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  autoplay: false
+  autoplay: false,
+  forceMute: false
 })
 
 const videoPlayer = ref<HTMLVideoElement>()
@@ -154,14 +156,14 @@ const togglePlay = () => {
 }
 
 const toggleMute = () => {
-  if (!videoPlayer.value) return
+  if (!videoPlayer.value || props.forceMute) return
   
   videoPlayer.value.muted = !videoPlayer.value.muted
   isMuted.value = videoPlayer.value.muted
 }
 
 const onVolumeChange = () => {
-  if (!videoPlayer.value) return
+  if (!videoPlayer.value || props.forceMute) return
   
   videoPlayer.value.volume = volume.value
   if (volume.value === 0) {
@@ -200,25 +202,33 @@ const formatTime = (seconds: number): string => {
 }
 
 onMounted(() => {
-  if (props.autoplay && videoPlayer.value) {
-    videoPlayer.value.play()
-  }
-  
-  // Si pas de poster spécifié, capturer la première frame comme thumbnail
-  if (!props.poster && videoPlayer.value) {
-    videoPlayer.value.addEventListener('loadeddata', () => {
-      // Créer un canvas pour capturer la première frame
-      const canvas = document.createElement('canvas')
-      canvas.width = videoPlayer.value!.videoWidth
-      canvas.height = videoPlayer.value!.videoHeight
-      const ctx = canvas.getContext('2d')
-      if (ctx) {
-        ctx.drawImage(videoPlayer.value!, 0, 0, canvas.width, canvas.height)
-        const dataURL = canvas.toDataURL('image/jpeg')
-        // Utiliser la capture comme poster
-        videoPlayer.value!.setAttribute('poster', dataURL)
-      }
-    })
+  if (videoPlayer.value) {
+    // Forcer le mode muet si forceMute est activé
+    if (props.forceMute) {
+      videoPlayer.value.muted = true
+      isMuted.value = true
+    }
+    
+    if (props.autoplay) {
+      videoPlayer.value.play()
+    }
+    
+    // Si pas de poster spécifié, capturer la première frame comme thumbnail
+    if (!props.poster && !props.forceMute) {
+      videoPlayer.value.addEventListener('loadeddata', () => {
+        // Créer un canvas pour capturer la première frame
+        const canvas = document.createElement('canvas')
+        canvas.width = videoPlayer.value!.videoWidth
+        canvas.height = videoPlayer.value!.videoHeight
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          ctx.drawImage(videoPlayer.value!, 0, 0, canvas.width, canvas.height)
+          const dataURL = canvas.toDataURL('image/jpeg')
+          // Utiliser la capture comme poster
+          videoPlayer.value!.setAttribute('poster', dataURL)
+        }
+      })
+    }
   }
 })
 </script>
