@@ -48,7 +48,9 @@
             />
         </div>
         -->
-        <ContentRenderer :value="project" />
+        <ContentRenderer
+            :value="project"
+            class="prose prose-invert max-w-none" />
     </div>
     <div v-else class="min-h-screen min-w-screen">
         <div class="space-y-1 text-sm">

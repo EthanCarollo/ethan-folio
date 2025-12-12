@@ -40,3 +40,160 @@ body {
 .cursor-blink {
     animation: blink 1s infinite;
 }
+
+/* Nuxt Content Terminal Styles */
+.prose {
+    @apply text-foreground font-mono;
+}
+
+.prose h1 {
+    @apply text-2xl font-bold mb-4 text-foreground;
+    position: relative;
+}
+
+.prose h1::before {
+    content: "$ echo ";
+    @apply text-foreground/60;
+}
+
+.prose h2 {
+    @apply text-xl font-bold mb-3 mt-6 text-foreground;
+    position: relative;
+}
+
+.prose h2::before {
+    content: "$ cat ";
+    @apply text-foreground/60;
+}
+
+.prose h3 {
+    @apply text-lg font-bold mb-2 mt-4 text-foreground;
+    position: relative;
+}
+
+.prose h3::before {
+    content: "$ ls ";
+    @apply text-foreground/60;
+}
+
+.prose p {
+    @apply mb-4 text-foreground/90 leading-relaxed;
+}
+
+.prose p::before {
+    content: "> ";
+    @apply text-foreground/60;
+}
+
+.prose a {
+    @apply text-foreground underline hover:text-foreground/80 transition-colors;
+}
+
+.prose a::before {
+    content: "";
+}
+
+.prose strong {
+    @apply text-foreground font-bold;
+}
+
+.prose em {
+    @apply text-foreground/80 italic;
+}
+
+.prose code {
+    @apply bg-foreground/10 text-foreground px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.prose pre {
+    @apply bg-foreground/5 border border-foreground/20 rounded p-4 my-4 overflow-x-auto;
+}
+
+.prose pre code {
+    @apply bg-transparent p-0 text-foreground/90;
+}
+
+.prose blockquote {
+    @apply border-l-4 border-foreground/40 pl-4 my-4 text-foreground/70 italic;
+}
+
+.prose blockquote::before {
+    content: "$ grep ";
+    @apply text-foreground/60;
+}
+
+.prose ul {
+    @apply list-none my-4 ml-4;
+}
+
+.prose li {
+    @apply mb-2 text-foreground/90 relative pl-6;
+}
+
+.prose li::before {
+    content: "-";
+    @apply absolute left-0 text-foreground/60;
+}
+
+.prose ol {
+    @apply list-none my-4 ml-4;
+}
+
+.prose ol li {
+    @apply mb-2 text-foreground/90 relative pl-6;
+}
+
+.prose ol li::before {
+    content: counter(list-item) ".";
+    @apply absolute left-0 text-foreground/60;
+}
+
+.prose hr {
+    @apply border-foreground/20 my-8;
+}
+
+.prose img {
+    @apply rounded border border-foreground/20 my-4;
+}
+
+.prose table {
+    @apply w-full border-collapse border border-foreground/20 my-4;
+}
+
+.prose th {
+    @apply border border-foreground/20 px-4 py-2 bg-foreground/10 text-foreground font-bold;
+}
+
+.prose td {
+    @apply border border-foreground/20 px-4 py-2 text-foreground/90;
+}
+
+/* Terminal-style content wrapper */
+.content-terminal {
+    @apply font-mono;
+}
+
+.content-terminal::before {
+    content: "$ cat content.md";
+    @apply block text-foreground/60 mb-4;
+}
+
+/* Command prompt style for different sections */
+.prose .command-prompt::before {
+    content: "$ ";
+    @apply text-foreground/60;
+}
+
+.prose .output-prompt::before {
+    content: "> ";
+    @apply text-foreground/60;
+}
+
+.prose .comment {
+    @apply text-foreground/50 italic;
+}
+
+.prose .comment::before {
+    content: "# ";
+    @apply text-foreground/40;
+}

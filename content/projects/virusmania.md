@@ -22,4 +22,12 @@ de controler la population, le jeu s'inspire grandement
 des noms comme [PlateUp!](https://store.steampowered.com/app/1599600/PlateUp/?l=french)
 ou même [OverCooked](https://store.steampowered.com/app/448510/Overcooked/).
 
-Au fil du développement du jeu, on s'est rendu compte que l'on allait avoir
+# Les débuts
+
+Pour commencer, on est parti sur Unity car, bien que nous avions
+1 mois pour faire ce projet, le rythme scolaire et professionnel
+que nous avions ne nous permettait pas de prendre le temps de
+découvrir une technologie si nous souhaitions faire quelque chose
+de clean, et étant donné que nous avions déja travaillé ensemble
+auparavant sur un jeu Unity, nous avons pu rapidement prendre nos
+aises. Pour avancer.
