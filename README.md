@@ -43,3 +43,23 @@ The site is optimized for static hosting and can be deployed to:
 ---
 
 Built with Nuxt 4 & TypeScript
+
+## PS
+
+> This can help you ;)
+
+```sh
+for f in *.mov *.mp4; do
+    [ -e "$f" ] || continue
+    ffmpeg -i "$f" \
+        -c:v libvpx-vp9 \
+        -crf 35 \
+        -b:v 0 \
+        -cpu-used 4 \
+        -row-mt 1 \
+        -threads 8 \
+        -pix_fmt yuv420p \
+        -c:a libopus -b:a 64k \
+        "${f%.*}.webm"
+done
+```

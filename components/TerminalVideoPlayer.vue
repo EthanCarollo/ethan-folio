@@ -18,7 +18,6 @@
         >
             <p class="text-foreground/60 p-4">Your browser does not support the video tag.</p>
         </video>
-
         <div class="video-controls">
         <div class="controls-row">
           <button 
@@ -91,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 interface Props {
   src: string
@@ -103,7 +102,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   autoplay: false,
-  forceMute: true
+  forceMute: false
 })
 
 const videoPlayer = ref<HTMLVideoElement>()
@@ -113,6 +112,9 @@ const currentTime = ref(0)
 const duration = ref(0)
 const volume = ref(1)
 const statusText = ref('Ready')
+const isVisible = ref(false)
+const isLoaded = ref(false)
+const lastUpdateTime = ref(0)
 
 const progressPercentage = computed(() => {
   return duration.value > 0 ? (currentTime.value / duration.value) * 100 : 0
@@ -125,8 +127,13 @@ const onLoadedMetadata = () => {
 }
 
 const onTimeUpdate = () => {
-  if (videoPlayer.value) {
-    currentTime.value = videoPlayer.value.currentTime
+  if (videoPlayer.value && isVisible.value && isPlaying.value) {
+    // Limiter les mises à jour à chaque 500ms pour réduire drastiquement le lag
+    const now = Date.now()
+    if (!lastUpdateTime.value || now - lastUpdateTime.value > 500) {
+      currentTime.value = videoPlayer.value.currentTime
+      lastUpdateTime.value = now
+    }
   }
 }
 
@@ -146,12 +153,34 @@ const onEnded = () => {
 }
 
 const togglePlay = () => {
-  if (!videoPlayer.value) return
+  if (!videoPlayer.value || !isLoaded.value) return
   
   if (isPlaying.value) {
     videoPlayer.value.pause()
   } else {
+    // Pause toutes les autres vidéos avant de jouer celle-ci
+    pauseOtherVideos()
     videoPlayer.value.play()
+  }
+}
+
+const pauseOtherVideos = () => {
+  // Pause toutes les vidéos sauf celle-ci - version optimisée
+  if (!videoPlayer.value) return
+  
+  const videos = document.querySelectorAll('video')
+  const currentVideo = videoPlayer.value
+  
+  // Utiliser forEach classique pour meilleures performances
+  for (let i = 0; i < videos.length; i++) {
+    const video = videos[i] as HTMLVideoElement
+    if (video !== currentVideo && !video.paused) {
+      try {
+        video.pause()
+      } catch (e) {
+        // Ignorer les erreurs de pause
+      }
+    }
   }
 }
 
@@ -201,34 +230,94 @@ const formatTime = (seconds: number): string => {
   return `${mins}:${secs.toString().padStart(2, '0')}`
 }
 
-onMounted(() => {
-  if (videoPlayer.value) {
-    // Forcer le mode muet si forceMute est activé
-    if (props.forceMute) {
-      videoPlayer.value.muted = true
-      isMuted.value = true
-    }
-    
-    if (props.autoplay) {
-      videoPlayer.value.play()
-    }
-    
-    // Si pas de poster spécifié, capturer la première frame comme thumbnail
-    if (!props.poster && !props.forceMute) {
-      videoPlayer.value.addEventListener('loadeddata', () => {
-        // Créer un canvas pour capturer la première frame
-        const canvas = document.createElement('canvas')
-        canvas.width = videoPlayer.value!.videoWidth
-        canvas.height = videoPlayer.value!.videoHeight
-        const ctx = canvas.getContext('2d')
-        if (ctx) {
-          ctx.drawImage(videoPlayer.value!, 0, 0, canvas.width, canvas.height)
-          const dataURL = canvas.toDataURL('image/jpeg')
-          // Utiliser la capture comme poster
-          videoPlayer.value!.setAttribute('poster', dataURL)
+// Intersection Observer pour lazy loading optimisé
+let intersectionObserver: IntersectionObserver | null = null
+let isObserverActive = false
+
+const setupIntersectionObserver = () => {
+  if (!videoPlayer.value || isObserverActive) return
+  
+  isObserverActive = true
+  
+  if ('IntersectionObserver' in window) {
+    intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !isVisible.value) {
+          isVisible.value = true
+          // Charger la vidéo avec un délai pour éviter le lag
+          setTimeout(() => {
+            loadVideo()
+          }, 100)
+        } else if (!entry.isIntersecting && isVisible.value) {
+          // Pause immédiate quand plus visible
+          if (videoPlayer.value && !videoPlayer.value.paused) {
+            videoPlayer.value.pause()
+            isPlaying.value = false
+          }
+          isVisible.value = false
         }
       })
-    }
+    }, {
+      threshold: 0.05, // Seuil plus bas pour déclencher plus tôt
+      rootMargin: '100px' // Marge plus grande pour préchargement
+    })
+
+    intersectionObserver.observe(videoPlayer.value)
+  } else {
+    // Fallback ultra-light
+    isVisible.value = true
+    setTimeout(loadVideo, 200)
+  }
+}
+
+const loadVideo = () => {
+  if (!videoPlayer.value || isLoaded.value) return
+  
+  isLoaded.value = true
+  
+  // Forcer le mode muet si forceMute est activé
+  if (props.forceMute) {
+    videoPlayer.value.muted = true
+    isMuted.value = true
+  }
+  
+  if (props.autoplay && isVisible.value) {
+    videoPlayer.value.play()
+  }
+  
+  // Si pas de poster spécifié, capturer la première frame comme thumbnail
+  if (!props.poster && !props.forceMute) {
+    videoPlayer.value.addEventListener('loadeddata', () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = videoPlayer.value!.videoWidth
+      canvas.height = videoPlayer.value!.videoHeight
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.drawImage(videoPlayer.value!, 0, 0, canvas.width, canvas.height)
+        const dataURL = canvas.toDataURL('image/jpeg')
+        videoPlayer.value!.setAttribute('poster', dataURL)
+      }
+    }, { once: true })
+  }
+}
+
+onMounted(() => {
+  // Délai pour éviter le lag au chargement initial
+  setTimeout(() => {
+    setupIntersectionObserver()
+  }, 300)
+})
+
+onUnmounted(() => {
+  if (intersectionObserver) {
+    intersectionObserver.disconnect()
+    isObserverActive = false
+  }
+  // Nettoyage complet
+  if (videoPlayer.value) {
+    videoPlayer.value.pause()
+    videoPlayer.value.removeAttribute('src')
+    videoPlayer.value.load()
   }
 })
 </script>

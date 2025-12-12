@@ -41,7 +41,7 @@ le plus rapidement possible, Théo s'est occupé de faire le personnage,
 pendant que je faisais le reste de la logique.
 
 <TerminalVideoPlayer
-src="/virusmania_media/les_debuts.mp4"
+src="/virusmania_media/les_debuts.webm"
 title="virusmania-prototype.mp4">
 </TerminalVideoPlayer>
 
@@ -57,7 +57,7 @@ un jeudi matin. Et c'est ainsi que le rythme de production global du
 jeu a commencé à s'accélerer
 
 <TerminalVideoPlayer
-src="/virusmania_media/animation_movement.mov"
+src="/virusmania_media/animation_movement.webm"
 title="animation-movement.mp4">
 </TerminalVideoPlayer>
 
@@ -82,8 +82,8 @@ parfaitement l'illustrer :
 > décidé de mettre ça de coté pour la première version.
 
 <TerminalVideoPlayer
-src="/virusmania_media/metaball.mov"
-title="metaball.mov">
+src="/virusmania_media/metaball.webm"
+title="metaball.mp4">
 </TerminalVideoPlayer>
 
 > Un de nos rares essais qui mangeaient beaucoup trop de performances
@@ -119,13 +119,13 @@ Donc pour ce shader, la consigne était simple, avoir un rendu step
 par step de la lumière sur un objet. Donc c'est assez simple.
 
 <TerminalVideoPlayer
-src="/virusmania_media/toon_on_metaball.mov"
-title="toon1.mov">
+src="/virusmania_media/toon_on_metaball.webm"
+title="toon1.mp4">
 </TerminalVideoPlayer>
 
 <TerminalVideoPlayer
-src="/virusmania_media/toon_on_guy.mov"
-title="toon2.mov">
+src="/virusmania_media/toon_on_guy.webm"
+title="toon2.mp4">
 </TerminalVideoPlayer>
 
 > Et hop on avait notre shader de Toon ! Avec certes quelques defauts
@@ -180,4 +180,166 @@ qui sont animés.
 Et donc on a prit la décision de recoder un shader pour l'UI pour faire ça !
 En vrai, on va s'épargner la partie technique (le shader est dispo [ici](https://github.com/methil-mods/virusmania/blob/b2a17c13c57f273e7c823add9de65a9161a79670/unity/Assets/Resources/Shaders/MethilUiWavyBlob.shader))
 
+<TerminalVideoPlayer
+src="/virusmania_media/essai_rate_ui.webm"
+title="essai_ui_bad.mp4">
+</TerminalVideoPlayer>
+
+> Ca c'était raté par exemple.
+
+<TerminalVideoPlayer
+src="/virusmania_media/essai_reussi.webm"
+title="essai_ui_good.mp4">
+</TerminalVideoPlayer>
+
+> Ca c'était vraiment mieux et paramétrable !
+
+# Gameplay
+
+Maintenant, il a tout fallu mettre en forme pour avoir le gameplay
+dans sa forme "finale", pour avoir un vrai
+jeu et pas que des morceaux par ci par là, et donc avec une boucle
+de gameplay simple :
+
+1. Récuperer un brief de création de virus
+2. Acheter ce qu'il faut pour faire le virus
+3. Combiner des éléments ensemble pour faire le virus
+4. EnvoyeR le virus
+
+> Tout simple !
+
+<TerminalVideoPlayer
+src="/virusmania_media/virusmania_game.webm"
+title="onboarding.mp4">
+</TerminalVideoPlayer>
+
+
+# L'onboarding
+
+Et oui c'est pas fini, maintenant on doit se coller à l'onboarding,
+l'une des parties les plus intéressantes car elle nécessite de comprendre
+comment l'utilisateur va apprendre à intéragir avec nos mécaniques de
+jeux, elle peut même par moment démontrer qu'une mécanique est mal
+pensée.
+
+<TerminalVideoPlayer
+src="/virusmania_media/onboarding.webm"
+title="onboarding.mp4">
+</TerminalVideoPlayer>
+
+> Une petite vidéo de la première version de l'onboarding avant qu'il
+> soit démoli par tout les retours !
+
+# Remerciements
+
+C'était long, mais voilà, un mois intensif à travailler sur le projet,
+j'ai pas parlé de tout le monde parce qu'au final du monde s'est rajouté
+dans l'équipe, donc je mets ici les remerciements :
+
+## Development
+- **Ethan Carollo** — Lead Developer & Project Manager — [GitHub](https://github.com/EthanCarollo)
+- **Théo Lessage** — Developer — [GitHub](https://github.com/nak0x)
+
+## Art Direction & Design
+- **Médéric Chapiseau** — Visual Art Direction, main 3D models, game UI — [Portfolio](https://medericchapiseau.com)
+- **Danielle Levinzon** — Main menu design & itch.io page — [Portfolio](https://daniellelevinzon.github.io/Portfolio)
+
+## 3D Modeling
+- **Théo Lessage** — 3D Modeling — [GitHub](https://github.com/nak0x)
+- **Mathieu** — 3D Modeling — [GitHub](https://github.com/math-pixel)
+- **Ugo Mollier-Billet** - 3D Modeling — [Portfolio](https://www.ugoportfolio.fr)
+
+## Sound Design
+- **P-A** — Sound production & full sound design — [SoundCloud](https://soundcloud.com/paaaa_als)
+
+## Testing & Ideas
+- **Emmanuel Moulin** — Testing, idea proposals & README writing 😎 — [GitHub](https://github.com/Kibishi47) 
+
+> C'est la première fois que je travaillais sur un projet perso avec autant
+> de gens, mais ça a permit de créer une sorte de groupe avec une identité,
+> j'en suis très content.
+
+# Jouer !
+
+C'est la fin de la jam, le jeu est envoyé !
+
+Voici le lien du itch.io où le jeu est disponible, n'hésitez pas à laisser
+un commentaire si le jeu vous a plu !
+https://ethanzxv.itch.io/virusmania
+
+> Merci d'avoir lu ^^'
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+# Bonus
+
+<div class="w-full flex justify-center">
+<img src="/virusmania_media/virusglow.png" />
+</div>
+
+> Un virus qui glow
+
+<div class="w-full flex justify-center">
+<img src="/virusmania_media/accueil_page.png" />
+</div>
+ 
+> La page d'accueil (Danielle au dessin !)
+
+<div class="w-full flex justify-center">
+<img src="/virusmania_media/color_virusmania.png" />
+</div>
+
+> Une façon de communiqué les couleurs, hmmm,.. singulière
+
+<div class="w-full flex justify-center">
+<img src="/virusmania_media/fourmimania.png" />
+</div>
+
+> Le vrai logo de fourmimania
 

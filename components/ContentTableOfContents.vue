@@ -51,16 +51,20 @@ const hasHeadings = ref(false)
 const observer = ref<MutationObserver | null>(null)
 
 const extractHeadings = () => {
-    nextTick(() => {
+    // Utiliser requestAnimationFrame pour éviter le blocage
+    requestAnimationFrame(() => {
         const contentElement = document.querySelector('.prose')
         if (!contentElement) return
 
-        const headingElements = contentElement.querySelectorAll('h1, h2, h3')
+        // Limiter aux H1 et H2 uniquement pour réduire le nombre d'éléments
+        const headingElements = contentElement.querySelectorAll('h1, h2')
         const newHeadings: Heading[] = []
 
-        headingElements.forEach((element, index) => {
+        // Utiliser une boucle for classique pour meilleures performances
+        for (let i = 0; i < headingElements.length; i++) {
+            const element = headingElements[i] as HTMLElement
             if (!element.id) {
-                element.id = `heading-${index}-${element.textContent?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') || ''}`
+                element.id = `heading-${i}-${element.textContent?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') || ''}`
             }
 
             newHeadings.push({
@@ -68,12 +72,10 @@ const extractHeadings = () => {
                 text: element.textContent || '',
                 level: parseInt(element.tagName.charAt(1))
             })
-        })
+        }
 
         headings.value = newHeadings
         hasHeadings.value = newHeadings.length > 0
-
-        setupContentObserver()
     })
 }
 
@@ -116,18 +118,26 @@ const scrollToHeading = (id: string) => {
 }
 
 const updateActiveHeading = () => {
-    const scrollPosition = window.scrollY + 100
+  if (headings.value.length === 0) return
+  
+  const scrollPosition = window.scrollY + 100
+  let foundIndex = -1
 
-    for (let i = headings.value.length - 1; i >= 0; i--) {
-        const heading = headings.value[i]
-        const element = document.getElementById(heading.id)
+  // Utiliser une boucle for classique pour performance
+  for (let i = headings.value.length - 1; i >= 0; i--) {
+    const heading = headings.value[i]
+    const element = document.getElementById(heading.id)
 
-        if (element && element.offsetTop <= scrollPosition) {
-            activeHeading.value = heading.id
-            updateIndicatorPosition(i)
-            break
-        }
+    if (element && element.offsetTop <= scrollPosition) {
+      foundIndex = i
+      break
     }
+  }
+
+  if (foundIndex !== -1) {
+    activeHeading.value = headings.value[foundIndex].id
+    updateIndicatorPosition(foundIndex)
+  }
 }
 
 const updateIndicatorPosition = (headingIndex: number) => {
@@ -146,7 +156,7 @@ const throttle = (func: Function, delay: number) => {
     }
 }
 
-const throttledUpdate = throttle(updateActiveHeading, 100)
+const throttledUpdate = throttle(updateActiveHeading, 200) // Augmenter le délai pour réduire les calculs
 
 onMounted(() => {
     extractHeadings()
