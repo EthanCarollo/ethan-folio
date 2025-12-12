@@ -3,39 +3,35 @@
         <div v-if="project" class="max-w-3xl mx-auto px-4 py-8 md:py-12">
             <!-- Header -->
             <div class="mb-8 space-y-1 text-sm">
-                <div class="text-foreground/60">$ cd ..</div>
-                <NuxtLink
-                    to="/#projects"
-                    class="text-foreground/60 hover:text-foreground transition-colors"
-                >
-                    ← back
-                </NuxtLink>
+                <div class="text-foreground/60">$ cd {{ project.slug }}</div>
+                <!-- 
+                <div class="text-foreground/60">$ ls</div>
+                <div class="text-foreground/70 mt-2 space-y-1">
+                    <div>README.md  src/  assets/</div>
+                </div>
+                -->
             </div>
 
             <!-- Project Info -->
             <div class="space-y-6 mb-8">
                 <div class="space-y-1 text-sm">
-                    <div class="text-foreground/60">$ cat {{ project.slug }}/info.txt</div>
+                    <div class="text-foreground/60">$ cat README.md</div>
                     <div class="text-foreground/70 mt-2 space-y-2">
                         <div>
-                            <span class="text-foreground/60">title: </span>
+                            <span class="text-foreground/60"># </span>
                             <span class="text-foreground text-xl">{{ project.title }}</span>
                         </div>
                         <div v-if="project.year">
-                            <span class="text-foreground/60">year: </span>
+                            <span class="text-foreground/60">Year: </span>
                             <span class="text-foreground">{{ project.year }}</span>
                         </div>
                         <div v-if="project.role">
-                            <span class="text-foreground/60">role: </span>
+                            <span class="text-foreground/60">Role: </span>
                             <span class="text-foreground">{{ project.role }}</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="space-y-1 text-sm">
-                    <div class="text-foreground/60">$ cat {{ project.slug }}/description.txt</div>
-                    <div class="text-foreground/70 mt-2">
-                        {{ project.description }}
+                        <div class="mt-4">
+                            {{ project.description }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,30 +48,46 @@
 
             <!-- Tech Stack -->
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat {{ project.slug }}/tech_stack.txt</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div v-for="(tag, tagIndex) in project.tags ?? []" :key="tagIndex" class="pl-4">
-                        - {{ tag }}
+                <div class="text-foreground/60">$ cat package.json</div>
+                <div class="text-foreground/70 mt-2">
+                    <div class="mb-2">
+                        <span class="text-foreground/60">"dependencies": </span>
+                        <span class="text-foreground">{</span>
                     </div>
+                    <div class="space-y-1 pl-4">
+                        <div v-for="(tag, tagIndex) in project.tags ?? []" :key="tagIndex" class="pl-4">
+                            <span class="text-foreground/60">"{{ tag }}": </span>
+                            <span class="text-foreground">"^latest"</span>
+                        </div>
+                    </div>
+                    <div class="text-foreground">}</div>
                 </div>
             </div>
 
             <!-- Tools -->
             <div v-if="project.tools && project.tools.length > 0" class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat {{ project.slug }}/tools.txt</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div v-for="(tool, toolIndex) in project.tools" :key="toolIndex" class="pl-4">
-                        - {{ tool.name }}
-                        <a v-if="tool.url" :href="tool.url" target="_blank" rel="noopener noreferrer" class="text-foreground/50 hover:text-foreground underline ml-2">
-                            [link]
-                        </a>
+                <div class="text-foreground/60">$ cat dev-dependencies.json</div>
+                <div class="text-foreground/70 mt-2">
+                    <div class="mb-2">
+                        <span class="text-foreground/60">"devDependencies": </span>
+                        <span class="text-foreground">{</span>
                     </div>
+                    <div class="space-y-1 pl-4">
+                        <div v-for="(tool, toolIndex) in project.tools" :key="toolIndex" class="pl-4">
+                            <span class="text-foreground/60">"{{ tool.name }}": </span>
+                            <span class="text-foreground">"^latest"</span>
+                            <a v-if="tool.url" :href="tool.url" target="_blank" rel="noopener noreferrer" class="text-foreground/50 hover:text-foreground underline ml-2 text-xs">
+                                [link]
+                            </a>
+                        </div>
+                    </div>
+                    <div class="text-foreground">}</div>
                 </div>
             </div>
 
             <!-- Key Features -->
             <div v-if="getHighlights(project).length" class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat {{ project.slug }}/features.txt</div>
+                <div class="text-foreground/60">$ cat FEATURES.md</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <div v-for="(highlight, index) in getHighlights(project)" :key="`highlight-${index}`" class="pl-4">
                         - {{ highlight }}
@@ -85,7 +97,7 @@
 
             <!-- Gallery -->
             <div v-if="project.gallery && project.gallery.length > 1" class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ ls {{ project.slug }}/gallery/</div>
+                <div class="text-foreground/60">$ ls assets/</div>
                 <div class="text-foreground/70 mt-2 grid grid-cols-2 md:grid-cols-3 gap-2">
                     <div
                         v-for="(image, index) in project.gallery"
@@ -105,13 +117,21 @@
 
             <!-- Links -->
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat {{ project.slug }}/links.txt</div>
+                <div class="text-foreground/60">$ cat .git/config</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <div v-if="project.github" class="pl-4">
-                        - github: <a :href="project.github" target="_blank" rel="noopener noreferrer" class="text-foreground underline hover:text-foreground/70">{{ project.github }}</a>
+                        <span class="text-foreground/60">[remote "origin"]</span>
                     </div>
-                    <div v-if="project.link" class="pl-4">
-                        - live: <a :href="project.link" target="_blank" rel="noopener noreferrer" class="text-foreground underline hover:text-foreground/70">{{ project.link }}</a>
+                    <div v-if="project.github" class="pl-8">
+                        <span class="text-foreground/60">url = </span>
+                        <a :href="project.github" target="_blank" rel="noopener noreferrer" class="text-foreground underline hover:text-foreground/70">{{ project.github }}</a>
+                    </div>
+                    <div v-if="project.link" class="pl-4 mt-2">
+                        <span class="text-foreground/60">[remote "demo"]</span>
+                    </div>
+                    <div v-if="project.link" class="pl-8">
+                        <span class="text-foreground/60">url = </span>
+                        <a :href="project.link" target="_blank" rel="noopener noreferrer" class="text-foreground underline hover:text-foreground/70">{{ project.link }}</a>
                     </div>
                 </div>
             </div>
@@ -119,11 +139,12 @@
             <!-- Navigation -->
             <div class="space-y-1 text-sm pt-8 border-t border-foreground/20">
                 <div class="flex justify-between items-center">
+                    <div class="text-foreground/60">$ cd ..</div>
                     <NuxtLink
                         to="/#projects"
                         class="text-foreground/60 hover:text-foreground transition-colors"
                     >
-                        ← all projects
+                        back to projects
                     </NuxtLink>
                     <div class="flex gap-4">
                         <NuxtLink
@@ -148,15 +169,17 @@
         <!-- 404 State -->
         <div v-else class="max-w-3xl mx-auto px-4 py-20 font-mono">
             <div class="space-y-1 text-sm">
-                <div class="text-foreground/60">$ cat project.txt</div>
+                <div class="text-foreground/60">$ cd nonexistent-project</div>
                 <div class="text-foreground/70 mt-2">
-                    <div class="mb-4">Project not found</div>
-                    <NuxtLink
-                        to="/#projects"
-                        class="text-foreground/60 hover:text-foreground transition-colors"
-                    >
-                        $ cd /projects
-                    </NuxtLink>
+                    <div class="text-foreground/60">bash: cd: nonexistent-project: No such file or directory</div>
+                    <div class="mt-4">
+                        <NuxtLink
+                            to="/#projects"
+                            class="text-foreground/60 hover:text-foreground transition-colors"
+                        >
+                            $ cd /projects
+                        </NuxtLink>
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,8 +2,9 @@
     <section class="py-20 px-4 font-mono" id="projects">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ ls -la projects/</div>
-                <div class="text-foreground/70 mt-2 space-y-4">
+                <div class="text-foreground/60">$ cd projects</div>
+                <div class="text-foreground/60">$ ls -la</div>
+                <div class="text-foreground/70 mt-2 space-y-2">
                     <NuxtLink
                         v-for="(project, index) in projects"
                         :key="index"
