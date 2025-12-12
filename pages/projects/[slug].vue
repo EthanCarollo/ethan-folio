@@ -2,8 +2,8 @@
     <div class="min-h-screen bg-background font-mono">
         <div v-if="project" class="max-w-3xl mx-auto px-4 py-8 md:py-12">
             <!-- Header -->
-            <div class="mb-8 space-y-1 text-sm">
-                <div class="text-foreground/60">$ cd {{ project.slug }}</div>
+            <div class="mb-8 space-y-1 text-sm text-foreground/70">
+                <a href="/" class="hover:text-foreground transition-colors block">$ cd ..</a>
                 <!-- 
                 <div class="text-foreground/60">$ ls</div>
                 <div class="text-foreground/70 mt-2 space-y-1">

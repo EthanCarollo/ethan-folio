@@ -8,7 +8,8 @@
     "build": "nuxt generate",
     "generate": "nuxt generate",
     "preview": "nuxt preview --port 3001",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "serve": "nuxt generate && npx serve .output/public"
   },
   "dependencies": {
     "@nuxt/icon": "^1.10.0",

@@ -3,18 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
-  // Static generation configuration
-  ssr: true,
+  // Static site generation
   target: 'static',
+  ssr: true,
 
   nitro: {
-    preset: 'static'
-  },
-
-  // Prerender routes for static generation
-  routeRules: {
-    '/': { prerender: true },
-    '/projects/**': { prerender: true }
+    static: true
   },
 
   modules: [
@@ -42,25 +36,6 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'terminal',
       mode: 'out-in'
-    }
-  },
-
-  // Static optimization
-  experimental: {
-    payloadExtraction: false
-  },
-
-  // Disable SPA fallback for static hosting
-  spa: false,
-
-  // Build optimizations for static
-  build: {
-    extractCSS: true,
-    optimizeCSS: true,
-    splitChunks: {
-      layouts: true,
-      pages: true,
-      commons: true
     }
   }
 })
