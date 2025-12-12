@@ -6,9 +6,9 @@
                 <div class="text-foreground/60 mb-6">$ ls -la</div>
                 <div class="text-foreground/70 pt-6 space-y-2">
                     <NuxtLink
-                        v-for="(project, index) in projects"
+                        v-for="(project, index) in allProjects"
                         :key="index"
-                        :to="`/projects/${project.slug}`"
+                        :to="project.path"
                         class="block hover:text-foreground transition-colors"
                     >
                         <div class="flex items-start gap-4">
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import projects from '~/data/projects.json';
+const allProjects = await queryCollection('projects').order('date', 'DESC').all()
 </script>
 
 <style scoped>

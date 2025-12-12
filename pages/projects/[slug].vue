@@ -1,318 +1,78 @@
 <template>
-    <div class="min-h-screen font-mono">
-        <div v-if="project" class="max-w-3xl mx-auto px-4 py-8 md:py-12">
-            <!-- Header -->
-            <div class="mb-8 space-y-1 text-sm text-foreground/70">
-                <a href="/" class="hover:text-foreground transition-colors block">$ cd ..</a>
-                <!-- 
-                <div class="text-foreground/60">$ ls</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div>README.md  src/  assets/</div>
-                </div>
-                -->
+    <div v-if="project" class="max-w-3xl mx-auto px-4 py-8 md:py-12 min-h-screen">
+        <div class="mb-8 space-y-1 text-sm text-foreground/70">
+            <a href="/" class="hover:text-foreground transition-colors block">$ cd ..</a>
+            <!--
+            <div class="text-foreground/60">$ ls</div>
+            <div class="text-foreground/70 mt-2 space-y-1">
+                <div>README.md  src/  assets/</div>
             </div>
-
-            <!-- Project Info -->
-            <div class="space-y-6 mb-8">
-                <div class="space-y-1 text-sm">
-                    <div class="text-foreground/60">$ cat README.md</div>
-                    <div class="text-foreground/70 mt-2 space-y-2">
-                        <div>
-                            <span class="text-foreground/60"># </span>
-                            <span class="text-foreground text-xl">{{ project.title }}</span>
-                        </div>
-                        <div v-if="project.year">
-                            <span class="text-foreground/60">Year: </span>
-                            <span class="text-foreground">{{ project.year }}</span>
-                        </div>
-                        <div v-if="project.role">
-                            <span class="text-foreground/60">Role: </span>
-                            <span class="text-foreground">{{ project.role }}</span>
-                        </div>
-                        <div class="mt-4">
-                            {{ project.description }}
-                        </div>
+            -->
+        </div>
+        <!-- Project Info -->
+        <div class="space-y-6 mb-8">
+            <div class=" text-sm">
+                <div class="text-foreground/60 mb-1">$ cat README.md</div>
+                <div class="text-foreground/70 mt-2 space-y-2">
+                    <div>
+                        <span class="text-foreground/60"># </span>
+                        <span class="text-foreground text-xl">{{ project.title }}</span>
+                    </div>
+                    <div v-if="project.date">
+                        <span class="text-foreground/60">Date: </span>
+                        <span class="text-foreground">{{ project.date }}</span>
+                    </div>
+                    <div v-if="project.role">
+                        <span class="text-foreground/60">Role: </span>
+                        <span class="text-foreground">{{ project.role }}</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Project Image -->
-            <div class="mb-8 border border-foreground/20 overflow-hidden">
-                <img
-                    :src="getImageSource(project)"
-                    :alt="`${project.title} preview`"
-                    class="w-full h-auto object-cover"
-                    loading="eager"
-                />
-            </div>
-
-            <!-- Tech Stack -->
-            <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat package.json</div>
-                <div class="text-foreground/70 mt-2">
-                    <div class="mb-2">
-                        <span class="text-foreground/60">"dependencies": </span>
-                        <span class="text-foreground">{</span>
-                    </div>
-                    <div class="space-y-1 pl-4">
-                        <div v-for="(tag, tagIndex) in project.tags ?? []" :key="tagIndex" class="pl-4">
-                            <span class="text-foreground/60">"{{ tag }}": </span>
-                            <span class="text-foreground">"^latest"</span>
-                        </div>
-                    </div>
-                    <div class="text-foreground">}</div>
+                <div class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden ">
+                    <img
+                        :src="project.image"
+                        :alt="`${project.title} preview`"
+                        class="w-full h-auto object-cover"
+                        loading="eager"
+                    />
                 </div>
             </div>
+        </div>
 
-            <!-- Tools -->
-            <div v-if="project.tools && project.tools.length > 0" class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat dev-dependencies.json</div>
-                <div class="text-foreground/70 mt-2">
-                    <div class="mb-2">
-                        <span class="text-foreground/60">"devDependencies": </span>
-                        <span class="text-foreground">{</span>
-                    </div>
-                    <div class="space-y-1 pl-4">
-                        <div v-for="(tool, toolIndex) in project.tools" :key="toolIndex" class="pl-4">
-                            <span class="text-foreground/60">"{{ tool.name }}": </span>
-                            <span class="text-foreground">"^latest"</span>
-                            <a v-if="tool.url" :href="tool.url" target="_blank" rel="noopener noreferrer" class="text-foreground/50 hover:text-foreground underline ml-2 text-xs">
-                                [link]
-                            </a>
-                        </div>
-                    </div>
-                    <div class="text-foreground">}</div>
-                </div>
-            </div>
-
-            <!-- Key Features -->
-            <div v-if="getHighlights(project).length" class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat FEATURES.md</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div v-for="(highlight, index) in getHighlights(project)" :key="`highlight-${index}`" class="pl-4">
-                        - {{ highlight }}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gallery -->
-            <div v-if="project.gallery && project.gallery.length > 1" class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ ls assets/</div>
-                <div class="text-foreground/70 mt-2 grid grid-cols-2 md:grid-cols-3 gap-2">
-                    <div
-                        v-for="(image, index) in project.gallery"
-                        :key="index"
-                        @click="openImageModal(`/${image.startsWith('/') ? image.slice(1) : image}`, index)"
-                        class="border border-foreground/20 hover:border-foreground/40 transition-all cursor-pointer overflow-hidden bg-muted aspect-square"
-                    >
-                        <img
-                            :src="`/${image.startsWith('/') ? image.slice(1) : image}`"
-                            :alt="`${project.title} - Image ${index + 1}`"
-                            class="w-full h-full object-cover hover:opacity-80 transition-opacity"
-                            loading="lazy"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Links -->
-            <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">$ cat .git/config</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div v-if="project.github" class="pl-4">
-                        <span class="text-foreground/60">[remote "origin"]</span>
-                    </div>
-                    <div v-if="project.github" class="pl-8">
-                        <span class="text-foreground/60">url = </span>
-                        <a :href="project.github" target="_blank" rel="noopener noreferrer" class="text-foreground underline hover:text-foreground/70">{{ project.github }}</a>
-                    </div>
-                    <div v-if="project.link" class="pl-4 mt-2">
-                        <span class="text-foreground/60">[remote "demo"]</span>
-                    </div>
-                    <div v-if="project.link" class="pl-8">
-                        <span class="text-foreground/60">url = </span>
-                        <a :href="project.link" target="_blank" rel="noopener noreferrer" class="text-foreground underline hover:text-foreground/70">{{ project.link }}</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Navigation -->
-            <div class="space-y-1 text-sm pt-8 border-t border-foreground/20">
-                <div class="flex justify-between items-center">
-                    <div class="text-foreground/60">$ cd ..</div>
+        <!-- Project Image
+        <div class="mb-8 border border-foreground/20 overflow-hidden">
+            <img
+                :src="getImageSource(project)"
+                :alt="`${project.title} preview`"
+                class="w-full h-auto object-cover"
+                loading="eager"
+            />
+        </div>
+        -->
+        <ContentRenderer :value="project" />
+    </div>
+    <div v-else class="min-h-screen min-w-screen">
+        <div class="space-y-1 text-sm">
+            <div class="text-foreground/60">$ cd nonexistent-project</div>
+            <div class="text-foreground/70 mt-2">
+                <div class="text-foreground/60">bash: cd: nonexistent-project: No such file or directory</div>
+                <div class="mt-4">
                     <NuxtLink
                         to="/#projects"
                         class="text-foreground/60 hover:text-foreground transition-colors"
                     >
-                        back to projects
+                        $ cd /projects
                     </NuxtLink>
-                    <div class="flex gap-4">
-                        <NuxtLink
-                            v-if="previousProject"
-                            :to="`/projects/${previousProject.slug}`"
-                            class="text-foreground/60 hover:text-foreground transition-colors"
-                        >
-                            ← prev
-                        </NuxtLink>
-                        <NuxtLink
-                            v-if="nextProject"
-                            :to="`/projects/${nextProject.slug}`"
-                            class="text-foreground/60 hover:text-foreground transition-colors"
-                        >
-                            next →
-                        </NuxtLink>
-                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- 404 State -->
-        <div v-else class="max-w-3xl mx-auto px-4 py-20 font-mono">
-            <div class="space-y-1 text-sm">
-                <div class="text-foreground/60">$ cd nonexistent-project</div>
-                <div class="text-foreground/70 mt-2">
-                    <div class="text-foreground/60">bash: cd: nonexistent-project: No such file or directory</div>
-                    <div class="mt-4">
-                        <NuxtLink
-                            to="/#projects"
-                            class="text-foreground/60 hover:text-foreground transition-colors"
-                        >
-                            $ cd /projects
-                        </NuxtLink>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Image Modal -->
-        <Teleport to="body">
-            <Transition name="image-modal">
-                <div
-                    v-if="selectedImage"
-                    @click="closeImageModal"
-                    class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 cursor-pointer font-mono"
-                >
-                    <div @click.stop class="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center">
-                        <img
-                            :src="selectedImage"
-                            :alt="`${project?.title} - Full size image`"
-                            class="max-w-full max-h-full object-contain border border-foreground/30"
-                        />
-                        <button
-                            @click="closeImageModal"
-                            class="absolute top-4 right-4 w-10 h-10 border border-foreground/30 hover:border-foreground hover:bg-foreground hover:text-background transition-all flex items-center justify-center text-sm"
-                            aria-label="Close"
-                        >
-                            <X class="w-5 h-5" />
-                        </button>
-                        <button
-                            v-if="currentImageIndex > 0"
-                            @click.stop="navigateImage(-1)"
-                            class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 border border-foreground/30 hover:border-foreground hover:bg-foreground hover:text-background transition-all flex items-center justify-center text-sm"
-                            aria-label="Previous"
-                        >
-                            <ChevronLeft class="w-5 h-5" />
-                        </button>
-                        <button
-                            v-if="project && currentImageIndex < project.gallery.length - 1"
-                            @click.stop="navigateImage(1)"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 border border-foreground/30 hover:border-foreground hover:bg-foreground hover:text-background transition-all flex items-center justify-center text-sm"
-                            aria-label="Next"
-                        >
-                            <ChevronRight class="w-5 h-5" />
-                        </button>
-                    </div>
-                </div>
-            </Transition>
-        </Teleport>
     </div>
 </template>
 
 <script setup lang="ts">
-import { X, ChevronLeft, ChevronRight } from 'lucide-vue-next';
-import { ref, onMounted, onUnmounted } from 'vue';
-import projectsData from '~/data/projects.json';
-
-const route = useRoute();
-const slug = route.params.slug as string;
-
-const project = projectsData.find((p: any) => p.slug === slug);
-
-const currentIndex = projectsData.findIndex((p: any) => p.slug === slug);
-const previousProject = currentIndex > 0 ? projectsData[currentIndex - 1] : null;
-const nextProject = currentIndex < projectsData.length - 1 ? projectsData[currentIndex + 1] : null;
-
-const selectedImage = ref<string | null>(null);
-const currentImageIndex = ref(0);
-
-const placeholderImage = '/images/project-placeholder.svg';
-
-const getImageSource = (project: any) => {
-    const image = project?.image ?? null;
-    if (!image || image.length === 0) return placeholderImage;
-    return image.startsWith('/') ? image : `/${image}`;
-};
-
-const getHighlights = (project: any) => {
-    const highlights = project?.highlights ?? [];
-    return highlights.filter((item: any) => typeof item === 'string' && item.trim().length > 0);
-};
-
-const openImageModal = (imagePath: string, index: number) => {
-    selectedImage.value = imagePath;
-    currentImageIndex.value = index;
-    if (typeof window !== 'undefined') {
-        document.body.style.overflow = 'hidden';
-    }
-};
-
-const closeImageModal = () => {
-    selectedImage.value = null;
-    if (typeof window !== 'undefined') {
-        document.body.style.overflow = '';
-    }
-};
-
-const navigateImage = (direction: number) => {
-    if (!project || !project.gallery) return;
-    const newIndex = currentImageIndex.value + direction;
-    if (newIndex >= 0 && newIndex < project.gallery.length) {
-        currentImageIndex.value = newIndex;
-        const image = project.gallery[newIndex];
-        selectedImage.value = `/${image.startsWith('/') ? image.slice(1) : image}`;
-    }
-};
-
-const handleKeyPress = (e: KeyboardEvent) => {
-    if (!selectedImage.value) return;
-    if (e.key === 'Escape') {
-        closeImageModal();
-    } else if (e.key === 'ArrowLeft') {
-        navigateImage(-1);
-    } else if (e.key === 'ArrowRight') {
-        navigateImage(1);
-    }
-};
-
-onMounted(() => {
-    if (typeof window !== 'undefined') {
-        window.addEventListener('keydown', handleKeyPress);
-    }
-});
-
-onUnmounted(() => {
-    if (typeof window !== 'undefined') {
-        window.removeEventListener('keydown', handleKeyPress);
-        document.body.style.overflow = '';
-    }
-});
-
-useHead({
-    title: project ? `${project.title} - Ethan Carollo` : 'Project Not Found - Ethan Carollo',
-    meta: [
-        { name: 'description', content: project?.description ?? 'Project not found' }
-    ]
-});
+const slug = useRoute().params.slug
+const { data: project } = await useAsyncData(`projects-${slug}`, () => {
+    return queryCollection('projects').path(`/projects/${slug}`).first()
+})
 </script>
 
 <style scoped>
