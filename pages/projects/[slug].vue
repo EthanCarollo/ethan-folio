@@ -71,9 +71,10 @@
 </template>
 
 <script setup lang="ts">
+const { locale } = useI18n()
 const slug = useRoute().params.slug
 const { data: project } = await useAsyncData(`projects-${slug}`, () => {
-    return queryCollection('projects').path(`/projects/${slug}`).first()
+    return queryCollection('projects').path(`/projects/${slug}.${locale.value}`).first()
 })
 </script>
 

@@ -8,7 +8,7 @@
                     <NuxtLink
                         v-for="(project, index) in allProjects"
                         :key="index"
-                        :to="project.path"
+                        :to="'/projects/' + project.slug"
                         class="block hover:text-foreground transition-colors"
                     >
                         <div class="flex items-start gap-4">
@@ -40,6 +40,7 @@ const allProjects = await queryCollection('projects')
     .order('date', 'DESC')
     .where('stem', 'LIKE', '%.' + locale.value)
     .all()
+
 </script>
 
 <style scoped>

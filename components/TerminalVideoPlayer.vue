@@ -103,7 +103,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   autoplay: false,
-  forceMute: false
+  forceMute: true
 })
 
 const videoPlayer = ref<HTMLVideoElement>()

@@ -4,6 +4,7 @@ date: 01-12-2025
 image: /virusmania_media/virusmania_banner.png
 role: Lead Developer
 category: VideoGame
+slug: virusmania
 tags: ["Unity"]
 ---
 
@@ -75,10 +76,7 @@ parfaitement l'illustrer :
 > Efficace non ? Et bah ça c'était tellement galère à faire, qu'on a
 > décidé de mettre ça de coté pour la première version.
 
-<TerminalVideoPlayer
-src="/virusmania_media/med_metaball.mov"
-title="test-metaball.mov">
-</TerminalVideoPlayer>
+
 
 > Un de nos rares essais qui mangeaient beaucoup trop de performances
 
@@ -110,6 +108,21 @@ en route pour créer notre propre ToonShader sur Unity !
 
 Donc pour ce shader, la consigne était simple, avoir un rendu step
 par step de la lumière sur un objet. Donc c'est assez simple.
+
+<TerminalVideoPlayer
+src="/virusmania_media/toon_on_metaball.mov"
+title="toon1.mov">
+</TerminalVideoPlayer>
+
+<TerminalVideoPlayer
+src="/virusmania_media/toon_on_guy.mov"
+title="toon2.mov">
+</TerminalVideoPlayer>
+
+> Et hop on avait notre shader de Toon ! Avec certes quelques defauts
+> (actuellement il ne prend pas en compte l'ombre si un objet est
+> devant) mais c'est parfait et on avait pas besoin de mieux !
+
 
 ```js
 // On prend la direction de la lumière light
