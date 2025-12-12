@@ -101,16 +101,143 @@ body {
     @apply text-foreground/80 italic;
 }
 
+/* Styles améliorés pour le code avec meilleur contraste */
 .prose code {
-    @apply bg-foreground/10 text-foreground px-1 py-0.5 rounded text-sm font-mono;
+    @apply bg-foreground/20 text-foreground px-1 py-0.5 rounded text-sm font-mono;
+    @apply border border-foreground/30;
 }
 
 .prose pre {
-    @apply bg-foreground/5 border border-foreground/20 rounded p-4 my-4 overflow-x-auto;
+    @apply bg-foreground/10 border border-foreground/30 rounded-lg p-4 my-4 overflow-x-auto;
+    @apply shadow-sm;
 }
 
 .prose pre code {
-    @apply bg-transparent p-0 text-foreground/90;
+    @apply bg-transparent p-0 text-foreground;
+    @apply border-0 shadow-none;
+}
+
+/* Styles spécifiques pour les blocs de code dans les projets */
+.prose pre {
+    @apply bg-[#1a1a1a] border border-foreground/40 rounded-lg;
+}
+
+.prose code {
+    @apply bg-[#2a2a2a] text-foreground border border-foreground/50;
+}
+
+/* Amélioration du contraste pour la lisibilité */
+.prose pre code {
+    @apply text-foreground font-mono text-sm leading-relaxed;
+}
+
+/* Style pour les lignes de code en ligne */
+.prose p code {
+    @apply bg-foreground/25 text-foreground px-1.5 py-0.5 rounded text-sm;
+    @apply border border-foreground/40;
+}
+
+/* Style pour les blocs de code multilignes */
+.prose pre {
+    @apply bg-[#0d0d0d] border border-foreground/50 rounded-lg p-4;
+    @apply shadow-lg;
+}
+
+/* Accentuation des éléments de code */
+.prose pre code {
+    @apply text-foreground/95;
+}
+
+/* Hover effects pour mieux voir le code */
+.prose pre:hover {
+    @apply border-foreground/60 shadow-xl;
+}
+
+/* Styles spécifiques pour le code dans les pages de projet */
+.prose.project-content {
+    /* Fond plus sombre pour les blocs de code */
+    pre {
+        @apply bg-[#0a0a0a] border-2 border-foreground/60;
+        @apply shadow-2xl;
+    }
+    
+    code {
+        @apply bg-[#1a1a1a] text-foreground border-2 border-foreground/60;
+        @apply font-bold;
+    }
+    
+    /* Amélioration du contraste pour les différents types de code */
+    pre code {
+        @apply text-foreground font-mono text-base leading-relaxed;
+        @apply tracking-wide;
+    }
+    
+    /* Style pour les mots-clés et syntaxe */
+    .token-keyword {
+        @apply text-green-400;
+    }
+    
+    .token-string {
+        @apply text-blue-400;
+    }
+    
+    .token-number {
+        @apply text-purple-400;
+    }
+    
+    .token-comment {
+        @apply text-gray-400 italic;
+    }
+    
+    /* Amélioration de la visibilité des bordures */
+    pre {
+        @apply relative;
+        &::before {
+            content: "";
+            @apply absolute inset-0 border border-foreground/30 rounded-lg pointer-events-none;
+        }
+    }
+}
+
+/* Style pour les blocs de code avec titre */
+.prose .code-block {
+    @apply relative;
+    
+    .code-header {
+        @apply bg-foreground/20 text-foreground/80 px-4 py-2 rounded-t-lg;
+        @apply text-sm font-mono border-b border-foreground/40;
+    }
+    
+    pre {
+        @apply rounded-t-none rounded-b-lg mt-0;
+    }
+}
+
+/* Amélioration du contraste pour les lignes de code longues */
+.prose pre {
+    @apply leading-relaxed;
+    code {
+        @apply leading-relaxed;
+    }
+}
+
+/* Style pour les erreurs de syntaxe ou warnings */
+.prose .code-error {
+    @apply border-l-4 border-red-500 bg-red-900/20;
+}
+
+.prose .code-warning {
+    @apply border-l-4 border-yellow-500 bg-yellow-900/20;
+}
+
+/* Mode haute visibilité pour les projets */
+.prose.high-contrast {
+    pre {
+        @apply bg-white border-black;
+        code {
+            @apply text-black bg-gray-100;
+        }
+    }
 }
 
 .prose blockquote {

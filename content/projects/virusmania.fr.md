@@ -6,6 +6,7 @@ role: Lead Developer
 category: VideoGame
 slug: virusmania
 tags: ["Unity"]
+repo: "https://github.com/methil-mods/virusmania"
 ---
 
 # Introduction

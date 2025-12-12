@@ -1,12 +1,7 @@
 <template>
     <div class="toc-container" :class="{ 'toc-visible': hasHeadings }">
-    <div class="toc-header">
-      <div class="toc-nav-item">
-        <NuxtLink to="/" class="toc-link">
-          <span class="toc-prefix">$ </span>
-          cd ..
-        </NuxtLink>
-      </div>
+    <div class="toc-header flex flex-col">
+        <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">$ cd ..</NuxtLink>
       <span class="toc-title">$ ls -la</span>
     </div>
 

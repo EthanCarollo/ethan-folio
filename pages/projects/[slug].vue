@@ -24,6 +24,10 @@
                                 <span class="text-foreground/60">Role: </span>
                                 <span class="text-foreground">{{ project.role }}</span>
                             </div>
+                            <div v-if="project.repo">
+                                <span class="text-foreground/60">Repo: </span>
+                                <a :href="project.repo" target="_blank" class="text-foreground/80 hover:text-foreground">{{ project.repo }}</a>
+                            </div>
                         </div>
                         <div class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden">
                             <img

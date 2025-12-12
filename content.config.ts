@@ -20,7 +20,8 @@ export default defineContentConfig({
                 role: z.string(),
                 category: z.string(),
                 tags: z.array(z.string()),
-                slug: z.string()
+                slug: z.string(),
+                repo: z.string(),
             })
         })
     }
