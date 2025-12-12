@@ -1,75 +1,45 @@
-# Nuxt Minimal Starter
+# Ethan Carollo - Portfolio
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A minimalist terminal-style portfolio website built with Nuxt 4.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+- 💻 Terminal-inspired design
+- ⚡ Static site generation
+- 🎨 Clean monochrome aesthetic
+- 🚀 Fast and optimized
+- 📱 Responsive design
+
+## Tech Stack
+
+- **Framework:** Nuxt 4
+- **Styling:** Tailwind CSS
+- **Language:** TypeScript
+- **Canvas:** P5.js for animations
+- **Deployment:** Static hosting
+
+## Development
 
 ```bash
-# npm
+# Install dependencies
 npm install
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+# Start development server
 npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build for production
 npm run build
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
+# Preview production build
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Deployment
+
+The site is optimized for static hosting and can be deployed to:
+
+- Any static host (we don't really care in fact)
+
+---
+
+Built with Nuxt 4 & TypeScript
