@@ -36,11 +36,20 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 
-const allProjects = await queryCollection('projects')
-    .order('date', 'DESC')
-    .where('stem', 'LIKE', '%.' + locale.value)
-    .all()
+// Forcer le re-render quand la locale change
+const allProjects = ref([]);
 
+const loadProjects = async () => {
+    allProjects.value = await queryCollection('projects')
+        .order('date', 'DESC')
+        .where('stem', 'LIKE', '%.' + locale.value)
+        .all();
+};
+
+// Charger les projets au montage et quand la locale change
+watch(locale, () => {
+    loadProjects();
+}, { immediate: true });
 </script>
 
 <style scoped>

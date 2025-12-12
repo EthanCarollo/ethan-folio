@@ -39,13 +39,29 @@ const currentLocaleName = computed(() => {
 })
 
 const switchLocale = (newLocale: string) => {
-  locale.value = newLocale
   // Sauvegarder la préférence dans un cookie
   const cookie = useCookie('i18n_redirected', {
     maxAge: 60 * 60 * 24 * 365, // 1 an
     sameSite: 'strict'
   })
   cookie.value = newLocale
+  
+  // Obtenir la route actuelle et construire la nouvelle URL avec préfixe
+  const route = useRoute()
+  const router = useRouter()
+  
+  // Construire le nouveau chemin avec le préfixe de langue
+  let newPath = ''
+  if (newLocale === 'fr') {
+    // Pour le français (langue par défaut), on enlève le préfixe
+    newPath = route.path.replace(/^\/en/, '') || '/'
+  } else {
+    // Pour l'anglais, on ajoute le préfixe /en
+    newPath = route.path.startsWith('/en') ? route.path : `/en${route.path}`
+  }
+  
+  // Navigation avec refresh pour garantir le chargement correct
+  router.push(newPath)
 }
 </script>
 

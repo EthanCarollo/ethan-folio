@@ -19,11 +19,11 @@ export default defineNuxtConfig({
         ],
         lazy: true,
         langDir: 'locales',
-        strategy: 'no_prefix',
+        strategy: 'prefix_and_default', // Changement de stratégie
         detectBrowserLanguage: {
             useCookie: true,
             cookieKey: 'i18n_redirected',
-            alwaysRedirect: false,
+            alwaysRedirect: true, // Toujours rediriger vers la langue détectée
             fallbackLocale: 'fr'
         }
     },
