@@ -1,5 +1,5 @@
 <template>
-    <div ref="p5Container" class="fixed inset-0 pointer-events-none -z-50"></div>
+    <div ref="p5Container" class="fixed inset-0 pointer-events-none -z-50 overflow-y-hidden"></div>
 </template>
 
 <script setup lang="ts">

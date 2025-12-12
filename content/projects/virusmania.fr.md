@@ -61,6 +61,11 @@ src="/virusmania_media/animation_movement.mov"
 title="animation-movement.mp4">
 </TerminalVideoPlayer>
 
+> Pour ainsi pouvoir mieux s'organiser, on a décidé de migrer d'un
+> Github Project à [Linear](https://linear.app),
+> un outil de gestion de projet ainsi simple et 
+> sobre, pas très puissant, mais exactement ce qu'il nous fallait.
+
 # Début des problèmes 1 - Les metaball
 
 Pour faire des Virus qui se mélange correctement, on a réfléchi. Pas
@@ -76,9 +81,13 @@ parfaitement l'illustrer :
 > Efficace non ? Et bah ça c'était tellement galère à faire, qu'on a
 > décidé de mettre ça de coté pour la première version.
 
-
+<TerminalVideoPlayer
+src="/virusmania_media/metaball.mov"
+title="metaball.mov">
+</TerminalVideoPlayer>
 
 > Un de nos rares essais qui mangeaient beaucoup trop de performances
+> pour le rendu visuel que c'est finalement
 
 # Début des problèmes 2 - Le style cartoon
 
@@ -97,7 +106,7 @@ pour faire ça !
 
 ## Le ToonShading
 
-pour le ToonShading (l'effet
+Pour le ToonShading (l'effet
 d'ombrage par étape dont on parlait + haut), il y en a, mais aucun
 n'est suffisamment bien pour nous, et c'est ainsi que nous sommes
 en route pour créer notre propre ToonShader sur Unity !
@@ -140,5 +149,35 @@ var render = floor(lookAtLight * steps) / (steps - 1.0);
 ## L'outline 
 
 Pour l'outline, 
-[QuickOutline](github.com/chrisnolet/quickoutline) existe 
+[QuickOutline](https://github.com/chrisnolet/quickoutline) existe. Donc on va
+normalement moins s'embeter. (Spoiler : non).
+
+Je vais vous raccourcir tout le problème, quickoutline merge les
+lignes des différents objets ensemble, donc si t'as deux objets COMPLETEMENT
+différents à coté avec QuickOutline, bah leurs outine va se rejoindre...
+
+Bref merci, [zacccharv](https://github.com/zacccharv), un contributeur
+a proposé une version modifié de la lib qui regle ce soucis !
+([La pull request](https://github.com/chrisnolet/QuickOutline/pull/45))
+
+> Bon, ça a pas tout réglé, on a du faire des ajustements par dessus mais
+> c'est grâce à cette impulsion que le problème s'est réglé donc immense
+> merci à lui.
+
+# UserInterface
+
+Pour l'UI, Mederic a eu une première idée, d'avoir des container fluide
+qui sont animés.
+
+<div class="w-full flex justify-center">
+<img src="/virusmania_media/first_ui.png" />
+</div>
+
+> Sauf que là on a un soucis, on l'import comment ? Vidéo ? On va faire une
+> vidéo pour chaque container ? Un SVG ? On fait comment pour que ce soit un
+> petit peu responsive avec ça ?
+
+Et donc on a prit la décision de recoder un shader pour l'UI pour faire ça !
+En vrai, on va s'épargner la partie technique (le shader est dispo [ici](https://github.com/methil-mods/virusmania/blob/b2a17c13c57f273e7c823add9de65a9161a79670/unity/Assets/Resources/Shaders/MethilUiWavyBlob.shader))
+
 

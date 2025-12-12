@@ -5,21 +5,21 @@
     </div>
     
     <div class="video-container">
-      <video
-        ref="videoPlayer"
-        :src="src"
-        :poster="poster"
-        class="video-element"
-        @loadedmetadata="onLoadedMetadata"
-        @timeupdate="onTimeUpdate"
-        @play="onPlay"
-        @pause="onPause"
-        @ended="onEnded"
-      >
-        <p class="text-foreground/60 p-4">Your browser does not support the video tag.</p>
-      </video>
-      
-      <div class="video-controls">
+        <video
+            ref="videoPlayer"
+            :src="src"
+            :poster="poster"
+            class="video-element"
+            @loadedmetadata="onLoadedMetadata"
+            @timeupdate="onTimeUpdate"
+            @play="onPlay"
+            @pause="onPause"
+            @ended="onEnded"
+        >
+            <p class="text-foreground/60 p-4">Your browser does not support the video tag.</p>
+        </video>
+
+        <div class="video-controls">
         <div class="controls-row">
           <button 
             @click="togglePlay" 
