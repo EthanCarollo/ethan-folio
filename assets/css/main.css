@@ -197,3 +197,23 @@ body {
     content: "# ";
     @apply text-foreground/40;
 }
+
+/* Video player styling for Nuxt Content */
+.prose video {
+    @apply w-full h-auto rounded border border-foreground/20 my-0;
+    max-height: 70vh;
+}
+
+/* Custom video player container */
+.prose .terminal-video-container {
+    @apply my-6;
+}
+
+.prose .video-caption {
+    @apply text-foreground/60 text-sm mt-2 italic;
+}
+
+.prose .video-caption::before {
+    content: "# Video: ";
+    @apply text-foreground/40;
+}
