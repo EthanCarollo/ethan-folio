@@ -34,7 +34,12 @@
 </template>
 
 <script setup lang="ts">
-const allProjects = await queryCollection('projects').order('date', 'DESC').all()
+const { locale } = useI18n()
+
+const allProjects = await queryCollection('projects')
+    .order('date', 'DESC')
+    .where('stem', 'LIKE', '%.' + locale.value)
+    .all()
 </script>
 
 <style scoped>

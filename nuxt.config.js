@@ -16,7 +16,8 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     "nuxt-lucide-icons",
     "nuxt-umami",
-    '@nuxt/content'
+    '@nuxt/content',
+    '@nuxtjs/i18n'
   ],
 
   googleFonts: {
