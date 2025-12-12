@@ -2,11 +2,11 @@
     <section class="min-h-screen flex items-center justify-center px-4 py-20 font-mono">
         <div class="max-w-3xl mx-auto w-full">
             <div class="space-y-1 text-sm">
-                <div class="text-foreground/60">$ whoami</div>
+                <div class="text-foreground/60">{{ $t('hero.whoami') }}</div>
                 <div class="text-foreground mt-2">
                     <div class="mb-4">
-                        <span class="text-foreground/60">&gt; </span>
-                        <span class="text-foreground text-2xl md:text-3xl">ETHAN CAROLLO</span>
+                        <span class="text-foreground/60">> </span>
+                        <span class="text-foreground text-2xl md:text-3xl">{{ $t('hero.name') }}</span>
                     </div>
                     <div class="text-foreground/70 mb-6">
                         {{ currentTitle }}
@@ -15,18 +15,18 @@
             </div>
 
             <div class="mt-8 space-y-1 text-sm">
-                <div class="text-foreground/60">$ pwd</div>
+                <div class="text-foreground/60">{{ $t('hero.pwd') }}</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
-                    <div>~/portfolio</div>
+                    <div>{{ $t('hero.path') }}</div>
                 </div>
             </div>
 
             <div class="mt-8 space-y-1 text-sm">
-                <div class="text-foreground/60">$ ls -la</div>
+                <div class="text-foreground/60">{{ $t('hero.ls') }}</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
-                    <div>total 2</div>
-                    <a href="#about" class="hover:text-foreground transition-colors block">drwxr-xr-x about/</a>
-                    <a href="#projects" class="hover:text-foreground transition-colors block">drwxr-xr-x projects/</a>
+                    <div>{{ $t('hero.total') }}</div>
+                    <a href="#about" class="hover:text-foreground transition-colors block">{{ $t('hero.about') }}</a>
+                    <a href="#projects" class="hover:text-foreground transition-colors block">{{ $t('hero.projects') }}</a>
                 </div>
             </div>
         </div>
@@ -34,23 +34,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+const { t, locale } = useI18n();
 
-const titles = [
-    "Polyvalent Developer & Master's Student",
-    'Game Dev Enthusiast',
-    'Code Craftsman & Problem Solver',
-    'Machine Learning Explorer'
-];
-
-const currentTitle = ref(titles[0]);
+// Utiliser une ref réactive pour le titre
+const currentTitle = ref('');
 let titleInterval: ReturnType<typeof setInterval>;
 
+// Fonction pour mettre à jour le titre
+const updateTitle = () => {
+    currentTitle.value = t('hero.title');
+};
+
+// Watcher pour détecter les changements de locale
+watch(locale, () => {
+    updateTitle();
+});
+
 onMounted(() => {
+    updateTitle(); // Initialisation
     titleInterval = setInterval(() => {
-        const currentIndex = titles.indexOf(currentTitle.value);
-        const nextIndex = (currentIndex + 1) % titles.length;
-        currentTitle.value = titles[nextIndex];
+        updateTitle();
     }, 3000);
 });
 

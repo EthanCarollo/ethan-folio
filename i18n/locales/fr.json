@@ -1,3 +1,43 @@
 {
-
+  "hero": {
+    "whoami": "$ whoami",
+    "name": "ETHAN CAROLLO",
+    "title": "Développeur Polyvalent et Étudiant en Master",
+    "pwd": "$ pwd",
+    "path": "~/portfolio",
+    "ls": "$ ls -la",
+    "total": "total 2",
+    "about": "drwxr-xr-x about/",
+    "projects": "drwxr-xr-x projects/"
+  },
+  "about": {
+    "cdAbout": "$ cd about",
+    "ls": "$ ls",
+    "files": "background.txt  interests.txt",
+    "catBackground": "$ cat background.txt",
+    "backgroundText": "Je suis Ethan Carollo, un développeur {word} et étudiant en Master à Annecy Gobelins. Je travaille avec divers langages, incluant Kotlin pour Android et Python pour le machine learning. J'adore aussi Nuxt et je passe mon temps libre à développer des jeux avec Unity.",
+    "catInterests": "$ cat interests.txt",
+    "interests": [
+      "Développer des applications web",
+      "Créer des applications mobiles", 
+      "Concevoir et construire des jeux vidéo",
+      "Implémenter des cycles de livraison continue"
+    ],
+    "words": [
+      "Polyvalent",
+      "Adaptable", 
+      "Résilient",
+      "Tout-terrain"
+    ]
+  },
+  "projects": {
+    "cdProjects": "$ cd projects",
+    "ls": "$ ls -la",
+    "permissions": "drwxr-xr-x"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "back": "Retour"
+  }
 }
