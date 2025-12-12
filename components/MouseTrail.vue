@@ -1,5 +1,5 @@
 <template>
-    <div ref="p5Container" class="fixed inset-0 pointer-events-none z-50"></div>
+    <div ref="p5Container" class="fixed inset-0 pointer-events-none -z-50"></div>
 </template>
 
 <script setup lang="ts">
@@ -41,11 +41,7 @@ onMounted(async () => {
         const getDocumentSize = () => {
             if (typeof document === 'undefined') return { w: window.innerWidth, h: window.innerHeight };
             return {
-                w: Math.max(
-                    document.documentElement.scrollWidth,
-                    document.body.scrollWidth,
-                    window.innerWidth
-                ),
+                w: window.innerWidth, // Limiter à la largeur de la fenêtre pour éviter l'overflow horizontal
                 h: Math.max(
                     document.documentElement.scrollHeight,
                     document.body.scrollHeight,
@@ -120,9 +116,11 @@ onMounted(async () => {
                     clearTimeout(mouseMoveTimeout);
                 }
                 
+                // Augmenter le timeout pour les mouvements rapides
+                const timeoutDuration = movement > 50 ? 800 : 500;
                 mouseMoveTimeout = setTimeout(() => {
                     isMouseMoving = false;
-                }, 100);
+                }, timeoutDuration);
             }
         };
         
@@ -175,12 +173,12 @@ onMounted(async () => {
             particles.forEach((particle) => {
                 if (!isActive) {
                     // Return to base when inactive
-                    const spring = 0.1;
+                    const spring = 0.05;
                     const damping = 0.95;
                     
                     particle.lift += (0 - particle.lift) * spring;
                     particle.lift *= damping;
-                    particle.opacity *= 0.98;
+                    particle.opacity *= 0.995;
                     
                     if (Math.abs(particle.lift) < 0.1) {
                         particle.lift = 0;
@@ -198,7 +196,7 @@ onMounted(async () => {
                     const scrollDy = particle.y - viewportCenterY;
                     const scrollDistance = Math.abs(scrollDy);
                     
-                    const mouseActivationRadius = 120;
+                    const mouseActivationRadius = 180;
                     const scrollActivationRadius = 200;
                     
                     let targetLift = 0;
@@ -206,10 +204,19 @@ onMounted(async () => {
                     
                     // Mouse effect
                     if (isMouseMoving && mouseDistance < mouseActivationRadius) {
-                        const mouseLift = (1 - mouseDistance / mouseActivationRadius) * 25;
+                        const mouseLift = (1 - mouseDistance / mouseActivationRadius) * 35;
                         const mouseOpacity = (1 - mouseDistance / mouseActivationRadius) * 0.9;
                         targetLift = Math.max(targetLift, -mouseLift);
                         targetOpacity = Math.max(targetOpacity, mouseOpacity);
+                        
+                        // Ajouter un effet de vitesse pour les mouvements rapides
+                        const speed = Math.sqrt(
+                            Math.pow(mouseX - lastMouseX, 2) + 
+                            Math.pow(mouseY - lastMouseY, 2)
+                        );
+                        if (speed > 20) {
+                            targetOpacity = Math.min(1.0, targetOpacity * 1.3);
+                        }
                     }
                     
                     // Scroll effect

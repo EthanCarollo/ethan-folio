@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-background font-mono">
+    <div class="min-h-screen font-mono">
         <div v-if="project" class="max-w-3xl mx-auto px-4 py-8 md:py-12">
             <!-- Header -->
             <div class="mb-8 space-y-1 text-sm text-foreground/70">
