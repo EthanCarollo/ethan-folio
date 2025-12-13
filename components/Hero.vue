@@ -2,7 +2,7 @@
     <section class="min-h-screen flex items-center justify-center px-4 py-20 font-mono">
         <div class="max-w-3xl mx-auto w-full">
             <div class="space-y-1 text-sm">
-                <div class="text-foreground/60">{{ $t('hero.whoami') }}</div>
+                <div class="text-foreground/60">Profile</div>
                 <div class="text-foreground mt-2">
                     <div class="mb-4">
                         <span class="text-foreground/60">> </span>
@@ -15,14 +15,14 @@
             </div>
 
             <div class="mt-8 space-y-1 text-sm">
-                <div class="text-foreground/60">{{ $t('hero.pwd') }}</div>
+                <div class="text-foreground/60">Location</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <div>{{ $t('hero.path') }}</div>
                 </div>
             </div>
 
             <div class="mt-8 space-y-1 text-sm">
-                <div class="text-foreground/60">{{ $t('hero.ls') }}</div>
+                <div class="text-foreground/60">Navigation</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <div>{{ $t('hero.total') }}</div>
                     <a href="#about" class="hover:text-foreground transition-colors block">{{ $t('hero.about') }}</a>

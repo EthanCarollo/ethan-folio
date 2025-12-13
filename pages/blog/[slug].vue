@@ -10,7 +10,7 @@
                 <!-- Blog Post Info -->
                 <div class="space-y-6 mb-8">
                     <div class="text-sm">
-                        <div class="text-foreground/60 mb-1">$ cat blog_post.md</div>
+                        <div class="text-foreground/60 mb-1">Blog Post</div>
                         <div class="text-foreground/70 mt-2 space-y-2">
                             <div>
                                 <span class="text-foreground/60"># </span>
@@ -45,15 +45,15 @@
                     class="prose prose-invert max-w-none" />
             </div>
             <div v-else class="space-y-1 text-sm">
-                <div class="text-foreground/60">$ cd nonexistent-blog-post</div>
+                <div class="text-foreground/60">Blog Post Not Found</div>
                 <div class="text-foreground/70 mt-2">
-                    <div class="text-foreground/60">bash: cd: nonexistent-blog-post: No such file or directory</div>
+                    <div class="text-foreground/60">This blog post doesn't exist</div>
                     <div class="mt-4">
                         <NuxtLink
                             to="/blog"
                             class="text-foreground/60 hover:text-foreground transition-colors"
                         >
-                            $ cd /blog
+                            ← Back to Blog
                         </NuxtLink>
                     </div>
                 </div>

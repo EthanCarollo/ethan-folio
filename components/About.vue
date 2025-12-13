@@ -1,16 +1,12 @@
-g<template>
+<template>
     <section class="py-20 px-4 font-mono" id="about">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">{{ $t('about.cdAbout') }}</div>
-                <div class="text-foreground/60">{{ $t('about.ls') }}</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div>{{ $t('about.files') }}</div>
-                </div>
+                <div class="text-foreground/60 mb-2">Background</div>
             </div>
 
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">{{ $t('about.catBackground') }}</div>
+                <div class="text-foreground/60 mb-2">About Me</div>
                 <div class="text-foreground/70 mt-2">
                     <p v-if="rotatingWords[currentWordIndex]">
                         {{ $t('about.backgroundText', { word: rotatingWords[currentWordIndex].toLowerCase() }) }}
@@ -19,7 +15,7 @@ g<template>
             </div>
 
             <div class="space-y-1 text-sm">
-                <div class="text-foreground/60">{{ $t('about.catInterests') }}</div>
+                <div class="text-foreground/60 mb-2">Interests</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <div v-for="(item, index) in items" :key="index" class="pl-4">
                         - {{ item }}

@@ -3,8 +3,7 @@
         <div class="max-w-4xl mx-auto">
             <div class="mb-12">
                 <h2 class="text-2xl md:text-3xl mb-2">
-                    <span class="text-foreground/60">$ </span>
-                    <span class="text-foreground">contact</span>
+                    <span class="text-foreground">Contact</span>
                 </h2>
                 <div class="h-px bg-foreground/20 w-full"></div>
             </div>
@@ -39,7 +38,7 @@
                     href="mailto:etcarollo@gmail.com"
                     class="inline-block px-8 py-3 border border-foreground hover:bg-foreground hover:text-background transition-all text-sm"
                 >
-                    $ send_message
+                    Send Message
                 </a>
             </div>
 

@@ -10,7 +10,7 @@
                 <!-- Project Info -->
                 <div class="space-y-6 mb-8">
                     <div class="text-sm">
-                        <div class="text-foreground/60 mb-1">$ cat README.md</div>
+                        <div class="text-foreground/60 mb-1">Project Details</div>
                         <div class="text-foreground/70 mt-2 space-y-2">
                             <div>
                                 <span class="text-foreground/60"># </span>
@@ -45,15 +45,15 @@
                     class="prose prose-invert max-w-none" />
             </div>
             <div v-else class="space-y-1 text-sm">
-                <div class="text-foreground/60">$ cd nonexistent-project</div>
+                <div class="text-foreground/60">Project Not Found</div>
                 <div class="text-foreground/70 mt-2">
-                    <div class="text-foreground/60">bash: cd: nonexistent-project: No such file or directory</div>
+                    <div class="text-foreground/60">This project doesn't exist</div>
                     <div class="mt-4">
                         <NuxtLink
                             to="/#projects"
                             class="text-foreground/60 hover:text-foreground transition-colors"
                         >
-                            $ cd /projects
+                            ← Back to Projects
                         </NuxtLink>
                     </div>
                 </div>

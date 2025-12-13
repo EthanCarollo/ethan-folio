@@ -1,26 +1,35 @@
 <template>
-  <div class="locale-chip-container" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
-    <div class="locale-chip" :class="{ 'is-open': showDropdown }">
-      <span class="locale-label">locale</span>
-      <span class="locale-current">{{ currentLocale.code }}</span>
+  <div class="locale-chip-container">
+    <!-- Click to toggle instead of hover -->
+    <div
+      class="locale-chip"
+      :class="{ 'is-open': showDropdown }"
+      @click="toggleDropdown"
+      role="button"
+      :aria-expanded="showDropdown"
+      aria-label="Select Language"
+    >
+      <span class="locale-current">{{ currentLocale.code.toUpperCase() }}</span>
+      <span class="dropdown-icon" :class="{ 'is-open': showDropdown }">▼</span>
     </div>
-    
+
+    <!-- Click outside to close -->
     <transition name="dropdown">
-      <div v-if="showDropdown" class="locale-dropdown">
+      <div v-if="showDropdown" class="locale-dropdown" v-click-outside="closeDropdown">
         <div class="dropdown-header">
-          <span class="dropdown-title">$ locale -a</span>
+          <span class="dropdown-title">Language</span>
         </div>
-        
+
         <div class="locale-options">
-          <button 
-            v-for="locale in availableLocales" 
+          <button
+            v-for="locale in availableLocales"
             :key="locale.code"
             @click="switchLocale(locale.code)"
             class="locale-option"
             :class="{ active: locale.code === currentLocale.code }"
             :aria-label="`Switch to ${locale.name}`"
           >
-            <span class="locale-code">{{ locale.code }}</span>
+            <span class="locale-code">{{ locale.code.toUpperCase() }}</span>
             <span class="locale-name">{{ locale.name }}</span>
             <span v-if="locale.code === currentLocale.code" class="check-mark">✓</span>
           </button>
@@ -33,6 +42,16 @@
 <script setup lang="ts">
 const { locale, locales } = useI18n()
 const showDropdown = ref(false)
+
+// Toggle dropdown
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value
+}
+
+// Close dropdown
+const closeDropdown = () => {
+  showDropdown.value = false
+}
 
 const availableLocales = computed(() => {
   return locales.value
@@ -69,6 +88,21 @@ const switchLocale = (newLocale: string) => {
   // Navigation avec refresh pour garantir le chargement correct
   router.push(newPath)
 }
+
+// Click outside directive
+const vClickOutside = {
+  mounted(el: HTMLElement, binding: any) {
+    el.clickOutsideEvent = function(event: Event) {
+      if (!(el === event.target || el.contains(event.target as Node))) {
+        binding.value()
+      }
+    }
+    document.addEventListener('click', el.clickOutsideEvent)
+  },
+  unmounted(el: HTMLElement) {
+    document.removeEventListener('click', el.clickOutsideEvent)
+  }
+}
 </script>
 
 <style scoped>
@@ -92,6 +126,14 @@ const switchLocale = (newLocale: string) => {
 
 .locale-current {
   @apply text-foreground font-bold;
+}
+
+.dropdown-icon {
+  @apply text-foreground/60 text-xs transition-transform duration-200;
+}
+
+.dropdown-icon.is-open {
+  @apply rotate-180;
 }
 
 .locale-dropdown {

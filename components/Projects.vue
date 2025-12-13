@@ -2,8 +2,7 @@
     <section class="py-20 px-4 font-mono" id="projects">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60">{{ $t('projects.cdProjects') }}</div>
-                <div class="text-foreground/60 mb-6">{{ $t('projects.ls') }}</div>
+                <div class="text-foreground/60 mb-2">Projects</div>
                 <div class="text-foreground/70 pt-6 space-y-2">
                     <NuxtLink
                         v-for="(project, index) in allProjects"
@@ -12,7 +11,6 @@
                         class="block hover:text-foreground transition-colors"
                     >
                         <div class="flex items-start gap-4">
-                            <div class="text-foreground/60 min-w-[100px]">{{ $t('projects.permissions') }}</div>
                             <div class="flex-1 text-foreground/80 hover:text-foreground">
                                 <div class="flex items-center">
                                     <div class="">{{ project.title }}&nbsp;</div>

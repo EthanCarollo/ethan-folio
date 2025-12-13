@@ -12,12 +12,7 @@
     "blog": "drwxr-xr-x blog/"
   },
   "about": {
-    "cdAbout": "$ cd about",
-    "ls": "$ ls",
-    "files": "background.txt  interests.txt",
-    "catBackground": "$ cat background.txt",
     "backgroundText": "Je suis Ethan Carollo, un développeur {word} et étudiant en Master à Annecy Gobelins. Je travaille avec divers langages, incluant Kotlin pour Android et Python pour le machine learning. J'adore aussi Nuxt et je passe mon temps libre à développer des jeux avec Unity.",
-    "catInterests": "$ cat interests.txt",
     "interests": [
       "Développer des applications web",
       "Créer des applications mobiles", 
@@ -32,17 +27,11 @@
     ]
   },
   "projects": {
-    "cdProjects": "$ cd projects",
-    "ls": "$ ls -la",
-    "permissions": "drwxr-xr-x"
   },
   "blog": {
-    "cdBlog": "$ cd blog",
-    "ls": "$ ls -la",
     "date": "Date",
     "author": "Auteur",
-    "category": "Catégorie",
-    "permissions": "drwxr-xr-x"
+    "category": "Catégorie"
   },
   "common": {
     "loading": "Chargement...",
