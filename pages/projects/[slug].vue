@@ -68,9 +68,48 @@ import ContentTableOfContents from "../../components/ContentTableOfContents.vue"
 const route = useRoute()
 const { locale } = useI18n()
 
-const { data: project } = await useAsyncData(`projects-${route.params.slug}`, () => {
-    return queryCollection('projects').path(`/projects/${route.params.slug}.${locale.value}`).first()
+// Force le rechargement quand la langue change
+const { data: project, refresh } = await useAsyncData(
+    `projects-${route.params.slug}-${locale.value}`, 
+    () => {
+        return queryCollection('projects').path(`/projects/${route.params.slug}.${locale.value}`).first()
+    },
+    {
+        watch: [locale], // Recharger quand la locale change
+        immediate: true
+    }
+)
+
+// Forcer le refresh quand on change de langue
+watch(locale, async (newLocale, oldLocale) => {
+    if (newLocale !== oldLocale) {
+        console.log(`Changement de langue détecté: ${oldLocale} → ${newLocale}`)
+        
+        // Méthode 1 : Refresh via useAsyncData
+        await refresh()
+        
+        // Méthode 2 : Forcer un rechargement complet si nécessaire
+        // setTimeout(() => {
+        //     window.location.reload()
+        // }, 100)
+    }
 })
+
+// Fonction de secours pour forcer le rechargement complet
+const forcePageReload = () => {
+    // Recharger la page complète en conservant la nouvelle langue
+    const currentPath = window.location.pathname
+    const newPath = locale.value === 'en' && !currentPath.startsWith('/en') 
+        ? `/en${currentPath}` 
+        : locale.value === 'fr' && currentPath.startsWith('/en')
+        ? currentPath.replace(/^\/en/, '') || '/'
+        : currentPath
+    
+    window.location.href = newPath
+}
+
+// Optionnel : bouton de secours pour forcer le rechargement
+// Vous pouvez appeler forcePageReload() si le refresh ne fonctionne pas
 </script>
 
 <style>
