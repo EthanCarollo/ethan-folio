@@ -6,9 +6,10 @@
     "pwd": "$ pwd",
     "path": "~/portfolio",
     "ls": "$ ls -la",
-    "total": "total 2",
+    "total": "total 3",
     "about": "drwxr-xr-x about/",
-    "projects": "drwxr-xr-x projects/"
+    "projects": "drwxr-xr-x projects/",
+    "blog": "drwxr-xr-x blog/"
   },
   "about": {
     "cdAbout": "$ cd about",
@@ -33,6 +34,14 @@
   "projects": {
     "cdProjects": "$ cd projects",
     "ls": "$ ls -la",
+    "permissions": "drwxr-xr-x"
+  },
+  "blog": {
+    "cdBlog": "$ cd blog",
+    "ls": "$ ls -la",
+    "date": "Date",
+    "author": "Author",
+    "category": "Category",
     "permissions": "drwxr-xr-x"
   },
   "common": {

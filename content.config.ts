@@ -7,7 +7,13 @@ export default defineContentConfig({
             type: 'page',
             source: 'blog/*.md',
             schema: z.object({
-                date: z.string()
+                title: z.string(),
+                date: z.string(),
+                image: z.string(),
+                author: z.string(),
+                category: z.string(),
+                tags: z.array(z.string()),
+                slug: z.string(),
             })
         }),
         projects: defineCollection({

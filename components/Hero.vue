@@ -27,6 +27,7 @@
                     <div>{{ $t('hero.total') }}</div>
                     <a href="#about" class="hover:text-foreground transition-colors block">{{ $t('hero.about') }}</a>
                     <a href="#projects" class="hover:text-foreground transition-colors block">{{ $t('hero.projects') }}</a>
+                    <a href="#blog" class="hover:text-foreground transition-colors block">{{ $t('hero.blog') }}</a>
                 </div>
             </div>
         </div>
