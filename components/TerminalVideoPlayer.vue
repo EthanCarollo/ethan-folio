@@ -10,6 +10,8 @@
             :src="src"
             :poster="poster"
             class="video-element"
+            muted
+            playsinline
             @loadedmetadata="onLoadedMetadata"
             @timeupdate="onTimeUpdate"
             @play="onPlay"
@@ -41,35 +43,7 @@
             </div>
           </div>
           
-          <button 
-            v-if="!props.forceMute && !isMuted"
-            @click="toggleMute" 
-            class="control-btn volume-btn"
-            aria-label="Mute"
-          >
-            <span v-if="volume > 0.5">🔊</span>
-            <span v-else>🔉</span>
-          </button>
-          
-          <button 
-            v-else-if="!props.forceMute"
-            @click="toggleMute" 
-            class="control-btn volume-btn"
-            aria-label="Unmute"
-          >
-            🔇
-          </button>
-          
-          <input
-            v-if="!props.forceMute && !isMuted"
-            v-model="volume"
-            type="range"
-            min="0"
-            max="1"
-            step="0.1"
-            class="volume-slider"
-            @input="onVolumeChange"
-          />
+          <!-- Volume controls removed as requested -->
           
           <button 
             @click="toggleFullscreen" 
@@ -107,10 +81,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const videoPlayer = ref<HTMLVideoElement>()
 const isPlaying = ref(false)
-const isMuted = ref(false)
+const isMuted = ref(true)
 const currentTime = ref(0)
 const duration = ref(0)
-const volume = ref(1)
+const volume = ref(0)
 const statusText = ref('Ready')
 const isVisible = ref(false)
 const isLoaded = ref(false)
@@ -184,22 +158,7 @@ const pauseOtherVideos = () => {
   }
 }
 
-const toggleMute = () => {
-  if (!videoPlayer.value || props.forceMute) return
-  
-  videoPlayer.value.muted = !videoPlayer.value.muted
-  isMuted.value = videoPlayer.value.muted
-}
-
-const onVolumeChange = () => {
-  if (!videoPlayer.value || props.forceMute) return
-  
-  videoPlayer.value.volume = volume.value
-  if (volume.value === 0) {
-    videoPlayer.value.muted = true
-    isMuted.value = true
-  }
-}
+// Volume control methods removed
 
 const seek = (event: MouseEvent) => {
   if (!videoPlayer.value) return
@@ -275,10 +234,10 @@ const loadVideo = () => {
   
   isLoaded.value = true
   
-  // Forcer le mode muet si forceMute est activé
-  if (props.forceMute) {
+  // Force mute always
+  if (videoPlayer.value) {
     videoPlayer.value.muted = true
-    isMuted.value = true
+    videoPlayer.value.volume = 0
   }
   
   if (props.autoplay && isVisible.value) {
