@@ -27,9 +27,66 @@ onMounted(async () => {
             size: number;
         }> = [];
 
-        const gridSize = 35;
+        const gridSize = 60; // Increased from 35 to 60 for fewer particles (Optimization)
         let mouseX = 0;
         let mouseY = 0;
+        // ... (lines 32-116 unchanged)
+
+        p.draw = () => {
+            p.clear();
+
+            // ... (lines 120-227 unchanged) ...
+
+            // Draw lines optimization: Use the grid structure!
+            // Instead of O(N^2) check, we just check right and bottom neighbors for each particle.
+            // Since particles stay relatively close to their base, this approximation is fine visually.
+
+            if (isMouseMoving || mouseSpeed > 0.1) {
+                p.stroke(255, 255, 255, 30);
+                p.strokeWeight(0.5);
+
+                const cols = Math.ceil(canvasWidth / gridSize);
+                const rows = Math.ceil(canvasHeight / gridSize); // Recalculate if needed, or store.
+                // Actually particles array is flat, but constructed row-by-row.
+                // index = row * cols + col
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const i = r * cols + c;
+                        const p1 = particles[i];
+                        if (!p1 || p1.opacity < 0.1) continue; // Skip invisible
+                        // Check only if near mouse (optimization)
+                        const dxm = mouseX - p1.currentX;
+                        const dym = mouseY - p1.currentY;
+                        if (dxm * dxm + dym * dym > 200 * 200) continue; // Only draw lines near mouse region
+
+                        // Check Right Neighbor
+                        if (c < cols - 1) {
+                            const p2 = particles[i + 1];
+                            if (p2 && p2.opacity > 0.1) {
+                                const d = Math.sqrt(Math.pow(p1.currentX - p2.currentX, 2) + Math.pow(p1.currentY - p2.currentY, 2));
+                                if (d < gridSize * 1.5) {
+                                    p.line(p1.currentX, p1.currentY, p2.currentX, p2.currentY);
+                                }
+                            }
+                        }
+
+                        // Check Bottom Neighbor
+                        if (r < rows - 1) {
+                            const p2 = particles[i + cols];
+                            if (p2 && p2.opacity > 0.1) {
+                                const d = Math.sqrt(Math.pow(p1.currentX - p2.currentX, 2) + Math.pow(p1.currentY - p2.currentY, 2));
+                                if (d < gridSize * 1.5) {
+                                    p.line(p1.currentX, p1.currentY, p2.currentX, p2.currentY);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                p.noStroke();
+            }
+        };
         let prevMouseX = 0;
         let prevMouseY = 0;
         let isMouseMoving = false;
@@ -114,6 +171,14 @@ onMounted(async () => {
 
         window.addEventListener('mousemove', handleMouseMove);
 
+        let scrollY = 0;
+
+        const handleScroll = () => {
+            scrollY = window.scrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
         p.draw = () => {
             p.clear();
 
@@ -125,19 +190,45 @@ onMounted(async () => {
             // Time variable for waves
             const time = p.millis() * 0.001;
 
+            // Grid total height for wrapping
+            const rows = Math.ceil(canvasHeight / gridSize);
+            const totalGridHeight = rows * gridSize;
+
             particles.forEach((particle) => {
-                const dx = mouseX - particle.baseX;
-                const dy = mouseY - particle.baseY;
-                const distanceToMouse = Math.sqrt(dx * dx + dy * dy);
+                // Calculate position with scroll wrapping
+                // Parallax effect: scrollY * 0.5 (moves slower than foreground)
+                let effectiveBaseY = (particle.baseY - scrollY * 0.5) % totalGridHeight;
+                if (effectiveBaseY < -50) effectiveBaseY += totalGridHeight + 100; // Wrap around with buffer
+                if (effectiveBaseY > canvasHeight + 50) effectiveBaseY -= totalGridHeight + 100;
+
+                // If the particle ends up way off screen (due to resize/scroll jumps), reset it roughly
+                // But the modulo usually handles it.
+                // We add a buffer to creating/destroying at edges smoothness
+
+                const dx = mouseX - particle.baseX; // Interaction is based on screen coordinates vs original X? 
+                // Wait, if the particle moves up, its X is same, but Y changes.
+                // Interaction should be based on CURRENT position relative to mouse.
+
+                // Let's use the effectiveBaseY for interaction calculation
+                const particleScreenY = effectiveBaseY;
+                const particleScreenX = particle.baseX;
+
+                const dx_int = mouseX - particleScreenX;
+                const dy_int = mouseY - particleScreenY;
+                const distanceToMouse = Math.sqrt(dx_int * dx_int + dy_int * dy_int);
 
                 const attractionRadius = 250; // Increased interaction radius
                 const innerRadius = 40;
 
-                // Automated Wave Logic
-                // Create a wave that moves through the grid
-                // Use perlin noise or sin waves based on position and time
-                const waveX = particle.baseX * 0.01;
-                const waveY = particle.baseY * 0.01;
+                // Automated Wave Logic (using the scrolling world coordinates for continuity)
+                const worldY = particle.baseY - scrollY * 0.5; // Use unwrapped Y for wave continuity? 
+                // proper wave continuity needs time + space. 
+                // If we use screen Y (effectiveBaseY), the wave will stay static on screen while particles move through it?
+                // If we use worldY, the wave moves with the particles.
+                // User wants perspective of scrolling... so moving through the wave field.
+
+                const waveX = particleScreenX * 0.01;
+                const waveY = (worldY) * 0.01; // Use world Y for wave pattern
 
                 // Complex wave pattern
                 const wave1 = Math.sin(waveX * 5 + time) * Math.cos(waveY * 3 + time * 0.5) * 15;
@@ -145,65 +236,64 @@ onMounted(async () => {
                 const totalWaveOffset = wave1 + wave2;
 
                 // Probability of wave appearing or intensifying (automated "sometimes")
-                // We'll use a slow moving noise/sine to modulate the overall wave strength
                 const globalWaveStrength = (Math.sin(time * 0.5) + 1) * 0.5; // 0 to 1
 
-                let targetX = particle.baseX;
-                let targetY = particle.baseY + totalWaveOffset * globalWaveStrength;
+                let targetX = particleScreenX;
+                // Apply wave offset to the calculated screen position
+                let targetY = particleScreenY + totalWaveOffset * globalWaveStrength;
 
                 if (isMouseMoving && distanceToMouse < attractionRadius) {
-                    // Calculate attraction strength
+                    // Interaction Logic...
                     const attractionStrength = 1 - (distanceToMouse / attractionRadius);
-
-                    // Direction towards mouse
-                    const dirX = dx / (distanceToMouse || 1);
-                    const dirY = dy / (distanceToMouse || 1);
+                    const dirX = dx_int / (distanceToMouse || 1);
+                    const dirY = dy_int / (distanceToMouse || 1);
 
                     if (distanceToMouse > innerRadius) {
-                        // Attract towards cursor but stop at inner radius
                         const pullDistance = (distanceToMouse - innerRadius) * attractionStrength * 0.6;
-                        targetX = targetX + dirX * pullDistance; // Blend with wave position
+                        targetX = targetX + dirX * pullDistance;
                         targetY = targetY + dirY * pullDistance;
                     } else {
-                        // Push away slightly if too close (creates the ring effect)
-                        const pushForce = (innerRadius - distanceToMouse) * 0.4; // Stronger push
+                        const pushForce = (innerRadius - distanceToMouse) * 0.4;
                         targetX = targetX - dirX * pushForce;
                         targetY = targetY - dirY * pushForce;
                     }
 
-                    // Add some swirl based on mouse velocity
                     const swirlFactor = mouseSpeed * 0.15 * attractionStrength;
                     targetX += -dirY * swirlFactor;
                     targetY += dirX * swirlFactor;
 
-                    // Interaction intensifies partcile
                     particle.opacity += (0.8 - particle.opacity) * 0.1;
                     particle.size += (4 - particle.size) * 0.1;
 
                 } else {
-                    // Interaction when mouse is static but close (hovering near wave)
                     if (distanceToMouse < attractionRadius * 0.8) {
                         const localDistFactor = 1 - (distanceToMouse / (attractionRadius * 0.8));
-
-                        // Gentle push away from mouse to create a disturbance in the wave
-                        const dirX = dx / (distanceToMouse || 1);
-                        const dirY = dy / (distanceToMouse || 1);
+                        const dirX = dx_int / (distanceToMouse || 1);
+                        const dirY = dy_int / (distanceToMouse || 1);
 
                         targetX -= dirX * 20 * localDistFactor;
                         targetY -= dirY * 20 * localDistFactor;
 
                         particle.opacity += (0.5 - particle.opacity) * 0.05;
                     } else {
-                        // Return to base wave state
                         const waveOpacity = Math.abs(totalWaveOffset) / 15 * globalWaveStrength * 0.5;
                         particle.opacity += (waveOpacity - particle.opacity) * 0.05;
                         particle.size += (2 - particle.size) * 0.1;
                     }
                 }
 
-                // Spring physics to move towards target
+                // Spring physics
                 const spring = 0.1;
                 const damping = 0.8;
+
+                // NOTE: particle.currentX/Y are screen coordinates now for drawing
+                // But we need to be careful if we are wrapping.
+                // If a particle wraps, currentY needs to jump. 
+                // Simplest: Just set currentY to targetY if distance is huge (wrap happened)
+
+                if (Math.abs(targetY - particle.currentY) > totalGridHeight / 2) {
+                    particle.currentY = targetY; // Snap on wrap
+                }
 
                 particle.vx += (targetX - particle.currentX) * spring;
                 particle.vy += (targetY - particle.currentY) * spring;
@@ -225,12 +315,19 @@ onMounted(async () => {
                 }
             });
 
-            // Draw lines for interconnection - only near mouse for performance
+            // Draw lines logic needs update to use current positions (which is already does)
+            // But optimize to only check on screen particles
             if (isMouseMoving || mouseSpeed > 0.1) {
                 p.stroke(255, 255, 255, 30);
                 p.strokeWeight(0.5);
 
+                // Filter optimization: Check if particle is actually on screen? 
+                // Implicitly handled by distance check to mouse usually
+
                 const nearParticles = particles.filter(part => {
+                    // Quick bound check before distance
+                    if (part.currentY < -50 || part.currentY > canvasHeight + 50) return false;
+
                     const d = Math.sqrt(
                         Math.pow(mouseX - part.currentX, 2) +
                         Math.pow(mouseY - part.currentY, 2)
@@ -262,6 +359,7 @@ onMounted(async () => {
         // Cleanup function
         p.remove = () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('scroll', handleScroll);
             if (mouseMoveTimeout) clearTimeout(mouseMoveTimeout);
         };
     };

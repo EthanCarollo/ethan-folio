@@ -1,10 +1,6 @@
 <template>
   <div class="locale-toggle-container">
-    <button
-      class="locale-toggle"
-      @click="toggleLocale"
-      :aria-label="`Switch to ${nextLocale.name}`"
-    >
+    <button class="locale-toggle" @click="toggleLocale" :aria-label="`Switch to ${nextLocale.name}`">
       <span class="locale-current">{{ currentLocale.code.toUpperCase() }}</span>
       <span class="locale-separator">→</span>
       <span class="locale-next">{{ nextLocale.code.toUpperCase() }}</span>
@@ -30,18 +26,18 @@ const nextLocale = computed(() => {
 
 const toggleLocale = () => {
   const newLocale = nextLocale.value.code
-  
+
   // Sauvegarder la préférence dans un cookie
   const cookie = useCookie('i18n_redirected', {
     maxAge: 60 * 60 * 24 * 365, // 1 an
     sameSite: 'strict'
   })
   cookie.value = newLocale
-  
+
   // Obtenir la route actuelle et construire la nouvelle URL avec préfixe
   const route = useRoute()
   const router = useRouter()
-  
+
   // Construire le nouveau chemin avec le préfixe de langue
   let newPath = ''
   if (newLocale === 'fr') {
@@ -51,7 +47,7 @@ const toggleLocale = () => {
     // Pour l'anglais, on ajoute le préfixe /en
     newPath = route.path.startsWith('/en') ? route.path : `/en${route.path}`
   }
-  
+
   // Navigation avec refresh pour garantir le chargement correct
   router.push(newPath)
 }
@@ -59,7 +55,7 @@ const toggleLocale = () => {
 
 <style scoped>
 .locale-toggle-container {
-  @apply fixed top-4 right-4 z-50;
+  /* Positioning handled by parent */
 }
 
 .locale-toggle {
