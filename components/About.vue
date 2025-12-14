@@ -27,7 +27,8 @@
                 <!-- Photo -->
                 <div class="relative group">
                     <div class="aspect-[3/4] w-full relative overflow-hidden bg-foreground/5">
-                        <img src="/images/photome.png" alt="Ethan Carollo" class="w-full h-full object-cover" />
+                        <img src="/images/photome.png" alt="Ethan Carollo"
+                            class="w-full h-full object-cover filter grayscale contrast-125 brightness-110" />
                         <!-- Border frame effect -->
                         <div class="absolute inset-0 border-2 border-foreground/10 pointer-events-none"></div>
                     </div>
