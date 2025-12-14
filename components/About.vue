@@ -22,6 +22,14 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="pt-2">
+                        <a href="https://github.com/EthanCarollo" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-2 text-sm text-foreground hover:text-foreground/70 transition-colors group/link">
+                            <span class="group-hover/link:translate-x-1 transition-transform">→</span>
+                            GitHub
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Photo -->

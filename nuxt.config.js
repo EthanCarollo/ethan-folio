@@ -39,7 +39,7 @@ export default defineNuxtConfig({
     ],
 
     site: {
-        url: 'https://example.com',
+        url: 'https://ethan-folio.fr',
         name: 'Ethan Carollo',
         description: 'Polymorphic Developer',
         defaultLocale: 'fr',
