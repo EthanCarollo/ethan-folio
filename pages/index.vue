@@ -3,7 +3,6 @@
         <Hero />
         <About />
         <Projects />
-        <Blog />
     </main>
 </template>
 

@@ -10,6 +10,7 @@
 html, body {
     overflow-x: hidden;
     max-width: 100vw;
+    width: 100%;
 }
 
 body {
@@ -18,6 +19,12 @@ body {
     font-family: 'Space Mono', monospace;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+}
+
+/* Prevent horizontal overflow globally */
+main, section, article, div {
+    max-width: 100%;
 }
 
 /* Terminal-style page transitions */
@@ -44,53 +51,28 @@ body {
 /* Nuxt Content Terminal Styles */
 .prose {
     @apply text-foreground font-mono;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .prose h1 {
     @apply text-2xl font-bold mb-4 text-foreground;
-    position: relative;
-}
-
-.prose h1::before {
-    content: "$ echo ";
-    @apply text-foreground/60;
 }
 
 .prose h2 {
     @apply text-xl font-bold mb-3 mt-6 text-foreground;
-    position: relative;
-}
-
-.prose h2::before {
-    content: "$ cat ";
-    @apply text-foreground/60;
 }
 
 .prose h3 {
     @apply text-lg font-bold mb-2 mt-4 text-foreground;
-    position: relative;
-}
-
-.prose h3::before {
-    content: "$ ls ";
-    @apply text-foreground/60;
 }
 
 .prose p {
     @apply mb-4 text-foreground/90 leading-relaxed;
 }
 
-.prose p::before {
-    content: "> ";
-    @apply text-foreground/60;
-}
-
 .prose a {
     @apply text-foreground underline hover:text-foreground/80 transition-colors;
-}
-
-.prose a::before {
-    content: "";
 }
 
 .prose strong {

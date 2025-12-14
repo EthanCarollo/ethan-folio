@@ -25,7 +25,6 @@
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <a href="#about" class="hover:text-foreground transition-colors block">→ About</a>
                     <a href="#projects" class="hover:text-foreground transition-colors block">→ Projects</a>
-                    <a href="#blog" class="hover:text-foreground transition-colors block">→ Blog</a>
                 </div>
             </div>
         </div>
