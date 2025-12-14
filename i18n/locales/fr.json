@@ -23,9 +23,12 @@
       "Adaptable", 
       "Résilient",
       "Tout-terrain"
-    ]
+    ],
+    "title": "A propos de moi",
+    "interestsTitle": "Intérêts"
   },
   "projects": {
+    "title": "Projets"
   },
   "blog": {
     "date": "Date",

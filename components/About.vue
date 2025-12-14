@@ -2,11 +2,7 @@
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="about">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60 mb-2">Background</div>
-            </div>
-
-            <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60 mb-2">About Me</div>
+                <div class="text-foreground/60 mb-2">{{ $t('about.title') }}</div>
                 <div class="text-foreground/70 mt-2">
                     <p v-if="rotatingWords[currentWordIndex]">
                         {{ $t('about.backgroundText', { word: rotatingWords[currentWordIndex].toLowerCase() }) }}
@@ -15,7 +11,7 @@
             </div>
 
             <div class="space-y-1 text-sm">
-                <div class="text-foreground/60 mb-2">Interests</div>
+                <div class="text-foreground/60 mb-2">{{ $t('about.interestsTitle') }}</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
                     <div v-for="(item, index) in items" :key="index" class="pl-4">
                         - {{ item }}
@@ -43,7 +39,7 @@ const updateTranslations = () => {
         t('about.words[2]'),
         t('about.words[3]')
     ];
-    
+
     items.value = [
         t('about.interests[0]'),
         t('about.interests[1]'),

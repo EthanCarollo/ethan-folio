@@ -5,7 +5,8 @@
                 <div class="text-foreground/60">Profile</div>
                 <div class="text-foreground mt-2">
                     <div class="mb-4">
-                        <span class="text-foreground text-xl sm:text-2xl md:text-3xl font-bold">{{ $t('hero.name') }}</span>
+                        <span class="text-foreground text-xl sm:text-2xl md:text-3xl font-bold">{{ $t('hero.name')
+                            }}</span>
                     </div>
                     <div class="text-foreground/70 mb-6">
                         {{ currentTitle }}
@@ -13,12 +14,7 @@
                 </div>
             </div>
 
-            <div class="mt-8 space-y-1 text-sm">
-                <div class="text-foreground/60">Location</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div>{{ $t('hero.path') }}</div>
-                </div>
-            </div>
+
 
             <div class="mt-8 space-y-1 text-sm">
                 <div class="text-foreground/60">Navigation</div>

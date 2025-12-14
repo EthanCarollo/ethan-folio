@@ -23,9 +23,12 @@
       "Adaptable", 
       "Resilient",
       "All-round"
-    ]
+    ],
+    "title": "About Me",
+    "interestsTitle": "Interests"
   },
   "projects": {
+    "title": "Projects"
   },
   "blog": {
     "date": "Date",

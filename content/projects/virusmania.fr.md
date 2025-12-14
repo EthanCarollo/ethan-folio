@@ -5,7 +5,7 @@ image: /virusmania_media/virusmania_banner.png
 role: Lead Developer
 category: VideoGame
 slug: virusmania
-tags: ["Unity"]
+tags: ["Unity", "C#"]
 repo: "https://github.com/methil-mods/virusmania"
 ---
 
