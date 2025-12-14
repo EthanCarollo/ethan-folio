@@ -17,7 +17,9 @@
                             <div class="p-3 flex flex-col gap-2 flex-1">
                                 <h3 class="text-base sm:text-lg font-semibold text-foreground line-clamp-1">{{
                                     project.title }}</h3>
-                                <p class="text-xs sm:text-sm text-foreground/70 line-clamp-1">{{ project.category }}</p>
+                                <p class="text-xs sm:text-sm text-foreground/70 line-clamp-1">
+                                    {{ project.category }} <span class="mx-1 opacity-50">•</span> {{ project.date }}
+                                </p>
                                 <div class="flex flex-wrap gap-1 sm:gap-2 mt-auto pt-2">
                                     <span v-for="tag in project.tags?.slice(0, 3)" :key="tag"
                                         class="text-xs bg-foreground/10 text-foreground/80 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded truncate max-w-[80px] sm:max-w-none">

@@ -36,9 +36,7 @@
                 </a>
             </div>
 
-            <footer class="mt-16 text-center text-foreground/40 text-sm">
-                <p>© 2025 Ethan Carollo · Built with Nuxt & Tailwind CSS</p>
-            </footer>
+            <!-- Footer removed -->
         </div>
     </section>
 </template>
