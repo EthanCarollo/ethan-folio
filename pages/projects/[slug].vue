@@ -4,18 +4,15 @@
         <ContentTableOfContents />
 
         <!-- Adjusted main content with left margin to account for TOC -->
-        <div class="flex-1 px-4 py-8 md:py-12 ml-64">
+        <div class="flex-1 px-4 py-8 md:py-12 lg:ml-64 ml-0">
             <div v-if="project" class="max-w-4xl mx-auto">
 
                 <!-- Project Info -->
-                <div class="space-y-6 mb-8">
-                    <div class="text-sm">
-                        <div class="text-foreground/60 mb-1">Project Details</div>
-                        <div class="text-foreground/70 mt-2 space-y-2">
-                            <div>
-                                <span class="text-foreground/60"># </span>
-                                <span class="text-foreground text-xl">{{ project.title }}</span>
-                            </div>
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="text-foreground/60 text-sm mb-2">Project</div>
+                        <h1 class="text-foreground text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{{ project.title }}</h1>
+                        <div class="text-foreground/70 space-y-2 text-sm">
                             <div v-if="project.date">
                                 <span class="text-foreground/60">Date: </span>
                                 <span class="text-foreground">{{ project.date }}</span>
@@ -29,7 +26,7 @@
                                 <a :href="project.repo" target="_blank" class="text-foreground/80 hover:text-foreground">{{ project.repo }}</a>
                             </div>
                         </div>
-                        <div class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden">
+                        <div class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden rounded-lg">
                             <img
                                 :src="project.image"
                                 :alt="`${project.title} preview`"
@@ -121,5 +118,48 @@ const forcePageReload = () => {
 .image-modal-enter-from,
 .image-modal-leave-to {
     opacity: 0;
+}
+
+/* Responsive styles for project pages */
+@media (max-width: 1024px) {
+  .toc-container {
+    @apply hidden;
+  }
+
+  div[class*="ml-64"] {
+    @apply ml-0;
+  }
+}
+
+@media (max-width: 768px) {
+  .flex-1 {
+    @apply px-4 py-6;
+  }
+
+  .prose {
+    @apply text-base;
+  }
+
+  .prose img {
+    @apply rounded-lg;
+  }
+}
+
+@media (max-width: 640px) {
+  .flex-1 {
+    @apply px-3 py-4;
+  }
+
+  .prose {
+    @apply text-sm;
+  }
+
+  .prose h2 {
+    @apply text-lg;
+  }
+
+  .prose h3 {
+    @apply text-base;
+  }
 }
 </style>

@@ -6,10 +6,9 @@
     "pwd": "$ pwd",
     "path": "~/portfolio",
     "ls": "$ ls -la",
-    "total": "total 3",
-    "about": "drwxr-xr-x about/",
-    "projects": "drwxr-xr-x projects/",
-    "blog": "drwxr-xr-x blog/"
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog"
   },
   "about": {
     "backgroundText": "Je suis Ethan Carollo, un développeur {word} et étudiant en Master à Annecy Gobelins. Je travaille avec divers langages, incluant Kotlin pour Android et Python pour le machine learning. J'adore aussi Nuxt et je passe mon temps libre à développer des jeux avec Unity.",

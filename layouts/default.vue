@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="fixed top-4 right-4 z-50">
-      <LocaleChip />
-    </div>
+    <LocaleChip />
     <slot />
     <MouseTrail v-if="showMouseTrail" />
   </div>

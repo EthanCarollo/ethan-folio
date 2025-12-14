@@ -4,18 +4,15 @@
         <ContentTableOfContents />
 
         <!-- Adjusted main content with left margin to account for TOC -->
-        <div class="flex-1 px-4 py-8 md:py-12 ml-64">
+        <div class="flex-1 px-4 py-8 md:py-12 lg:ml-64 ml-0">
             <div v-if="blogPost" class="max-w-4xl mx-auto">
 
                 <!-- Blog Post Info -->
-                <div class="space-y-6 mb-8">
-                    <div class="text-sm">
-                        <div class="text-foreground/60 mb-1">Blog Post</div>
-                        <div class="text-foreground/70 mt-2 space-y-2">
-                            <div>
-                                <span class="text-foreground/60"># </span>
-                                <span class="text-foreground text-xl">{{ blogPost.title }}</span>
-                            </div>
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="text-foreground/60 text-sm mb-2">Blog Post</div>
+                        <h1 class="text-foreground text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{{ blogPost.title }}</h1>
+                        <div class="text-foreground/70 space-y-2 text-sm">
                             <div v-if="blogPost.date">
                                 <span class="text-foreground/60">{{ $t('blog.date') }}: </span>
                                 <span class="text-foreground">{{ blogPost.date }}</span>
@@ -29,7 +26,7 @@
                                 <span class="text-foreground">{{ blogPost.category }}</span>
                             </div>
                         </div>
-                        <div v-if="blogPost.image" class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden">
+                        <div v-if="blogPost.image" class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden rounded-lg">
                             <img
                                 :src="blogPost.image"
                                 :alt="`${blogPost.title} preview`"
@@ -98,5 +95,47 @@ watch(locale, async (newLocale, oldLocale) => {
 .image-modal-enter-from,
 .image-modal-leave-to {
     opacity: 0;
+}
+/* Responsive styles for blog pages */
+@media (max-width: 1024px) {
+  .toc-container {
+    @apply hidden;
+  }
+
+  div[class*="ml-64"] {
+    @apply ml-0;
+  }
+}
+
+@media (max-width: 768px) {
+  .flex-1 {
+    @apply px-4 py-6;
+  }
+
+  .prose {
+    @apply text-base;
+  }
+
+  .prose img {
+    @apply rounded-lg;
+  }
+}
+
+@media (max-width: 640px) {
+  .flex-1 {
+    @apply px-3 py-4;
+  }
+
+  .prose {
+    @apply text-sm;
+  }
+
+  .prose h2 {
+    @apply text-lg;
+  }
+
+  .prose h3 {
+    @apply text-base;
+  }
 }
 </style>

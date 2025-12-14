@@ -1,12 +1,11 @@
 <template>
-    <section class="min-h-screen flex items-center justify-center px-4 py-20 font-mono">
+    <section class="min-h-screen flex items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono">
         <div class="max-w-3xl mx-auto w-full">
             <div class="space-y-1 text-sm">
                 <div class="text-foreground/60">Profile</div>
                 <div class="text-foreground mt-2">
                     <div class="mb-4">
-                        <span class="text-foreground/60">> </span>
-                        <span class="text-foreground text-2xl md:text-3xl">{{ $t('hero.name') }}</span>
+                        <span class="text-foreground text-xl sm:text-2xl md:text-3xl font-bold">{{ $t('hero.name') }}</span>
                     </div>
                     <div class="text-foreground/70 mb-6">
                         {{ currentTitle }}
@@ -24,10 +23,9 @@
             <div class="mt-8 space-y-1 text-sm">
                 <div class="text-foreground/60">Navigation</div>
                 <div class="text-foreground/70 mt-2 space-y-1">
-                    <div>{{ $t('hero.total') }}</div>
-                    <a href="#about" class="hover:text-foreground transition-colors block">{{ $t('hero.about') }}</a>
-                    <a href="#projects" class="hover:text-foreground transition-colors block">{{ $t('hero.projects') }}</a>
-                    <a href="#blog" class="hover:text-foreground transition-colors block">{{ $t('hero.blog') }}</a>
+                    <a href="#about" class="hover:text-foreground transition-colors block">→ About</a>
+                    <a href="#projects" class="hover:text-foreground transition-colors block">→ Projects</a>
+                    <a href="#blog" class="hover:text-foreground transition-colors block">→ Blog</a>
                 </div>
             </div>
         </div>

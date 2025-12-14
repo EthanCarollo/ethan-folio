@@ -38,10 +38,16 @@ onMounted(async () => {
         let canvasWidth = 0;
         let canvasHeight = 0;
         
+        // Scroll velocity tracking - improved
+        let lastScrollY = 0;
+        let scrollVelocity = 0;
+        let scrollDirection = 0;
+        let scrollAccumulator = 0; // Accumulate scroll for smoother effect
+        
         const getDocumentSize = () => {
             if (typeof document === 'undefined') return { w: window.innerWidth, h: window.innerHeight };
             return {
-                w: window.innerWidth, // Limiter à la largeur de la fenêtre pour éviter l'overflow horizontal
+                w: window.innerWidth,
                 h: Math.max(
                     document.documentElement.scrollHeight,
                     document.body.scrollHeight,
@@ -88,6 +94,7 @@ onMounted(async () => {
             mouseY = window.innerHeight / 2;
             lastMouseX = mouseX;
             lastMouseY = mouseY;
+            lastScrollY = window.scrollY;
         };
         
         p.windowResized = () => {
@@ -116,7 +123,6 @@ onMounted(async () => {
                     clearTimeout(mouseMoveTimeout);
                 }
                 
-                // Augmenter le timeout pour les mouvements rapides
                 const timeoutDuration = movement > 50 ? 800 : 500;
                 mouseMoveTimeout = setTimeout(() => {
                     isMouseMoving = false;
@@ -132,19 +138,30 @@ onMounted(async () => {
                 initializeParticles();
             }
             
-            const scrollDelta = Math.abs(window.scrollY - lastMouseY);
+            const currentScrollY = window.scrollY;
+            const scrollDelta = currentScrollY - lastScrollY;
             
-            if (scrollDelta > 1) {
+            // Accumulate scroll velocity for smoother effect
+            scrollAccumulator += Math.abs(scrollDelta);
+            scrollVelocity = Math.min(scrollAccumulator, 150);
+            scrollDirection = scrollDelta > 0 ? 1 : (scrollDelta < 0 ? -1 : scrollDirection);
+            
+            if (Math.abs(scrollDelta) > 0.5) {
                 isScrolling = true;
                 
                 if (scrollTimeout) {
                     clearTimeout(scrollTimeout);
                 }
                 
+                // Keep effect visible longer
                 scrollTimeout = setTimeout(() => {
                     isScrolling = false;
-                }, 150);
+                    scrollAccumulator = 0;
+                    scrollVelocity = 0;
+                }, 400);
             }
+            
+            lastScrollY = currentScrollY;
         };
         
         window.addEventListener('mousemove', handleMouseMove);
@@ -162,15 +179,35 @@ onMounted(async () => {
             }
         }, 500);
         
+        // Decay scroll accumulator over time
+        const decayInterval = setInterval(() => {
+            if (scrollAccumulator > 0) {
+                scrollAccumulator *= 0.8;
+                scrollVelocity = Math.min(scrollAccumulator, 150);
+            }
+        }, 50);
+        
         p.draw = () => {
             p.clear();
             p.fill(255, 255, 255);
             
             const isActive = isMouseMoving || isScrolling;
             const scrollY = window.scrollY;
+            const viewportTop = scrollY;
+            const viewportBottom = scrollY + window.innerHeight;
             const viewportCenterY = scrollY + (window.innerHeight / 2);
             
+            // Velocity-based intensity multiplier (1.0 to 3.0x)
+            const velocityMultiplier = 1.0 + (scrollVelocity / 100) * 2.0;
+            
             particles.forEach((particle) => {
+                // Skip particles far outside viewport for performance
+                if (particle.y < viewportTop - 150 || particle.y > viewportBottom + 150) {
+                    particle.lift *= 0.9;
+                    particle.opacity *= 0.9;
+                    return;
+                }
+                
                 if (!isActive) {
                     // Return to base when inactive
                     const spring = 0.05;
@@ -178,7 +215,7 @@ onMounted(async () => {
                     
                     particle.lift += (0 - particle.lift) * spring;
                     particle.lift *= damping;
-                    particle.opacity *= 0.995;
+                    particle.opacity *= 0.99;
                     
                     if (Math.abs(particle.lift) < 0.1) {
                         particle.lift = 0;
@@ -187,17 +224,22 @@ onMounted(async () => {
                         particle.opacity = 0;
                     }
                 } else {
-                    // Calculate distance from mouse (accounting for scroll)
+                    // Calculate particle's viewport Y position
+                    const particleViewportY = particle.y - scrollY;
+                    
+                    // Calculate distance from mouse in VIEWPORT coordinates
                     const mouseDx = mouseX - particle.x;
-                    const mouseDy = (mouseY + scrollY) - particle.y;
+                    const mouseDy = mouseY - particleViewportY;
                     const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
                     
-                    // Scroll effect
-                    const scrollDy = particle.y - viewportCenterY;
+                    // Distance from viewport center for scroll effect (viewport coords)
+                    const viewportCenterLocal = window.innerHeight / 2;
+                    const scrollDy = particleViewportY - viewportCenterLocal;
                     const scrollDistance = Math.abs(scrollDy);
                     
                     const mouseActivationRadius = 180;
-                    const scrollActivationRadius = 200;
+                    // Much larger scroll activation radius
+                    const scrollActivationRadius = 400 + (scrollVelocity * 3);
                     
                     let targetLift = 0;
                     let targetOpacity = 0;
@@ -209,7 +251,6 @@ onMounted(async () => {
                         targetLift = Math.max(targetLift, -mouseLift);
                         targetOpacity = Math.max(targetOpacity, mouseOpacity);
                         
-                        // Ajouter un effet de vitesse pour les mouvements rapides
                         const speed = Math.sqrt(
                             Math.pow(mouseX - lastMouseX, 2) + 
                             Math.pow(mouseY - lastMouseY, 2)
@@ -219,37 +260,42 @@ onMounted(async () => {
                         }
                     }
                     
-                    // Scroll effect
+                    // Enhanced scroll effect - entire viewport reacts
                     if (isScrolling && scrollDistance < scrollActivationRadius) {
-                        const scrollLift = (1 - scrollDistance / scrollActivationRadius) * 20;
-                        const scrollOpacity = (1 - scrollDistance / scrollActivationRadius) * 0.7;
-                        targetLift = Math.max(targetLift, -scrollLift);
-                        targetOpacity = Math.max(targetOpacity, scrollOpacity);
+                        const scrollIntensity = (1 - scrollDistance / scrollActivationRadius);
+                        
+                        // Stronger scroll effect with velocity
+                        const scrollLift = scrollIntensity * 45 * velocityMultiplier * -scrollDirection;
+                        const scrollOpacity = scrollIntensity * 0.9 * velocityMultiplier;
+                        
+                        targetLift = targetLift + scrollLift;
+                        targetOpacity = Math.max(targetOpacity, Math.min(1.0, scrollOpacity));
                     }
                     
-                    if (targetLift < 0 || targetOpacity > 0) {
-                        const spring = 0.25;
-                        const damping = 0.88;
+                    if (Math.abs(targetLift) > 0.1 || targetOpacity > 0) {
+                        const spring = 0.3;
+                        const damping = 0.85;
                         
                         const liftDiff = targetLift - particle.lift;
                         particle.lift += liftDiff * spring;
                         particle.lift *= damping;
                         
-                        particle.opacity = Math.min(0.9, Math.max(particle.opacity * 0.96, targetOpacity));
+                        particle.opacity = Math.min(1.0, Math.max(particle.opacity * 0.94, targetOpacity));
                     } else {
                         const spring = 0.15;
                         const damping = 0.92;
                         
                         particle.lift += (0 - particle.lift) * spring;
                         particle.lift *= damping;
-                        particle.opacity *= 0.96;
+                        particle.opacity *= 0.94;
                     }
                 }
                 
-                // Draw particle only if visible
+                // Draw particle only if visible - use viewport coordinates
                 if (particle.opacity > 0.01) {
+                    const drawY = (particle.y - scrollY) + particle.lift;
                     p.push();
-                    p.translate(particle.x, particle.y + particle.lift);
+                    p.translate(particle.x, drawY);
                     p.fill(255, 255, 255, particle.opacity * 255);
                     p.circle(0, 0, 2);
                     p.pop();
@@ -265,6 +311,7 @@ onMounted(async () => {
             if (mouseMoveTimeout) clearTimeout(mouseMoveTimeout);
             if (scrollTimeout) clearTimeout(scrollTimeout);
             clearInterval(sizeCheckInterval);
+            clearInterval(decayInterval);
         };
     };
     
