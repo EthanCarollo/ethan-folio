@@ -34,8 +34,16 @@ export default defineNuxtConfig({
         "nuxt-lucide-icons",
         "nuxt-umami",
         '@nuxt/content',
-        '@nuxtjs/i18n'
+        '@nuxtjs/i18n',
+        '@nuxtjs/seo'
     ],
+
+    site: {
+        url: 'https://example.com',
+        name: 'Ethan Carollo',
+        description: 'Polymorphic Developer',
+        defaultLocale: 'fr',
+    },
 
     googleFonts: {
         families: {

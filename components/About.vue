@@ -1,20 +1,35 @@
 <template>
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="about">
-        <div class="max-w-3xl mx-auto">
-            <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60 mb-2">{{ $t('about.title') }}</div>
-                <div class="text-foreground/70 mt-2">
-                    <p v-if="rotatingWords[currentWordIndex]">
-                        {{ $t('about.backgroundText', { word: rotatingWords[currentWordIndex].toLowerCase() }) }}
-                    </p>
-                </div>
-            </div>
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+                <!-- Text Content -->
+                <div class="md:col-span-2 space-y-8">
+                    <div class="space-y-1 text-sm">
+                        <div class="text-foreground/60 mb-2">{{ $t('about.title') }}</div>
+                        <div class="text-foreground/70 mt-2">
+                            <p v-if="rotatingWords[currentWordIndex]">
+                                {{ $t('about.backgroundText', { word: rotatingWords[currentWordIndex].toLowerCase() })
+                                }}
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="space-y-1 text-sm">
-                <div class="text-foreground/60 mb-2">{{ $t('about.interestsTitle') }}</div>
-                <div class="text-foreground/70 mt-2 space-y-1">
-                    <div v-for="(item, index) in items" :key="index" class="pl-4">
-                        - {{ item }}
+                    <div class="space-y-1 text-sm">
+                        <div class="text-foreground/60 mb-2">{{ $t('about.interestsTitle') }}</div>
+                        <div class="text-foreground/70 mt-2 space-y-1">
+                            <div v-for="(item, index) in items" :key="index" class="pl-4">
+                                - {{ item }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo -->
+                <div class="relative group">
+                    <div class="aspect-[3/4] w-full relative overflow-hidden bg-foreground/5">
+                        <img src="/images/photome.png" alt="Ethan Carollo" class="w-full h-full object-cover" />
+                        <!-- Border frame effect -->
+                        <div class="absolute inset-0 border-2 border-foreground/10 pointer-events-none"></div>
                     </div>
                 </div>
             </div>
