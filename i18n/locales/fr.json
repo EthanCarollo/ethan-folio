@@ -9,7 +9,9 @@
     "about": "A propos",
     "projects": "Projets",
     "blog": "Blog",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "home": "Accueil",
+    "contact": "Contact"
   },
   "about": {
     "backgroundText": "Je suis Ethan Carollo, un développeur {word} et étudiant en Master à Annecy Gobelins. Je travaille avec divers langages, incluant Kotlin pour Android et Python pour le machine learning. J'adore aussi Nuxt et je passe mon temps libre à développer des jeux avec Unity.",
