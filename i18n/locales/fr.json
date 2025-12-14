@@ -36,5 +36,9 @@
     "loading": "Chargement...",
     "error": "Une erreur s'est produite",
     "back": "Retour"
+  },
+  "toc": {
+    "title": "Table des matières",
+    "backToHome": "← Retour à l'accueil"
   }
 }

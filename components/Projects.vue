@@ -10,13 +10,13 @@
                         :to="'/projects/' + project.slug"
                         class="block hover:text-foreground transition-colors"
                     >
-                        <article class="border border-foreground/20 rounded-lg overflow-hidden hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-200 h-full flex flex-col">
+                        <article class="group border border-foreground/20 rounded-lg overflow-hidden hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-200 h-full flex flex-col">
                             <!-- Project Image Banner -->
                             <div v-if="project.image" class="w-full h-32 sm:h-36 overflow-hidden bg-foreground/5">
                                 <img
                                     :src="project.image"
                                     :alt="`${project.title} preview`"
-                                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     loading="lazy"
                                 />
                             </div>

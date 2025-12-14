@@ -1,8 +1,8 @@
 <template>
     <div class="toc-container" :class="{ 'toc-visible': hasHeadings }">
     <div class="toc-header flex flex-col">
-        <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">← Back to Home</NuxtLink>
-      <span class="toc-title">Table of Contents</span>
+        <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{ $t('toc.backToHome') }}</NuxtLink>
+      <span class="toc-title">{{ $t('toc.title') }}</span>
     </div>
 
         <nav class="toc-nav">

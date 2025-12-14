@@ -36,5 +36,9 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "back": "Back"
+  },
+  "toc": {
+    "title": "Table of Contents",
+    "backToHome": "← Back to Home"
   }
 }
