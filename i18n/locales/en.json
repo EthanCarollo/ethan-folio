@@ -46,5 +46,9 @@
   "toc": {
     "title": "Table of Contents",
     "backToHome": "← Back to Home"
+  },
+  "seo": {
+    "title": "Ethan Carollo - Polymorphic Developer",
+    "description": "Ethan Carollo, a polymorphic developer skilled in web and mobile applications, video games, and continuous delivery cycles."
   }
 }

@@ -46,5 +46,9 @@
   "toc": {
     "title": "Table des matières",
     "backToHome": "← Retour à l'accueil"
+  },
+  "seo": {
+    "title": "Ethan Carollo - Développeur Polymorphe",
+    "description": "Ethan Carollo, un développeur polymorphe compétent en applications web et mobiles, jeux vidéo et cycles de livraison continue."
   }
 }
