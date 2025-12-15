@@ -1,27 +1,29 @@
 export default defineEventHandler(async (event) => {
-    // 1. Fetch data
-    const projects = await queryCollection(event, 'projects').select('slug', 'date').all()
-    const blogs = await queryCollection(event, 'blog').select('slug', 'date').all()
+    // 1. Fetch data including 'stem' to identify locale
+    const projects = await queryCollection(event, 'projects').select('slug', 'date', 'stem').all()
+    const blogs = await queryCollection(event, 'blog').select('slug', 'date', 'stem').all()
     
-    // 2. Helper to deduplicate items by slug (handling en/fr duplicates)
-    // Using a generic function since logic is identical
-    const getUniqueItems = (items) => {
-        const unique = new Map()
-        items.forEach(item => {
-            if (!unique.has(item.slug)) {
-                unique.set(item.slug, item)
+    // 2. Helper to generate localized URLs
+    const generateLocalizedUrls = (items, type) => {
+        return items.map(item => {
+            // Determine locale from stem (e.g., "projects/virusmania.en" -> "en")
+            // Assuming stem format is "collection/slug.locale" or similar
+            const isEnglish = item.stem.endsWith('.en')
+            
+            // Construct URL based on locale
+            // Default locale (fr) uses root path, English uses /en prefix
+            const urlPrefix = isEnglish ? `/en/${type}` : `/${type}`
+            
+            return {
+                loc: `${urlPrefix}/${item.slug}`,
+                // lastmod: item.date
             }
         })
-        return Array.from(unique.values())
     }
 
-    const uniqueProjects = getUniqueItems(projects)
-    const uniqueBlogs = getUniqueItems(blogs)
+    const projectUrls = generateLocalizedUrls(projects, 'projects')
+    const blogUrls = generateLocalizedUrls(blogs, 'blog')
 
-    // 3. Build URLs
-    const projectUrls = uniqueProjects.map(p => ({ loc: `/projects/${p.slug}` }))
-    const blogUrls = uniqueBlogs.map(b => ({ loc: `/blog/${b.slug}` }))
-
-    // 4. Return combined list
+    // 3. Return combined list
     return [...projectUrls, ...blogUrls]
 })
