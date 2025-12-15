@@ -1,16 +1,12 @@
 <template>
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="contact">
         <div class="max-w-4xl mx-auto">
-            <div class="mb-12">
-                <h2 class="text-2xl md:text-3xl mb-2">
-                    <span class="text-foreground">Contact</span>
-                </h2>
-                <div class="h-px bg-foreground/20 w-full"></div>
+            <div class="space-y-1 text-sm mb-8">
+                <div class="text-foreground/60 mb-2">{{ $t('hero.contact') }}</div>
+                <div class="text-foreground/70 mt-2">
+                    Open to new opportunities and collaborations. Let's build something amazing together!
+                </div>
             </div>
-
-            <p class="text-foreground/70 mb-12 leading-relaxed">
-                Open to new opportunities and collaborations. Let's build something amazing together!
-            </p>
 
             <div class="space-y-6 mb-12">
                 <div class="border-l-2 border-foreground/20 pl-4">
