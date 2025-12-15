@@ -51,6 +51,12 @@ export default defineNuxtConfig({
         },
     },
 
+    sitemap: {
+        sources: [
+            '/api/sitemap'
+        ]
+    },
+
     umami: {
         id: '4f9b3a39-88e1-40c5-98d7-974fbe95d5ea',
         host: 'https://methil.analytics.ethan-folio.fr',
