@@ -1,6 +1,6 @@
 <template>
     <section id="home" class="min-h-screen flex items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono">
-        <div class="max-w-3xl mx-auto w-full">
+        <div class="max-w-4xl mx-auto w-full">
             <div class="space-y-1 text-sm">
                 <!-- Profile label removed -->
                 <div class="text-foreground mt-2 relative z-10">
