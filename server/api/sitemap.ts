@@ -1,18 +1,27 @@
 export default defineEventHandler(async (event) => {
+    // 1. Fetch data
     const projects = await queryCollection(event, 'projects').select('slug', 'date').all()
+    const blogs = await queryCollection(event, 'blog').select('slug', 'date').all()
     
-    // Deduplicate by slug (since we have en/fr files)
-    const uniqueProjects = new Map()
-    projects.forEach(p => {
-        if (!uniqueProjects.has(p.slug)) {
-            uniqueProjects.set(p.slug, p)
-        }
-    })
+    // 2. Helper to deduplicate items by slug (handling en/fr duplicates)
+    // Using a generic function since logic is identical
+    const getUniqueItems = (items) => {
+        const unique = new Map()
+        items.forEach(item => {
+            if (!unique.has(item.slug)) {
+                unique.set(item.slug, item)
+            }
+        })
+        return Array.from(unique.values())
+    }
 
-    return Array.from(uniqueProjects.values()).map(project => {
-        return {
-            loc: `/projects/${project.slug}`,
-            // lastmod: project.date // Optional: format if needed
-        }
-    })
+    const uniqueProjects = getUniqueItems(projects)
+    const uniqueBlogs = getUniqueItems(blogs)
+
+    // 3. Build URLs
+    const projectUrls = uniqueProjects.map(p => ({ loc: `/projects/${p.slug}` }))
+    const blogUrls = uniqueBlogs.map(b => ({ loc: `/blog/${b.slug}` }))
+
+    // 4. Return combined list
+    return [...projectUrls, ...blogUrls]
 })
