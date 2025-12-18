@@ -11,11 +11,11 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                background: '#000000',
-                foreground: '#ffffff',
-                border: '#333333',
-                muted: '#1a1a1a',
-                'muted-foreground': '#888888',
+                background: '#ffffff',
+                foreground: '#000000',
+                border: '#e5e5e5',
+                muted: '#f5f5f5',
+                'muted-foreground': '#737373',
             },
             fontFamily: {
                 mono: ["Space Mono", "monospace"],

@@ -42,7 +42,7 @@ onMounted(async () => {
             // Since particles stay relatively close to their base, this approximation is fine visually.
 
             if (isMouseMoving || mouseSpeed > 0.1) {
-                p.stroke(255, 255, 255, 30);
+                p.stroke(0, 0, 0, 30);
                 p.strokeWeight(0.5);
 
                 const cols = Math.ceil(canvasWidth / gridSize);
@@ -309,7 +309,7 @@ onMounted(async () => {
                     p.translate(particle.currentX, particle.currentY);
 
                     // Main particle
-                    p.fill(255, 255, 255, particle.opacity * 255);
+                    p.fill(0, 0, 0, particle.opacity * 255);
                     p.circle(0, 0, particle.size);
                     p.pop();
                 }
@@ -318,7 +318,7 @@ onMounted(async () => {
             // Draw lines logic needs update to use current positions (which is already does)
             // But optimize to only check on screen particles
             if (isMouseMoving || mouseSpeed > 0.1) {
-                p.stroke(255, 255, 255, 30);
+                p.stroke(0, 0, 0, 30);
                 p.strokeWeight(0.5);
 
                 // Filter optimization: Check if particle is actually on screen? 
@@ -346,7 +346,7 @@ onMounted(async () => {
 
                         if (d < 60) {
                             const alpha = (1 - d / 60) * 50;
-                            p.stroke(255, 255, 255, alpha);
+                            p.stroke(0, 0, 0, alpha);
                             p.line(p1.currentX, p1.currentY, p2.currentX, p2.currentY);
                         }
                     }
