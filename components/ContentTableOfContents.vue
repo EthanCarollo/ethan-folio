@@ -1,31 +1,63 @@
 <template>
-    <div class="toc-container" :class="{ 'toc-visible': hasHeadings }">
-    <div class="toc-header flex flex-col">
-        <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{ $t('toc.backToHome') }}</NuxtLink>
-      <span class="toc-title">{{ $t('toc.title') }}</span>
-    </div>
+    <div>
+        <!-- Desktop Sidebar -->
+        <div class="toc-desktop hidden lg:block" :class="{ 'toc-visible': hasHeadings }">
+            <div class="toc-header flex flex-col">
+                <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{
+                    $t('toc.backToHome') }}</NuxtLink>
+                <span class="toc-title">{{ $t('toc.title') }}</span>
+            </div>
 
-        <nav class="toc-nav">
-            <ul class="toc-list">
-                <li
-                    v-for="heading in headings"
-                    :key="heading.id"
-                    class="toc-item"
-                    :class="[`toc-level-${heading.level}`, { 'toc-active': heading.id === activeHeading }]"
-                >
-                    <a
-                        :href="`#${heading.id}`"
-                        @click.prevent="scrollToHeading(heading.id)"
-                        class="toc-link"
-                    >
-                        <span class="toc-prefix">{{ getPrefix(heading.level) }}</span>
-                        {{ heading.text }}
-                    </a>
-                </li>
-            </ul>
-        </nav>
+            <nav class="toc-nav">
+                <ul class="toc-list">
+                    <li v-for="heading in headings" :key="heading.id" class="toc-item"
+                        :class="[`toc-level-${heading.level}`, { 'toc-active': heading.id === activeHeading }]">
+                        <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" class="toc-link">
+                            <span class="toc-prefix">{{ getPrefix(heading.level) }}</span>
+                            {{ heading.text }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-        <div class="toc-indicator" :style="{ top: `${indicatorPosition}px` }"></div>
+            <div class="toc-indicator" :style="{ top: `${indicatorPosition}px` }"></div>
+        </div>
+
+        <!-- Mobile Chip -->
+        <button v-if="hasHeadings" @click="isMobileMenuOpen = true"
+            class="lg:hidden fixed bottom-6 right-6 z-50 bg-foreground text-background px-4 py-2 rounded-full shadow-lg font-mono text-xs flex items-center gap-2 transition-transform hover:scale-105 active:scale-95">
+            <span class="text-lg">≡</span>
+            {{ $t('toc.title') }}
+        </button>
+
+        <!-- Mobile Menu Overlay -->
+        <div v-if="isMobileMenuOpen" class="lg:hidden fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm p-6 overflow-y-auto"
+            @click.self="isMobileMenuOpen = false">
+            
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-foreground font-mono font-bold">{{ $t('toc.title') }}</span>
+                <button @click="isMobileMenuOpen = false" class="text-foreground p-2 text-xl">✕</button>
+            </div>
+
+            <nav class="toc-mobile-nav">
+                <ul class="space-y-4">
+                     <li class="mb-6">
+                        <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground flex items-center gap-2">
+                             {{ $t('toc.backToHome') }}
+                        </NuxtLink>
+                    </li>
+                    <li v-for="heading in headings" :key="heading.id"
+                        class="toc-item-mobile"
+                        :class="[`pl-${(heading.level - 1) * 4}`]">
+                        <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" 
+                           class="block text-foreground/80 py-2 border-b border-foreground/10"
+                           :class="{ 'text-foreground font-bold': heading.id === activeHeading }">
+                            {{ heading.text }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </template>
 
@@ -42,6 +74,7 @@ const headings = ref<Heading[]>([])
 const activeHeading = ref<string>('')
 const indicatorPosition = ref(0)
 const hasHeadings = ref(false)
+const isMobileMenuOpen = ref(false)
 
 const observer = ref<MutationObserver | null>(null)
 
@@ -109,6 +142,7 @@ const scrollToHeading = (id: string) => {
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
         window.scrollTo({ top: y, behavior: 'smooth' })
         activeHeading.value = id
+        isMobileMenuOpen.value = false // Close menu on mobile
     }
 }
 
@@ -170,7 +204,7 @@ onUnmounted(() => {
 
 <style scoped>
 /* Fixed position for TOC to always stay on the left */
-.toc-container {
+.toc-desktop {
     @apply fixed left-0 top-0 w-64 min-h-screen max-h-screen bg-background border-r border-foreground/20 p-4;
     overflow-y: hidden;
     z-index: 40;
@@ -235,26 +269,19 @@ onUnmounted(() => {
 }
 
 /* Scrollbar personnalisée */
-.toc-container::-webkit-scrollbar {
+.toc-desktop::-webkit-scrollbar {
     @apply w-2;
 }
 
-.toc-container::-webkit-scrollbar-track {
+.toc-desktop::-webkit-scrollbar-track {
     @apply bg-transparent;
 }
 
-.toc-container::-webkit-scrollbar-thumb {
+.toc-desktop::-webkit-scrollbar-thumb {
     @apply bg-foreground/20 rounded-full;
 }
 
-.toc-container::-webkit-scrollbar-thumb:hover {
+.toc-desktop::-webkit-scrollbar-thumb:hover {
     @apply bg-foreground/30;
-}
-
-/* Hide TOC on mobile screens */
-@media (max-width: 768px) {
-    .toc-container {
-        @apply hidden;
-    }
 }
 </style>
