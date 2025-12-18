@@ -1,6 +1,6 @@
 ---
 title: "Rituals"
-date: "18-12-2025"
+date: "23-10-2025"
 image: "/images/rituals.png"
 category: "Game Dev"
 tags: ["Unity", "C#", "PyTorch", "AI"]
@@ -9,7 +9,7 @@ repo: "https://github.com/methil-mods/rituals"
 link: "https://ethanzxv.itch.io/rituals"
 ---
 
-**Rituals** est un jeu d'énigmes atmosphérique où la progression dépend de votre capacité à découvrir et à reproduire des symboles anciens. Le cœur du gameplay repose sur une mécanique unique : la découverte de dessins cachés qui, une fois tracés correctement, permettent d'invoquer des monstres via des rituels mystiques pour débloquer la suite de l'aventure.
+**Rituals** est un jeu d'énigmes atmosphérique créé en collaboration avec **Théo ([nak0x](https://github.com/nak0x))** dans le cadre de la [Cosmic Horrors Jam 4](https://itch.io/jam/cosmichorrorsjam4). La progression dépend de votre capacité à découvrir et à reproduire des symboles anciens. Le cœur du gameplay repose sur une mécanique unique : la découverte de dessins cachés qui, une fois tracés correctement, permettent d'invoquer des monstres via des rituels mystiques pour débloquer la suite de l'aventure.
 
 ### Reconnaissance par Intelligence Artificielle
 
