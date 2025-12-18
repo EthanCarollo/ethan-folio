@@ -11,7 +11,10 @@
     "blog": "Blog",
     "navigation": "Navigation",
     "home": "Accueil",
-    "contact": "Contact"
+    "contact": "Contact",
+    "role1": "DÉVELOPPEUR POLYMORPHE",
+    "role2": "ÉTUDIANT EN MASTER",
+    "role3": "PASSIONNÉ DE GAME DEV"
   },
   "about": {
     "backgroundText": "Je suis Ethan Carollo, un développeur {word} et étudiant en Master à Annecy Gobelins. Je travaille avec divers langages, incluant Kotlin pour Android et Python pour le machine learning. J'adore aussi Nuxt et je passe mon temps libre à développer des jeux avec Unity.",
@@ -50,5 +53,12 @@
   "seo": {
     "title": "Ethan Carollo - Développeur Polymorphe",
     "description": "Ethan Carollo, un développeur polymorphe compétent en applications web et mobiles, jeux vidéo et cycles de livraison continue."
+  },
+  "contactSection": {
+    "description": "Ouvert à de nouvelles opportunités et collaborations. Créons quelque chose d'incroyable ensemble !",
+    "email": "Email",
+    "location": "Localisation",
+    "city": "Annecy, France",
+    "sendMessage": "Envoyer un message"
   }
 }

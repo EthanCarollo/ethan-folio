@@ -47,9 +47,9 @@ const activeSection = ref('home');
 // Texts for the 3D Bar
 const heroTexts = computed(() => [
     t('hero.name'), // Front: "ETHAN CAROLLO"
-    'POLYMORPHIC DEV', // Bottom
-    "MASTER'S STUDENT", // Back
-    'GAME DEV ADDICT' // Top
+    t('hero.role1'), // Bottom
+    t('hero.role2'), // Back
+    t('hero.role3') // Top
 ]);
 
 let observer: IntersectionObserver | null = null;

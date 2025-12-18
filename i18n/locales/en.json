@@ -11,7 +11,10 @@
     "blog": "Blog",
     "navigation": "Navigation",
     "home": "Home",
-    "contact": "Contact"
+    "contact": "Contact",
+    "role1": "POLYMORPHIC DEV",
+    "role2": "MASTER'S STUDENT",
+    "role3": "GAME DEV ADDICT"
   },
   "about": {
     "backgroundText": "I'm Ethan Carollo, a {word} developer and a Master's student at Annecy Gobelins. I work with a variety of languages, including Kotlin for Android and Python for machine learning. I also love Nuxt and spend my free time developing games with Unity.",
@@ -50,5 +53,12 @@
   "seo": {
     "title": "Ethan Carollo - Polymorphic Developer",
     "description": "Ethan Carollo, a polymorphic developer skilled in web and mobile applications, video games, and continuous delivery cycles."
+  },
+  "contactSection": {
+    "description": "Open to new opportunities and collaborations. Let's build something amazing together!",
+    "email": "Email",
+    "location": "Location",
+    "city": "Annecy, France",
+    "sendMessage": "Send Message"
   }
 }
