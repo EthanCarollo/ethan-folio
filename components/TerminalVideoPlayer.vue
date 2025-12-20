@@ -5,6 +5,9 @@
     </div>
     
     <div class="video-container">
+        <div v-if="isBuffering" class="loading-overlay">
+            <span class="terminal-loader">LOADING <span class="dots">{{ loadingDots }}</span></span>
+        </div>
         <video
             ref="videoPlayer"
             :src="src"
@@ -17,6 +20,9 @@
             @play="onPlay"
             @pause="onPause"
             @ended="onEnded"
+            @waiting="onWaiting"
+            @canplay="onCanPlay"
+            @loadstart="onLoadStart"
         >
             <p class="text-foreground/60 p-4">Your browser does not support the video tag.</p>
         </video>
@@ -89,6 +95,8 @@ const statusText = ref('Ready')
 const isVisible = ref(false)
 const isLoaded = ref(false)
 const lastUpdateTime = ref(0)
+const isBuffering = ref(false)
+const loadingDots = ref('...')
 
 const progressPercentage = computed(() => {
   return duration.value > 0 ? (currentTime.value / duration.value) * 100 : 0
@@ -114,17 +122,65 @@ const onTimeUpdate = () => {
 const onPlay = () => {
   isPlaying.value = true
   statusText.value = 'Playing'
+  isBuffering.value = false
 }
 
 const onPause = () => {
   isPlaying.value = false
   statusText.value = 'Paused'
+  isBuffering.value = false
 }
 
 const onEnded = () => {
   isPlaying.value = false
   statusText.value = 'Finished'
+  isBuffering.value = false
 }
+
+const onWaiting = () => {
+    isBuffering.value = true
+    statusText.value = 'Buffering...'
+}
+
+const onCanPlay = () => {
+    isBuffering.value = false
+    if (isPlaying.value) {
+        statusText.value = 'Playing'
+    } else {
+        statusText.value = 'Ready'
+    }
+}
+
+const onLoadStart = () => {
+    isBuffering.value = true
+    statusText.value = 'Loading...'
+}
+
+let dotsInterval: ReturnType<typeof setInterval> | null = null
+
+const startDotsAnimation = () => {
+    if (dotsInterval) return
+    let count = 0
+    dotsInterval = setInterval(() => {
+        count = (count + 1) % 4
+        loadingDots.value = '.'.repeat(count)
+    }, 500)
+}
+
+const stopDotsAnimation = () => {
+    if (dotsInterval) {
+        clearInterval(dotsInterval)
+        dotsInterval = null
+    }
+}
+
+watch(isBuffering, (newValue) => {
+    if (newValue) {
+        startDotsAnimation()
+    } else {
+        stopDotsAnimation()
+    }
+})
 
 const togglePlay = () => {
   if (!videoPlayer.value || !isLoaded.value) return
@@ -272,6 +328,8 @@ onUnmounted(() => {
     intersectionObserver.disconnect()
     isObserverActive = false
   }
+  stopDotsAnimation()
+  
   // Nettoyage complet
   if (videoPlayer.value) {
     videoPlayer.value.pause()
@@ -297,6 +355,19 @@ onUnmounted(() => {
 
 .video-container {
   @apply relative bg-black;
+  min-height: 200px;
+}
+
+.loading-overlay {
+    @apply absolute inset-0 flex items-center justify-center bg-black/80 z-10;
+}
+
+.terminal-loader {
+    @apply text-white font-mono text-sm tracking-wider;
+}
+
+.dots {
+    @apply inline-block w-8 text-left;
 }
 
 .video-element {
