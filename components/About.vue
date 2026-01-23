@@ -22,10 +22,10 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="pt-2">
-                        <a href="https://github.com/EthanCarollo" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center gap-2 text-sm text-foreground hover:text-foreground/70 transition-colors group/link">
+                        <a href="https://github.com/EthanCarollo" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 text-sm text-foreground hover:text-foreground/70 transition-colors group/link">
                             <span class="group-hover/link:translate-x-1 transition-transform">→</span>
                             GitHub
                         </a>
@@ -34,9 +34,9 @@
 
                 <!-- Photo -->
                 <div class="relative group">
-                    <div class="aspect-[3/4] w-full relative overflow-hidden bg-foreground/5">
+                    <div class="aspect-[3/4] w-full relative overflow-hidden bg-foreground/5 rounded-lg">
                         <img src="/images/photome.png" alt="Ethan Carollo"
-                            class="w-full h-full object-cover filter grayscale contrast-125 brightness-110" />
+                            class="w-full h-full object-cover filter rounded-lg" />
                         <!-- Border frame effect -->
                         <div class="absolute inset-0 border-2 border-foreground/10 pointer-events-none"></div>
                     </div>

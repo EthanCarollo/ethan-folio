@@ -3,65 +3,44 @@
     <div class="terminal-header">
       <div class="terminal-title">{{ title || 'video-player.mp4' }}</div>
     </div>
-    
+
     <div class="video-container">
-        <div v-if="isBuffering" class="loading-overlay">
-            <span class="terminal-loader">LOADING <span class="dots">{{ loadingDots }}</span></span>
-        </div>
-        <video
-            ref="videoPlayer"
-            :src="src"
-            :poster="poster"
-            class="video-element"
-            muted
-            playsinline
-            @loadedmetadata="onLoadedMetadata"
-            @timeupdate="onTimeUpdate"
-            @play="onPlay"
-            @pause="onPause"
-            @ended="onEnded"
-            @waiting="onWaiting"
-            @canplay="onCanPlay"
-            @loadstart="onLoadStart"
-        >
-            <p class="text-foreground/60 p-4">Your browser does not support the video tag.</p>
-        </video>
-        <div class="video-controls">
+      <div v-if="isBuffering" class="loading-overlay">
+        <span class="terminal-loader">LOADING <span class="dots">{{ loadingDots }}</span></span>
+      </div>
+      <video ref="videoPlayer" :src="src" :poster="poster" class="video-element" muted playsinline
+        @loadedmetadata="onLoadedMetadata" @timeupdate="onTimeUpdate" @play="onPlay" @pause="onPause" @ended="onEnded"
+        @waiting="onWaiting" @canplay="onCanPlay" @loadstart="onLoadStart">
+        <p class="text-foreground/60 p-4">Your browser does not support the video tag.</p>
+      </video>
+      <div class="video-controls">
         <div class="controls-row">
-          <button 
-            @click="togglePlay" 
-            class="control-btn play-btn"
-            :aria-label="isPlaying ? 'Pause' : 'Play'"
-          >
+          <button @click="togglePlay" class="control-btn play-btn" :aria-label="isPlaying ? 'Pause' : 'Play'">
             <span v-if="!isPlaying">▶</span>
             <span v-else>⏸</span>
           </button>
-          
+
           <div class="time-display">
             <span class="time-current">{{ formatTime(currentTime) }}</span>
             <span class="time-separator">/</span>
             <span class="time-total">{{ formatTime(duration) }}</span>
           </div>
-          
+
           <div class="progress-container" @click="seek">
             <div class="progress-bar">
               <div class="progress-filled" :style="{ width: progressPercentage + '%' }"></div>
             </div>
           </div>
-          
+
           <!-- Volume controls removed as requested -->
-          
-          <button 
-            @click="toggleFullscreen" 
-            class="control-btn fullscreen-btn"
-            aria-label="Toggle fullscreen"
-          >
+
+          <button @click="toggleFullscreen" class="control-btn fullscreen-btn" aria-label="Toggle fullscreen">
             ⛶
           </button>
         </div>
       </div>
     </div>
-    
+
     <div class="terminal-status-bar">
       <span class="status-text">{{ statusText }}</span>
       <span class="status-indicator" :class="{ active: isPlaying }"></span>
@@ -70,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 
 interface Props {
   src: string
@@ -138,53 +117,57 @@ const onEnded = () => {
 }
 
 const onWaiting = () => {
-    isBuffering.value = true
-    statusText.value = 'Buffering...'
+  isBuffering.value = true
+  statusText.value = 'Buffering...'
 }
 
 const onCanPlay = () => {
-    isBuffering.value = false
-    if (isPlaying.value) {
-        statusText.value = 'Playing'
-    } else {
-        statusText.value = 'Ready'
-    }
+  isBuffering.value = false
+  // Récupérer la durée ici aussi au cas où loadedmetadata n'a pas été déclenché
+  if (videoPlayer.value && duration.value === 0) {
+    duration.value = videoPlayer.value.duration
+  }
+  if (isPlaying.value) {
+    statusText.value = 'Playing'
+  } else {
+    statusText.value = 'Ready'
+  }
 }
 
 const onLoadStart = () => {
-    isBuffering.value = true
-    statusText.value = 'Loading...'
+  isBuffering.value = true
+  statusText.value = 'Loading...'
 }
 
 let dotsInterval: ReturnType<typeof setInterval> | null = null
 
 const startDotsAnimation = () => {
-    if (dotsInterval) return
-    let count = 0
-    dotsInterval = setInterval(() => {
-        count = (count + 1) % 4
-        loadingDots.value = '.'.repeat(count)
-    }, 500)
+  if (dotsInterval) return
+  let count = 0
+  dotsInterval = setInterval(() => {
+    count = (count + 1) % 4
+    loadingDots.value = '.'.repeat(count)
+  }, 500)
 }
 
 const stopDotsAnimation = () => {
-    if (dotsInterval) {
-        clearInterval(dotsInterval)
-        dotsInterval = null
-    }
+  if (dotsInterval) {
+    clearInterval(dotsInterval)
+    dotsInterval = null
+  }
 }
 
 watch(isBuffering, (newValue) => {
-    if (newValue) {
-        startDotsAnimation()
-    } else {
-        stopDotsAnimation()
-    }
+  if (newValue) {
+    startDotsAnimation()
+  } else {
+    stopDotsAnimation()
+  }
 })
 
 const togglePlay = () => {
   if (!videoPlayer.value || !isLoaded.value) return
-  
+
   if (isPlaying.value) {
     videoPlayer.value.pause()
   } else {
@@ -197,10 +180,10 @@ const togglePlay = () => {
 const pauseOtherVideos = () => {
   // Pause toutes les vidéos sauf celle-ci - version optimisée
   if (!videoPlayer.value) return
-  
+
   const videos = document.querySelectorAll('video')
   const currentVideo = videoPlayer.value
-  
+
   // Utiliser forEach classique pour meilleures performances
   for (let i = 0; i < videos.length; i++) {
     const video = videos[i] as HTMLVideoElement
@@ -218,18 +201,18 @@ const pauseOtherVideos = () => {
 
 const seek = (event: MouseEvent) => {
   if (!videoPlayer.value) return
-  
+
   const progressContainer = event.currentTarget as HTMLElement
   const rect = progressContainer.getBoundingClientRect()
   const clickX = event.clientX - rect.left
   const percentage = clickX / rect.width
-  
+
   videoPlayer.value.currentTime = percentage * duration.value
 }
 
 const toggleFullscreen = () => {
   if (!videoPlayer.value) return
-  
+
   if (!document.fullscreenElement) {
     videoPlayer.value.requestFullscreen().catch(err => {
       console.error(`Error attempting to enable fullscreen: ${err.message}`)
@@ -240,6 +223,7 @@ const toggleFullscreen = () => {
 }
 
 const formatTime = (seconds: number): string => {
+  if (!Number.isFinite(seconds) || isNaN(seconds)) return '0:00'
   const mins = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
   return `${mins}:${secs.toString().padStart(2, '0')}`
@@ -251,9 +235,9 @@ let isObserverActive = false
 
 const setupIntersectionObserver = () => {
   if (!videoPlayer.value || isObserverActive) return
-  
+
   isObserverActive = true
-  
+
   if ('IntersectionObserver' in window) {
     intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -287,19 +271,19 @@ const setupIntersectionObserver = () => {
 
 const loadVideo = () => {
   if (!videoPlayer.value || isLoaded.value) return
-  
+
   isLoaded.value = true
-  
+
   // Force mute always
   if (videoPlayer.value) {
     videoPlayer.value.muted = true
     videoPlayer.value.volume = 0
   }
-  
+
   if (props.autoplay && isVisible.value) {
     videoPlayer.value.play()
   }
-  
+
   // Si pas de poster spécifié, capturer la première frame comme thumbnail
   if (!props.poster && !props.forceMute) {
     videoPlayer.value.addEventListener('loadeddata', () => {
@@ -329,7 +313,7 @@ onUnmounted(() => {
     isObserverActive = false
   }
   stopDotsAnimation()
-  
+
   // Nettoyage complet
   if (videoPlayer.value) {
     videoPlayer.value.pause()
@@ -359,15 +343,15 @@ onUnmounted(() => {
 }
 
 .loading-overlay {
-    @apply absolute inset-0 flex items-center justify-center bg-black/80 z-10;
+  @apply absolute inset-0 flex items-center justify-center bg-black/80 z-10;
 }
 
 .terminal-loader {
-    @apply text-white font-mono text-sm tracking-wider;
+  @apply text-white font-mono text-sm tracking-wider;
 }
 
 .dots {
-    @apply inline-block w-8 text-left;
+  @apply inline-block w-8 text-left;
 }
 
 .video-element {
@@ -384,20 +368,20 @@ onUnmounted(() => {
 }
 
 .control-btn {
-  @apply bg-foreground/20 hover:bg-foreground/30 text-foreground border border-foreground/30 rounded px-3 py-1 transition-colors;
+  @apply bg-white/20 hover:bg-white/30 text-white border border-white/30 rounded px-3 py-1 transition-colors;
   @apply flex items-center justify-center min-w-[32px] h-8;
 }
 
 .control-btn:hover {
-  @apply bg-foreground/30;
+  @apply bg-white/30;
 }
 
 .time-display {
-  @apply text-foreground/80 text-sm font-mono flex items-center gap-1;
+  @apply text-white/80 text-sm font-mono flex items-center gap-1;
 }
 
 .time-separator {
-  @apply text-foreground/60 mx-1;
+  @apply text-white/60 mx-1;
 }
 
 .progress-container {
@@ -405,11 +389,11 @@ onUnmounted(() => {
 }
 
 .progress-bar {
-  @apply bg-foreground/20 h-2 rounded-full overflow-hidden;
+  @apply bg-white/20 h-2 rounded-full overflow-hidden;
 }
 
 .progress-filled {
-  @apply bg-foreground h-full transition-all duration-100;
+  @apply bg-white h-full transition-all duration-100;
 }
 
 .volume-slider {
@@ -441,11 +425,11 @@ onUnmounted(() => {
   .controls-row {
     @apply flex-wrap gap-2;
   }
-  
+
   .time-display {
     @apply order-first w-full justify-center mb-2;
   }
-  
+
   .progress-container {
     @apply order-last w-full mt-2;
   }
