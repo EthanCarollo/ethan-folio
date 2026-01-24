@@ -3,7 +3,7 @@ title: VirusMania
 date: 01-12-2025
 image: /virusmania_media/virusmania_banner.png
 role: Lead Developer
-category: VideoGame
+category: Game Dev
 slug: virusmania
 tags: ["Unity", "C#"]
 repo: "https://github.com/methil-mods/virusmania"
