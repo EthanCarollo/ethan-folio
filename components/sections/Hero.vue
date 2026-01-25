@@ -18,7 +18,6 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
-import ThreeDBar from './ThreeDBar.vue';
 
 const { t, locale } = useI18n();
 const activeSection = ref('home');

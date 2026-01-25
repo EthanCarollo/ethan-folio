@@ -53,8 +53,6 @@
 </template>
 
 <script setup lang="ts">
-import ContentTableOfContents from "../../components/ContentTableOfContents.vue";
-
 const route = useRoute()
 const { locale } = useI18n()
 
@@ -115,11 +113,13 @@ const forcePageReload = () => {
 
 /* Responsive styles for project pages */
 @media (max-width: 1024px) {
+
     /* Remise à zéro de la marge quand le sidebar disparaît */
     div[class*="ml-64"] {
         @apply ml-0;
     }
 }
+
 /* TOC visibility is now handled by ContentTableOfContents.vue */
 
 @media (max-width: 768px) {

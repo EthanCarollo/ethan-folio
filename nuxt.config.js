@@ -3,6 +3,14 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
 
+    components: [
+        { path: '~/components/sections', pathPrefix: false },
+        { path: '~/components/ui', pathPrefix: false },
+        { path: '~/components/content', pathPrefix: false },
+        { path: '~/components/features', pathPrefix: false },
+        '~/components'
+    ],
+
     // Static site generation
     target: 'static',
     ssr: true,

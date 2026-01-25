@@ -36,6 +36,12 @@
   "projects": {
     "title": "Projets"
   },
+  "notes": {
+    "title": "Notes",
+    "description": "Mon petit coin perso pour mes pensées, articles de blog et notes en vrac.",
+    "notFound": "Aucune note trouvée pour le moment.",
+    "viewAll": "Voir toutes les notes"
+  },
   "blog": {
     "date": "Date",
     "author": "Auteur",
@@ -55,7 +61,7 @@
     "description": "Ethan Carollo, un développeur polymorphe compétent en applications web et mobiles, jeux vidéo et cycles de livraison continue."
   },
   "contactSection": {
-    "description": "Ouvert à de nouvelles opportunités et collaborations. Créons quelque chose d'incroyable ensemble !",
+    "description": "Toujours partant pour créer de nouvelles choses !",
     "email": "Email",
     "location": "Localisation",
     "city": "Annecy, France",
