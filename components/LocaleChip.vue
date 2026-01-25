@@ -1,6 +1,7 @@
 <template>
   <div class="locale-toggle-container">
-    <button class="locale-toggle" @click="toggleLocale" :aria-label="`Switch to ${nextLocale.name}`">
+    <button class="locale-toggle" :class="isScrolled ? 'theme-white' : 'theme-black'" @click="toggleLocale"
+      :aria-label="`Switch to ${nextLocale.name}`">
       <span class="locale-current">{{ currentLocale.code.toUpperCase() }}</span>
       <span class="locale-separator">→</span>
       <span class="locale-next">{{ nextLocale.code.toUpperCase() }}</span>
@@ -9,6 +10,10 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+  isScrolled?: boolean
+}>()
+
 const { locale, locales } = useI18n()
 const route = useRoute()
 const router = useRouter()
@@ -57,30 +62,48 @@ const toggleLocale = () => {
 }
 
 .locale-toggle {
-  @apply bg-black hover:bg-black/80 text-white border border-white/20 rounded-lg px-3 py-1.5 cursor-pointer transition-all duration-200;
+  @apply rounded-lg px-3 py-1.5 cursor-pointer transition-all duration-300;
   @apply flex items-center gap-2 font-mono text-sm;
-  @apply hover:border-white/40 hover:shadow-sm;
+  @apply shadow-sm hover:shadow-md;
+}
+
+/* Theme Default (Black - Hero) */
+.locale-toggle.theme-black {
+  @apply bg-black hover:bg-black/80 text-white border border-white/20;
+  @apply hover:border-white/40;
+}
+
+/* Theme White (Scrolled - Content) */
+.locale-toggle.theme-white {
+  @apply bg-white hover:bg-gray-50 text-black border border-black/10;
+  @apply hover:border-black/30;
 }
 
 .locale-toggle:active {
   @apply scale-95;
 }
 
-.locale-current {
-  @apply text-white font-bold;
+/* Text Colors dynamically handled by parent class, but we need specific overrides if overrides fail */
+.theme-black .locale-current,
+.theme-black .locale-next {
+  @apply text-white;
 }
 
-.locale-separator {
-  @apply text-white/40 text-xs;
-}
-
-.locale-next {
+.theme-black .locale-separator,
+.theme-black .locale-next {
   @apply text-white/60;
 }
 
-.locale-toggle:hover .locale-next {
-  @apply text-white/80;
+.theme-white .locale-current,
+.theme-white .locale-next {
+  @apply text-black;
 }
+
+.theme-white .locale-separator,
+.theme-white .locale-next {
+  @apply text-black/60;
+}
+
 
 /* Responsive */
 @media (max-width: 640px) {

@@ -1,7 +1,8 @@
 <template>
-    <section id="home" class="relative h-screen w-screen px-8 py-8">
-        <div class="bg-black h-full w-full flex rounded-xl overflow-hidden items-center
-        justify-center px-4 py-12 sm:py-16 md:py-20 font-mono">
+    <section id="home" class="relative h-screen w-screen transition-all duration-700 ease-in-out"
+        :class="hasScrolled ? 'px-8 py-8' : 'px-0 py-0'">
+        <div class="bg-black h-full w-full flex overflow-hidden items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono transition-all duration-700 ease-in-out"
+            :class="hasScrolled ? 'rounded-xl' : 'rounded-none'">
             <div class="max-w-4xl mx-auto w-full">
                 <div class="space-y-1 text-sm">
                     <!-- Profile label removed -->
@@ -31,8 +32,16 @@ const heroTexts = computed(() => [
 ]);
 
 let observer: IntersectionObserver | null = null;
+const hasScrolled = ref(false);
+
+const handleScroll = () => {
+    // Trigger animation as soon as scroll starts, or at a very small threshold
+    hasScrolled.value = window.scrollY > 50;
+}
 
 onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+
     observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -49,6 +58,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
     if (observer) observer.disconnect();
 });
 </script>
