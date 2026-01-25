@@ -1,5 +1,5 @@
 <template>
-  <div class="locale-toggle-container z-[90] ">
+  <div class="locale-toggle-container">
     <button class="locale-toggle" @click="toggleLocale" :aria-label="`Switch to ${nextLocale.name}`">
       <span class="locale-current">{{ currentLocale.code.toUpperCase() }}</span>
       <span class="locale-separator">→</span>
@@ -10,6 +10,8 @@
 
 <script setup lang="ts">
 const { locale, locales } = useI18n()
+const route = useRoute()
+const router = useRouter()
 
 const availableLocales = computed(() => {
   return locales.value
@@ -34,10 +36,6 @@ const toggleLocale = () => {
   })
   cookie.value = newLocale
 
-  // Obtenir la route actuelle et construire la nouvelle URL avec préfixe
-  const route = useRoute()
-  const router = useRouter()
-
   // Construire le nouveau chemin avec le préfixe de langue
   let newPath = ''
   if (newLocale === 'fr') {
@@ -59,9 +57,9 @@ const toggleLocale = () => {
 }
 
 .locale-toggle {
-  @apply bg-foreground/10 hover:bg-foreground/20 text-foreground border border-foreground/30 rounded-lg px-3 py-1.5 cursor-pointer transition-all duration-200;
+  @apply bg-black hover:bg-black/80 text-white border border-white/20 rounded-lg px-3 py-1.5 cursor-pointer transition-all duration-200;
   @apply flex items-center gap-2 font-mono text-sm;
-  @apply hover:border-foreground/50 hover:shadow-sm;
+  @apply hover:border-white/40 hover:shadow-sm;
 }
 
 .locale-toggle:active {
@@ -69,19 +67,19 @@ const toggleLocale = () => {
 }
 
 .locale-current {
-  @apply text-foreground font-bold;
+  @apply text-white font-bold;
 }
 
 .locale-separator {
-  @apply text-foreground/40 text-xs;
+  @apply text-white/40 text-xs;
 }
 
 .locale-next {
-  @apply text-foreground/60;
+  @apply text-white/60;
 }
 
 .locale-toggle:hover .locale-next {
-  @apply text-foreground/80;
+  @apply text-white/80;
 }
 
 /* Responsive */

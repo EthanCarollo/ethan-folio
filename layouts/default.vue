@@ -1,19 +1,24 @@
 <template>
-    <div>
+    <div class="relative min-h-screen">
         <slot />
-        <div class="fixed top-4 right-4 z-[999999] flex flex-col items-end gap-2 text-right">
-            toto
+    </div>
+    <!-- Conteneur pour le LocaleChip avec z-index élevé et promotion GPU -->
+    <div class="fixed top-4 right-4 md:top-12 md:right-12 z-[9999] pointer-events-none"
+        style="transform: translateZ(1000px);">
+        <div class="pointer-events-auto">
             <LocaleChip />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
+
 const showMouseTrail = computed(() => {
-    return !useRoute().path.includes('/projects/')
+    return !route.path.includes('/projects/')
 })
 
 const isIndexPage = computed(() => {
-    return useRoute().path === '/'
+    return route.path === '/'
 })
 </script>

@@ -29,7 +29,7 @@
 
             <div class="text-center">
                 <a href="mailto:etcarollo@gmail.com"
-                    class="inline-block px-8 py-3 border border-foreground hover:bg-foreground hover:text-background transition-all text-sm">
+                    class="inline-block px-8 py-3 border rounded-md border-foreground hover:bg-foreground hover:text-background transition-all text-sm">
                     {{ $t('contactSection.sendMessage') }}
                 </a>
             </div>
