@@ -2,14 +2,6 @@
 
 A minimalist terminal-style portfolio website built with Nuxt 4.
 
-## Features
-
-- 💻 Terminal-inspired design
-- ⚡ Static site generation
-- 🎨 Clean monochrome aesthetic
-- 🚀 Fast and optimized
-- 📱 Responsive design
-
 ## Tech Stack
 
 - **Framework:** Nuxt 4
