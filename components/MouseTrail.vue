@@ -27,19 +27,12 @@ onMounted(async () => {
             size: number;
         }> = [];
 
-        const gridSize = 60; // Increased from 35 to 60 for fewer particles (Optimization)
+        const gridSize = 45;
         let mouseX = 0;
         let mouseY = 0;
-        // ... (lines 32-116 unchanged)
 
         p.draw = () => {
             p.clear();
-
-            // ... (lines 120-227 unchanged) ...
-
-            // Draw lines optimization: Use the grid structure!
-            // Instead of O(N^2) check, we just check right and bottom neighbors for each particle.
-            // Since particles stay relatively close to their base, this approximation is fine visually.
 
             if (isMouseMoving || mouseSpeed > 0.1) {
                 p.stroke(0, 0, 0, 30);
@@ -97,7 +90,15 @@ onMounted(async () => {
         const initializeParticles = () => {
             particles.length = 0;
             canvasWidth = window.innerWidth;
-            canvasHeight = window.innerHeight;
+            // Utiliser la hauteur maximale entre la fenêtre et le contenu de la page
+            const documentHeight = Math.max(
+                document.body.scrollHeight,
+                document.body.offsetHeight, 
+                document.documentElement.clientHeight,
+                document.documentElement.scrollHeight,
+                document.documentElement.offsetHeight
+            );
+            canvasHeight = Math.max(window.innerHeight, documentHeight);
 
             const cols = Math.ceil(canvasWidth / gridSize);
             const rows = Math.ceil(canvasHeight / gridSize);
@@ -139,7 +140,15 @@ onMounted(async () => {
         p.windowResized = () => {
             if (window.innerWidth !== canvasWidth || window.innerHeight !== canvasHeight) {
                 canvasWidth = window.innerWidth;
-                canvasHeight = window.innerHeight;
+                // Recalculer la hauteur du document lors du redimensionnement
+                const documentHeight = Math.max(
+                    document.body.scrollHeight,
+                    document.body.offsetHeight, 
+                    document.documentElement.clientHeight,
+                    document.documentElement.scrollHeight,
+                    document.documentElement.offsetHeight
+                );
+                canvasHeight = Math.max(window.innerHeight, documentHeight);
                 p.resizeCanvas(canvasWidth, canvasHeight);
                 initializeParticles();
             }
@@ -195,16 +204,30 @@ onMounted(async () => {
             const totalGridHeight = rows * gridSize;
 
             particles.forEach((particle) => {
-                // Calculate position with scroll wrapping
-                // Parallax effect: scrollY * 0.5 (moves slower than foreground)
-                let effectiveBaseY = (particle.baseY - scrollY * 0.5) % totalGridHeight;
-                if (effectiveBaseY < -50) effectiveBaseY += totalGridHeight + 100; // Wrap around with buffer
-                if (effectiveBaseY > canvasHeight + 50) effectiveBaseY -= totalGridHeight + 100;
-
-                // If the particle ends up way off screen (due to resize/scroll jumps), reset it roughly
-                // But the modulo usually handles it.
-                // We add a buffer to creating/destroying at edges smoothness
-
+                // Calcul de la position avec wrapping fluide
+                let rawY = particle.baseY - scrollY * 0.5;
+                
+                // Wrapping fluide : créer des copies virtuelles au-dessus et en-dessous
+                let effectiveBaseY = rawY;
+                let bestDistance = Math.abs(rawY - particle.currentY);
+                
+                // Tester différentes positions wrapped pour trouver la plus proche
+                const testPositions = [
+                    rawY,
+                    rawY + totalGridHeight,
+                    rawY - totalGridHeight,
+                    rawY + totalGridHeight * 2,
+                    rawY - totalGridHeight * 2
+                ];
+                
+                // Choisir la position la plus proche de la position actuelle pour une transition fluide
+                for (const testY of testPositions) {
+                    const distance = Math.abs(testY - particle.currentY);
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        effectiveBaseY = testY;
+                    }
+                }
                 const dx = mouseX - particle.baseX; // Interaction is based on screen coordinates vs original X? 
                 // Wait, if the particle moves up, its X is same, but Y changes.
                 // Interaction should be based on CURRENT position relative to mouse.

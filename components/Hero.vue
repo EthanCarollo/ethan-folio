@@ -1,37 +1,15 @@
 <template>
-    <section id="home" class="min-h-screen flex items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono">
-        <div class="max-w-4xl mx-auto w-full">
-            <div class="space-y-1 text-sm">
-                <!-- Profile label removed -->
-                <div class="text-foreground mt-2 relative z-10">
-                    <ThreeDBar :texts="heroTexts" />
+    <section id="home" class="relative h-screen w-screen px-8 py-8">
+        <div class="bg-black h-full w-full flex rounded-xl overflow-hidden items-center
+        justify-center px-4 py-12 sm:py-16 md:py-20 font-mono">
+            <div class="max-w-4xl mx-auto w-full">
+                <div class="space-y-1 text-sm">
+                    <!-- Profile label removed -->
+                    <div class="text-foreground mt-2 relative z-10">
+                        <ThreeDBar :texts="heroTexts" />
+                    </div>
                 </div>
-            </div>
 
-            <!-- Navigation -->
-            <div
-                class="mt-8 flex flex-row items-center justify-center gap-6 md:fixed md:bottom-8 md:left-8 md:z-40 md:mt-0 md:flex-col md:items-start md:justify-start md:gap-2 text-sm font-mono">
-                <div class="text-foreground/60 mb-1 hidden md:block">{{ $t('hero.navigation') }}</div>
-
-                <a href="#home" class="block transition-all duration-300"
-                    :class="activeSection === 'home' ? 'text-foreground opacity-100 font-bold' : 'text-foreground/70 opacity-70 hover:opacity-100'">
-                    → {{ $t('hero.home') }}
-                </a>
-
-                <a href="#about" class="block transition-all duration-300"
-                    :class="activeSection === 'about' ? 'text-foreground opacity-100 font-bold' : 'text-foreground/70 opacity-70 hover:opacity-100'">
-                    → {{ $t('hero.about') }}
-                </a>
-
-                <a href="#projects" class="block transition-all duration-300"
-                    :class="activeSection === 'projects' ? 'text-foreground opacity-100 font-bold' : 'text-foreground/70 opacity-70 hover:opacity-100'">
-                    → {{ $t('hero.projects') }}
-                </a>
-
-                <a href="#contact" class="block transition-all duration-300"
-                    :class="activeSection === 'contact' ? 'text-foreground opacity-100 font-bold' : 'text-foreground/70 opacity-70 hover:opacity-100'">
-                    → {{ $t('hero.contact') }}
-                </a>
             </div>
         </div>
     </section>
@@ -62,8 +40,8 @@ onMounted(() => {
             }
         });
     }, {
-        threshold: 0.2, // Trigger when 20% visible
-        rootMargin: "-20% 0px -20% 0px" // Adjust detection area to center based
+        threshold: 0.2,
+        rootMargin: "-20% 0px -20% 0px"
     });
 
     const sections = document.querySelectorAll('section[id]');
@@ -74,7 +52,3 @@ onUnmounted(() => {
     if (observer) observer.disconnect();
 });
 </script>
-
-<style scoped>
-/* Component styles */
-</style>

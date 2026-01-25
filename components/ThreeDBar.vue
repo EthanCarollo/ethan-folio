@@ -193,21 +193,27 @@ const rotateBar = () => {
 .face.bottom {
     background: theme('colors.background');
     color: theme('colors.foreground');
-    border: 2px solid theme('colors.foreground');
+    border: 2px solid theme('colors.background');
+}
+
+.face.front {
+    background: theme('colors.foreground');
+    color: theme('colors.background');
+    border: 2px solid theme('colors.background');
 }
 
 /* Back (2): Inverted */
 .face.back {
     background: theme('colors.foreground');
     color: theme('colors.background');
-    /* Removed border */
+    border: 2px solid theme('colors.background');
 }
 
 /* Top (3): Default */
 .face.top {
     background: theme('colors.background');
     color: theme('colors.foreground');
-    border: 2px solid theme('colors.foreground');
+    border: 2px solid theme('colors.background');
 }
 
 .face.front,

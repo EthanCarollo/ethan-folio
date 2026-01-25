@@ -16,7 +16,7 @@ Tout a commencé par une envie simple : participer à une Game Jam avec Théo ([
 
 > C'est un thème qui nous plaisait plutôt bien car nous avions toujours
 > été intéressé aux contes de H. P. Lovecraft sans avoir vraiment pu 
-> mettre un pied.
+> mettre un pied dans ce type d'univers.
 
 Ce genre de thème peut rapidement faire penser à des jeux qui existent déja,
 comme par exemple `Call of Cthulu` (un JDR sur table qui me fait de l'oeil) ou bien

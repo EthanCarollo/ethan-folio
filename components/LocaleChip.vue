@@ -1,5 +1,5 @@
 <template>
-  <div class="locale-toggle-container">
+  <div class="locale-toggle-container z-[90] ">
     <button class="locale-toggle" @click="toggleLocale" :aria-label="`Switch to ${nextLocale.name}`">
       <span class="locale-current">{{ currentLocale.code.toUpperCase() }}</span>
       <span class="locale-separator">→</span>

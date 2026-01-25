@@ -1,6 +1,6 @@
 <template>
-    <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="about">
-        <div class="max-w-4xl mx-auto">
+    <section class="py-12 sm:py-16 md:py-20 px-4 font-mono mt-1" id="about">
+        <div class="max-w-3xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
                 <!-- Text Content -->
                 <div class="md:col-span-2 space-y-8">

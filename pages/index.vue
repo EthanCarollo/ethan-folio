@@ -1,5 +1,6 @@
 <template>
     <main class="min-h-screen">
+        <HomeNavigation />
         <Hero />
         <About />
         <Projects />
