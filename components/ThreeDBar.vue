@@ -72,22 +72,44 @@ const handleScroll = () => {
     scrollOffsetZ.value = -scrollY * 0.5; // Move back into screen
 };
 
-let autoRotateInterval: ReturnType<typeof setInterval>;
+let autoRotateInterval: ReturnType<typeof setInterval> | null = null;
+
+const startAutoRotate = () => {
+    if (autoRotateInterval) clearInterval(autoRotateInterval);
+    autoRotateInterval = setInterval(() => {
+        rotateBar();
+    }, 10000);
+};
+
+const stopAutoRotate = () => {
+    if (autoRotateInterval) {
+        clearInterval(autoRotateInterval);
+        autoRotateInterval = null;
+    }
+};
+
+const handleVisibilityChange = () => {
+    if (document.hidden) {
+        stopAutoRotate();
+    } else {
+        startAutoRotate();
+    }
+};
 
 onMounted(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Auto swap every 10 seconds
-    autoRotateInterval = setInterval(() => {
-        rotateBar();
-    }, 10000);
+    startAutoRotate();
 });
 
 onUnmounted(() => {
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('scroll', handleScroll);
-    if (autoRotateInterval) clearInterval(autoRotateInterval);
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+    stopAutoRotate();
 });
 
 const barStyle = computed(() => {
