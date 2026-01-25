@@ -36,6 +36,9 @@
   "projects": {
     "title": "Projets"
   },
+  "notes": {
+    "title": "Notes"
+  },
   "blog": {
     "date": "Date",
     "author": "Auteur",

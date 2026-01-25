@@ -4,6 +4,7 @@
         <Hero />
         <About />
         <Projects />
+        <LatestNotes />
         <Contact />
     </main>
 </template>

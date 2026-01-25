@@ -29,6 +29,17 @@ export default defineContentConfig({
                 slug: z.string(),
                 repo: z.string(),
             })
+        }),
+        notes: defineCollection({
+            type: 'page',
+            source: 'notes/*.md',
+            schema: z.object({
+                title: z.string(),
+                date: z.string(),
+                description: z.string(),
+                tags: z.array(z.string()),
+                slug: z.string(),
+            })
         })
     }
 })
