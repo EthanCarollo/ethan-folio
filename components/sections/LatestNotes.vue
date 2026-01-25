@@ -29,13 +29,13 @@
                     </div>
 
                     <div v-else class="text-center py-10 mb-8">
-                        <p class="text-foreground/50 font-mono">No notes found yet.</p>
+                        <p class="text-foreground/50 font-mono">{{ $t('notes.notFound') }}</p>
                     </div>
 
                     <div>
                         <NuxtLink :to="localePath('/notes')"
                             class="inline-flex items-center gap-2 text-sm text-foreground hover:text-foreground/70 transition-colors group">
-                            <span>View all notes</span>
+                            <span>{{ $t('notes.viewAll') }}</span>
                             <span class="group-hover:translate-x-1 transition-transform">→</span>
                         </NuxtLink>
                     </div>

@@ -37,7 +37,10 @@
     "title": "Projets"
   },
   "notes": {
-    "title": "Notes"
+    "title": "Notes",
+    "description": "Mon petit coin perso pour mes pensées, articles de blog et notes en vrac.",
+    "notFound": "Aucune note trouvée pour le moment.",
+    "viewAll": "Voir toutes les notes"
   },
   "blog": {
     "date": "Date",

@@ -10,7 +10,7 @@
 
             <h1 class="text-3xl sm:text-4xl font-bold mb-2 text-foreground font-mono">{{ $t('notes.title') }}</h1>
             <p class="text-foreground/60 mb-12 font-mono text-sm max-w-xl">
-                My personal corner for thoughts, blog posts, and random notes.
+                {{ $t('notes.description') }}
             </p>
 
             <div v-if="notes && notes.length > 0" class="flex flex-col space-y-0">
@@ -41,7 +41,7 @@
             </div>
 
             <div v-else class="text-center py-20">
-                <p class="text-foreground/50 font-mono">No notes found yet.</p>
+                <p class="text-foreground/50 font-mono">{{ $t('notes.notFound') }}</p>
             </div>
         </div>
     </div>
