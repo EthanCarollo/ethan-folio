@@ -4,10 +4,10 @@
     </div>
     <!-- Conteneur pour le LocaleChip avec z-index élevé et promotion GPU -->
     <div class="fixed z-[9999] pointer-events-none transition-all duration-500 ease-in-out"
-        :class="hasScrolled ? 'top-4 right-4 md:top-4 md:right-4' : 'top-4 right-4 md:top-12 md:right-12'"
+        :class="(hasScrolled || isProjectPage) ? 'top-4 right-4 md:top-4 md:right-4' : 'top-4 right-4 md:top-12 md:right-12'"
         style="transform: translateZ(1000px);">
         <div class="pointer-events-auto">
-            <LocaleChip :is-scrolled="hasScrolled" />
+            <LocaleChip :is-scrolled="hasScrolled || isProjectPage" />
         </div>
     </div>
 </template>
@@ -17,8 +17,12 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const route = useRoute()
 
+const isProjectPage = computed(() => {
+    return route.path.includes('/projects/')
+})
+
 const showMouseTrail = computed(() => {
-    return !route.path.includes('/projects/')
+    return !isProjectPage.value
 })
 
 const isIndexPage = computed(() => {
