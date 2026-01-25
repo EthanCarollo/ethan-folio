@@ -33,8 +33,16 @@
 const route = useRoute()
 const { locale } = useI18n()
 
-const { data: note } = await useAsyncData(`note-${route.params.slug}`, () => {
+const { data: note, refresh } = await useAsyncData(`note-${route.params.slug}-${locale.value}`, () => {
     return queryCollection('notes').path(`/notes/${route.params.slug}.${locale.value}`).first()
+}, {
+    watch: [locale]
+})
+
+watch(locale, async (newLocale, oldLocale) => {
+    if (newLocale !== oldLocale) {
+        await refresh()
+    }
 })
 
 useSeoMeta({

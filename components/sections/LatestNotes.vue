@@ -46,13 +46,25 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch, onMounted } from 'vue';
 const { locale } = useI18n()
 const localePath = useLocalePath()
 
-const { data: notes } = await useAsyncData(`latest-notes-${locale.value}`, () => {
-    return queryCollection('notes')
+const notes = ref<any[]>([])
+
+const loadLatestNotes = async () => {
+    notes.value = await queryCollection('notes')
         .order('date', 'DESC')
+        .where('stem', 'LIKE', '%.' + locale.value)
         .limit(3)
         .all()
+}
+
+// Initial load (using await in setup is fine with Suspense, but for components better to use onMounted or just reactive load if not critical for hydration wait)
+// Actually top-level await is fine in script setup in Nuxt 3 pages/components.
+await loadLatestNotes()
+
+watch(locale, () => {
+    loadLatestNotes()
 })
 </script>
