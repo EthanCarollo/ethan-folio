@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 * {
-    scroll-behavior: smooth;
     box-sizing: border-box;
 }
 
@@ -291,4 +290,24 @@ main, section, article, div {
 .prose .video-caption::before {
     content: "# Video: ";
     @apply text-foreground/40;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
