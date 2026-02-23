@@ -9,6 +9,4 @@ slug: "composite"
 
 # Introduction
 
-Composite is a visual arts project created using TouchDesigner for procedural generation and MadMapper for video mapping.
-
-This project explores the interaction between physical volumes and light.
+Composite is a project created during a Workshop with the [FullStory](https://fullstory.fr/) collective to celebrate the 10th anniversary of [Les Papeteries](https://www.lespapeteries.com/).
