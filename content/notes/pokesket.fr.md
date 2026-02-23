@@ -6,12 +6,16 @@ description: "Un petit projet de cours qui s'apparente plus à un projet entre p
 tags: ["unity", "methil", "ecole"]
 ---
 
+<div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+  <img src="/pokesket_media/logo.png" alt="Pokesket Logo" style="width: 400px; border: none;" />
+  <p style="font-style: italic; margin-top: 8px; color: #666;">(petit logo que j'ai fait sur photoshop)</p>
+</div>
 
-# Un jeu vidéo, encore ?
+# Un jeu vidéo, encore ?
 
 Oui exactement, encore, j'aime plutôt pas mal les jeux vidéos et en entrant dans mon école, j'avais bon espoir que j'allais en faire (et j'en ai fait :3), mais ce sont souvent des projets un peu rush avec des deadlines assez serrées et des autres choses à faire en même temps, bref, pas toujours le temps de bien faire les choses et de s'amuser.
 
-# Donc le départ
+# Donc le départ
 
 Mais pour Pokésket, c'est différent, pour le cours de Unity avec Colin Peyrat dans le cadre de ma 3ème année de bachelor, je me suis dit que j'allais plutôt prendre le truc vraiment au sérieux et que j'allais vraiment tryhard en me mettant avec mon pote **Emmanuel Moulin** ([GitHub](https://github.com/Kibishi47)). 
 Et donc, fallait une idée, faire un petit jeu bête, qui a pas vraiment de sens, et je jouais un peu à NBA pendant cette période donc je me suis dit, on est pas designers, on est pas des artistes, on est mauvais en 3D, mais on est bons en code, alors faisons un jeu de sport, mais en 2D, avec des sprites, et un gameplay simple mais efficace. Donc on a fait Pokésket, un jeu de basket avec des pokémons. (Ce qui est donc parfait car des sprites existent déjà pour Pokémon, et que c'est donc plus simple pour nous.)
@@ -37,4 +41,4 @@ J'ai pas beaucoup de visuels du jeu en développement, mais j'en ai mis quelques
   <img src="/pokesket_media/gif3.gif" alt="Pokesket Gameplay 3" style="width: 100%; max-width: 800px; border-radius: 8px;" />
 </div>
 
-
+> Je me suis vraiment bien amusé sur ce projet, et c'est le plus important :3 Merci Emmanuel

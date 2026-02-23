@@ -6,6 +6,10 @@ description: "A small course project that ended up being more of a project betwe
 tags: ["unity", "methil", "school"]
 ---
 
+<div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+  <img src="/pokesket_media/logo.png" alt="Pokesket Logo" style="width: 200px; border-radius: 8px;" />
+  <p style="font-style: italic; margin-top: 8px; color: #666;">(little logo I made on photoshop)</p>
+</div>
 
 # Another video game?
 
