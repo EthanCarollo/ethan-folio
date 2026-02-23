@@ -9,4 +9,5 @@ slug: "composite"
 
 # Introduction
 
-Composite est un projet réalisé dans le cadre d'un Workshop avec le collectif [FullStory](https://fullstory.fr/) pour les 10 ans des [Papeteries](https://www.lespapeteries.com/).
+Composite est un projet réalisé dans le cadre d'un Workshop avec le collectif [FullStory](https://fullstory.fr/) pour les 10 ans des [Papeteries](https://www.lespapeteries.com/). 
+Pour ce faire, j'ai collaboré avec Théo ([Nak0x](https://github.com/nak0x)), Paul Figari et Elsa Freppaz.
