@@ -21,7 +21,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   // Handle anchor link clicks globally
-  if (process.client) {
+  // @ts-expect-error import.meta.client is injected by Nuxt/Vite
+  if (import.meta.client) {
     document.addEventListener('click', (e) => {
       const target = (e.target as HTMLElement).closest('a')
       if (target && target.hash) {
