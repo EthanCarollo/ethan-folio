@@ -118,6 +118,8 @@ Pour obtenir ça :
 
 Et ça marche plutot bien finalement !
 
+> On notera quand même que le modele nous file un lien peter d'installation de gleam et une extension de fichier étrange **.gle** (j'avais jamais entendu parler et je crois pas que ça marche ça), ça peut servir pour plus tard.
+
 ```
 llama_perf_context_print:        load time =    2296.82 ms
 llama_perf_context_print: prompt eval time =    2296.61 ms /    87 tokens (   26.40 ms per token,    37.88 tokens per second)
@@ -166,3 +168,9 @@ CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
 ```
 
 Et là déja je peux utiliser (en partie) mon GPU.
+
+Grace à ça : https://llama-cpp-python.readthedocs.io/en/latest/api-reference/
+
+Mais comme je le pensais, la vie aurait été trop belle, on ne peut pas selectionner quelle couche va sur le GPU, et quelle couche va sur le CPU. Mais on peut choisir les X premières couches qui vont sur le GPU, et le reste sur le CPU. (C'est principalement dû au fait que les couches sont imbriqués entre elle donc on ne peut pas vraiment les séparer sans casser le modèle)
+
+Donc on va déja tenté avec un **n_gpu_layers** à 8.

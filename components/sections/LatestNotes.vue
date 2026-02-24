@@ -53,11 +53,11 @@ const localePath = useLocalePath()
 const notes = ref<any[]>([])
 
 const loadLatestNotes = async () => {
-    notes.value = await queryCollection('notes')
-        .order('date', 'DESC')
+    const data = await queryCollection('notes')
         .where('stem', 'LIKE', '%.' + locale.value)
-        .limit(3)
         .all()
+        
+    notes.value = data.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3)
 }
 
 // Initial load (using await in setup is fine with Suspense, but for components better to use onMounted or just reactive load if not critical for hydration wait)

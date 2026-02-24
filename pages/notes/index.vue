@@ -59,10 +59,11 @@ const localePath = useLocalePath()
 const notes = ref<any[]>([])
 
 const loadNotes = async () => {
-    notes.value = await queryCollection('notes')
-        .order('date', 'DESC')
+    const data = await queryCollection('notes')
         .where('stem', 'LIKE', '%.' + locale.value)
         .all()
+
+    notes.value = data.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
 // Initial load
