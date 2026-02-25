@@ -2,7 +2,7 @@
 title: "GPT-OSS-20B"
 date: "2025-02-24"
 slug: "gpt-oss-20b"
-description: "En gros, experimentons en local avec GPT-OSS-20B et voyons ce que ça donne."
+description: "Essayon de faire tourner un modèle open source en local (GPT-OSS-20B) et voyons ce que ça donne."
 tags: ["lab", "ml"]
 ---
 
@@ -10,7 +10,21 @@ tags: ["lab", "ml"]
 
 En gros, on est le 24 février, j'ai pas réussi à faire tourner Qwen 3.5 33B (A3B) sur mon pc, j'ai un peu le seum donc, j'ai envie de me tapper un peu d'experimentation avec **GPT-OSS-20B** en local (attention je suis un *aixpair*), un modèle que j'ai pas du tout utilisé depuis sa sortie si ce n'est vite fait pour de la traduction. 
 
-# Faisons tourner la bête d'abord.
+# Prenons d'abord en considération
+
+Avec mon hardware, c'était sûr que ça allait pas bien tourner et c'était un peu le but, essayer de contourner les limites de mon hardware pour avoir, au moins, 25 Tokens/secondes. Ca aurait été bien.
+
+Ah et donc, mon hardware :
+
+- Intel(R) Core(TM) i7-14650HX (24) @ 5.20 GHz
+- 32Go de RAM
+- RTX 5060 8GB (laptop, attention ça fait peur)
+
+Une mini config, pour un mini **aixpair IA**
+
+> En sachant que mon interface graphique (petit [GNOME](https://www.gnome.org/fr/)) tourne sur ma RTX, j'ai déja presque plus de VRAM rien qu'en lancant Pycharm du coup, ça va etre fun.
+
+# Faisons tourner la bête avec un truc qui marche déja.
 
 Bon, étant donné que je suis un newbie, je prends LM Studio, je prends le modèle GPT-OSS-20B et je lance.
 
@@ -167,10 +181,70 @@ Et donc après 2 secondes de recherches, je vois que je dois réinstaller llama-
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
 ```
 
+> C'était juste dans le readme de llama-cpp-python
+
 Et là déja je peux utiliser (en partie) mon GPU.
 
 Grace à ça : https://llama-cpp-python.readthedocs.io/en/latest/api-reference/
 
-Mais comme je le pensais, la vie aurait été trop belle, on ne peut pas selectionner quelle couche va sur le GPU, et quelle couche va sur le CPU. Mais on peut choisir les X premières couches qui vont sur le GPU, et le reste sur le CPU. (C'est principalement dû au fait que les couches sont imbriqués entre elle donc on ne peut pas vraiment les séparer sans casser le modèle)
+Mais comme je le pensais, la vie aurait été trop belle, on ne peut pas selectionner quelle couche va sur le GPU, et quelle couche va sur le CPU. Mais on peut choisir les X couches d'affilées qui vont sur le GPU, et le reste sur le CPU. (C'est principalement dû au fait que les couches sont imbriqués entre elle donc on ne peut pas vraiment les séparer sans casser le modèle)
 
 Donc on va déja tenté avec un **n_gpu_layers** à 8.
+
+Et ça marche (et ça me prend que 4g de VRAM en plus).
+
+```
+load_tensors: layer   0 assigned to device CPU, is_swa = 1
+load_tensors: layer   1 assigned to device CPU, is_swa = 0
+load_tensors: layer   2 assigned to device CPU, is_swa = 1
+load_tensors: layer   3 assigned to device CPU, is_swa = 0
+load_tensors: layer   4 assigned to device CPU, is_swa = 1
+load_tensors: layer   5 assigned to device CPU, is_swa = 0
+load_tensors: layer   6 assigned to device CPU, is_swa = 1
+load_tensors: layer   7 assigned to device CPU, is_swa = 0
+load_tensors: layer   8 assigned to device CPU, is_swa = 1
+load_tensors: layer   9 assigned to device CPU, is_swa = 0
+load_tensors: layer  10 assigned to device CPU, is_swa = 1
+load_tensors: layer  11 assigned to device CPU, is_swa = 0
+load_tensors: layer  12 assigned to device CPU, is_swa = 1
+load_tensors: layer  13 assigned to device CPU, is_swa = 0
+load_tensors: layer  14 assigned to device CPU, is_swa = 1
+load_tensors: layer  15 assigned to device CPU, is_swa = 0
+load_tensors: layer  16 assigned to device CUDA0, is_swa = 1
+load_tensors: layer  17 assigned to device CUDA0, is_swa = 0
+load_tensors: layer  18 assigned to device CUDA0, is_swa = 1
+load_tensors: layer  19 assigned to device CUDA0, is_swa = 0
+load_tensors: layer  20 assigned to device CUDA0, is_swa = 1
+load_tensors: layer  21 assigned to device CUDA0, is_swa = 0
+load_tensors: layer  22 assigned to device CUDA0, is_swa = 1
+load_tensors: layer  23 assigned to device CUDA0, is_swa = 0
+load_tensors: layer  24 assigned to device CPU, is_swa = 0
+```
+
+> Et on monte à 12 T/s, donc augmentons la dose avec 12 n_gpu_layers, ce qui nous fait monter à 14 T/s (**14.57 tokens per second** pour être exact)
+
+Sauf que il reste encore une carte dans ma manche, flash attn pourrait peut être accélerer tout ça.
+
+Mais pour aller plus loin il me faut une version toute neuve de pytorch qui coincide avec Cuda 13.1 qui est une nouvelle version de Cuda et qui tournerait vachement mieux aussi.
+
+```
+pip3 install --pre torch torchvision --index-url https://download.pytorch.org/whl/nightly/cu131
+```
+
+> https://discuss.pytorch.org/t/nvidia-rtx-5070-with-cuda-13/223638/2 comme peut en temoigner cette discussion, les gens sont pas tous d'accord mais bon, faut tester pour savoir. nightly build = danger.
+
+Bon déja là, en poussant le num_gpu_layers à 14 et en activant flash_attn j'obtiens entre 18 et 20 T/s, ce qui reste encore assez stable et correct. (c'est déja mieux que le résultat obtenu avec LM Studio)
+
+# Conclusion
+
+Je serais arrivé à un résultat surement mieux si j'avais tout fait via l'interface graphique de LM Studio, mais j'aurais surement pas fait toutes les recherches nécessaires qui m'ont permis de comprendre mieux comment run un modèle et ce que ça impliquait. J'ai finalement pas fait grand chose mais c'était suffisant pour cette fois. 
+
+C'est une étape nécessaire pour mon apprentissage je pense, enfin de toute façon c'est trop tard je l'ai fait.
+
+> Je prends aussi en compte le fait que le modèle a du mal avec le gleam :) (ca fera surement l'objet d'une prochaine expérimentation)
+
+# Notes
+
+![cpufeu](/gpt-oss-20b_media/cpufeu.png)
+
+> CPU feu parce que je compile llama-cpp-python avec les options de compilation qui vont bien. (ça a pris 30 minutes, je ne rigole pas), j'aurais du prendre une version pré-compilée. (ça aurait été plus rapide) (plus simple aussi)
