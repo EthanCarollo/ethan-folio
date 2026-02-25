@@ -1,6 +1,6 @@
 ---
 title: "LlamaCPP Python & GPT-OSS-20B"
-date: "2025-02-24"
+date: "2026-02-24"
 slug: "gpt-oss-20b"
 description: "Trying to run an open-source model locally (GPT-OSS-20B) and seeing how it goes."
 tags: ["lab", "ml"]
