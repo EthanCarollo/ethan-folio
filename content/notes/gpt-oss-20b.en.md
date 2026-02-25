@@ -2,50 +2,50 @@
 title: "LlamaCPP Python & GPT-OSS-20B"
 date: "2025-02-24"
 slug: "gpt-oss-20b"
-description: "Essayon de faire tourner un modèle open source en local (GPT-OSS-20B) et voyons ce que ça donne."
+description: "Trying to run an open-source model locally (GPT-OSS-20B) and seeing how it goes."
 tags: ["lab", "ml"]
 ---
 
 # Introduction
 
-En gros, on est le 24 février, j'ai pas réussi à faire tourner Qwen 3.5 33B (A3B) sur mon pc, j'ai un peu le seum donc, j'ai envie de me tapper un peu d'experimentation avec **GPT-OSS-20B** en local (attention je suis un *aixpair*), un modèle que j'ai pas du tout utilisé depuis sa sortie si ce n'est vite fait pour de la traduction. 
+Basically, it's February 24th, I didn't manage to run Qwen 3.5 33B (A3B) on my PC, I'm a bit salty, so I want to do some experimentation with **GPT-OSS-20B** locally (careful, I'm an *aixpair*), a model I haven't used at all since its release except briefly for some translation work.
 
-# Prenons d'abord en considération
+# First, let's consider
 
-Avec mon hardware, c'était sûr que ça allait pas bien tourner et c'était un peu le but, essayer de contourner les limites de mon hardware pour avoir, au moins, 25 Tokens/secondes. Ca aurait été bien.
+With my hardware, it was certain that it wouldn't run well, and that was kind of the point: trying to bypass my hardware's limits to get at least 25 Tokens/second. That would have been nice.
 
-Ah et donc, mon hardware :
+Oh, and here's my hardware:
 
 - Intel(R) Core(TM) i7-14650HX (24) @ 5.20 GHz
-- 32Go de RAM
-- RTX 5060 8GB (laptop, attention ça fait peur)
+- 32GB RAM
+- RTX 5060 8GB (laptop, careful, it's scary)
 
-Une mini config, pour un mini **aixpair IA**
+A mini config, for a mini **AI aixpair**
 
-> En sachant que mon interface graphique (petit [GNOME](https://www.gnome.org/fr/)) tourne sur ma RTX, j'ai déja presque plus de VRAM rien qu'en lancant Pycharm du coup, ça va etre fun.
+> Knowing that my graphical interface (the little [GNOME](https://www.gnome.org/fr/)) runs on my RTX, I've already almost run out of VRAM just by launching Pycharm, so this is going to be fun.
 
-# Faisons tourner la bête avec un truc qui marche déja.
+# Let's run the beast with something that already works.
 
-Bon, étant donné que je suis un newbie, je prends LM Studio, je prends le modèle GPT-OSS-20B et je lance.
+Well, since I'm a newbie, I'll use LM Studio, pick the GPT-OSS-20B model, and launch it.
 
 ![lmstudtest](/gpt-oss-20b_media/lmstudtest.png)
 
-> Toujours tester si un modèle connait [Gleam](https://gleam.run/), extremement important.
+> Always test if a model knows [Gleam](https://gleam.run/), extremely important.
 
-Dans mon cas, 17 tokens/secondes, c'est déja ça !
-Mais, ça me suffit pas, j'ai vu des mecs qui faisaient des optis de fous avec leur hardware, moi j'ai qu'un pc portable avec une RTX 5060, 32Go de RAM et un Intel(R) Core(TM) i7-14650HX (24 cores, attention), donc bon, faut optimiser. 
+In my case, 17 tokens/second, that's already something!
+But it's not enough for me. I've seen guys doing crazy optimizations with their hardware. I only have a laptop with an RTX 5060, 32GB of RAM, and an Intel(R) Core(TM) i7-14650HX (24 cores, watch out), so well, I need to optimize.
 
-> Et si je m'arretais à là, je n'arriverais pas vraiment à comprendre tout, il faut que je puisse à minima comprendre comment ça marche derrière, avec une interface toute belle, c'est trop simple :(
+> And if I stopped there, I wouldn't really understand everything. I need to at least be able to understand how it works behind the scenes. With a beautiful interface, it's too easy :(
 
-# Allons-y, testons d'autres choses.
+# Let's go, let's test other things.
 
-## Testons en python avec transformers
+## Testing with Python and transformers
 
-Donc bon, je vais d'abord tester de run ça en python avec transformers, comme c'est écrit sur la page du modèle (https://huggingface.co/openai/gpt-oss-20b).
+So well, I'll first try to run this in Python with transformers, as it's written on the model's page (https://huggingface.co/openai/gpt-oss-20b).
 
-> Donc je fais ma popote, environnement conda, installation,..
+> So I do my thing, conda environment, installation, etc.
 
-Et je pars donc de ce code : 
+And I start from this code:
 
 ```python
 from transformers import pipeline
@@ -71,41 +71,41 @@ outputs = pipe(
 print(outputs[0]["generated_text"][-1])
 ```
 
-> Exactement le même que sur HuggingFace, 0 changement car je suis un développeur qui ne sait pas réflechir. (J'ai juste changé le prompt pour qu'il me parle de [Gleam](https://gleam.run/)).
+> Exactly the same as on HuggingFace, 0 changes because I'm a developer who doesn't know how to think. (I just changed the prompt so it would talk to me about [Gleam](https://gleam.run/)).
 
-Et donc à peine j'ai le temps d'installer le modèle que : 
+And barely have I had time to install the model when:
 
 ```
 MXFP4 quantization requires Triton and kernels installed: CUDA requires Triton >= 3.4.0, XPU requires Triton >= 3.5.0, we will default to dequantizing the model to bf16
 ```
 
-> Bon, ok, je vais installer triton. Mais attends c'est quoi ce truc
+> Well, okay, I'll install Triton. But wait, what is this thing?
 
-Ok donc je suis tombé sur ce site : https://openai.com/index/triton/ et en gros, Triton c'est un langage de programmation pour écrire du code CUDA sans connaitre le CUDA, on dirait un peu une abstraction du CUDA, mais en Python. Bon, sympa, je vais installer ce truc. 
+Okay, so I stumbled upon this site: https://openai.com/index/triton/ and basically, Triton is a programming language for writing CUDA code without knowing CUDA. It looks like a CUDA abstraction, but in Python. Cool, I'll install this thing.
 
-Donc je
+So I do:
 
-``̀
+```bash
 pip install triton kernels
 ```
 
-ET EXPLOSION `CUDA out of memory`, normal j'ai 8GB de VRAM, donc bon, je vais pas essayer de loader le modele en partie sur mon CPU en même temps.
+AND EXPLOSION `CUDA out of memory`. Normal, I have 8GB of VRAM, so I shouldn't try to load part of the model into my CPU at the same time.
 
-Bon, on va zapper avec python et transformers, et je vais tenter direct avec llama-cpp-python.
+Well, we'll skip Python and transformers, and I'll try directly with llama-cpp-python.
 
-> Echec
+> Failure
 
-## Testons avec llama-cpp-python
+## Testing with llama-cpp-python
 
-Bon, je vais tenter avec llama-cpp-python, parce que bon, ça tourne bien, et j'ai déja le model download en GGUF.
+Well, I'll try with llama-cpp-python, because it runs well, and I already have the model downloaded in GGUF.
 
-hopla :
+Here we go:
 
-``̀ bash
+```bash
 pip install llama-cpp-python
-``` 
+```
 
-Et je pars avec ce code 
+And I start with this code:
 
 ```python
 from llama_cpp import Llama
@@ -124,15 +124,15 @@ output = llm.create_chat_completion(
 print(output)
 ```
 
-Pour obtenir ça :
+To get this:
 
-``` 
+```
 {'id': 'chatcmpl-94f78fa7-1e15-4b99-9219-94a34023924d', 'object': 'chat.completion', 'created': 1771974911, 'model': '/home/eth/.lmstudio/models/lmstudio-community/gpt-oss-20b-GGUF/gpt-oss-20b-MXFP4.gguf', 'choices': [{'index': 0, 'message': {'role': 'assistant', 'content': '<|channel|>analysis<|message|>We need to respond with basic code in Gleam. The user says "Give me basic code in gleam". Likely they want a simple example. Provide a small Gleam program, maybe a "Hello, world!" or a simple function. Also explanation. Provide code snippet. Possibly mention Gleam is a functional language for the BEAM VM. Provide a minimal main function. Provide comments. The user didn\'t specify context. So give a simple example. Also mention how to compile/run.\n\nWe should respond as helpful. Provide code and explanation.<|end|><|start|>assistant<|channel|>final<|message|>Below is a **minimal “Hello, world!” program** written in **Gleam**.  \nIt shows the core structure you’ll need: a module, an exported function, and a simple `main/0` that prints to the console.\n\n```gleam\n// hello.gleam\n//\n// A tiny Gleam program that prints “Hello, world!”\n//\n\nimport gleam/io\n\n// A simple function that returns a string\npub fn greet() -> String {\n  "Hello, world!"\n}\n\n// The entry‑point for the program.\n// `main/0` is automatically executed when the binary runs.\npub fn main() -> Result(() , io.Error) {\n  // Call `greet/0` and print the result\n  let message = greet()\n  // `println/1` returns `Result(() , io.Error)` so we propagate it\n  io.println(message)\n}\n```\n\n---\n\n### How to build & run\n\n1. **Install Gleam** (if you haven’t already):\n\n   ```bash\n   curl -sL https://gl.joeware.org/install | bash\n   ```\n\n   (On Windows you can use the Windows installer from the Gleam website.)\n\n2. **Create a new project** (optional, but convenient):\n\n   ```bash\n   gleam new hello\n   cd hello\n   ```\n\n   Replace the contents of `src/main.gleam` with the code above, or simply create a file called `hello.gle'}, 'logprobs': None, 'finish_reason': 'length'}], 'usage': {'prompt_tokens': 87, 'completion_tokens': 425, 'total_tokens': 512}}
 ```
 
-Et ça marche plutot bien finalement !
+And it actually works quite well!
 
-> On notera quand même que le modele nous file un lien peter d'installation de gleam et une extension de fichier étrange **.gle** (j'avais jamais entendu parler et je crois pas que ça marche ça), ça peut servir pour plus tard.
+> We should note, however, that the model gives us a broken Gleam installation link and a strange file extension **.gle** (I had never heard of it and I don't think it works), it might be useful for later.
 
 ```
 llama_perf_context_print:        load time =    2296.82 ms
@@ -141,11 +141,11 @@ llama_perf_context_print:        eval time =   43100.74 ms /   424 runs   (  101
 llama_perf_context_print:       total time =   46550.07 ms /   511 tokens
 ```
 
-Bon, c'est pas fou niveau perf, mais c'est déja ça, il y a surement un moyen d'optimiser ça. 
+Well, the performance isn't great, but it's something. There's probably a way to optimize this.
 
-Et la réponse peut se trouver là :
+And the answer might be found here:
 
-``̀
+```
 load_tensors: layer   0 assigned to device CPU, is_swa = 1
 load_tensors: layer   1 assigned to device CPU, is_swa = 0
 load_tensors: layer   2 assigned to device CPU, is_swa = 1
@@ -173,25 +173,25 @@ load_tensors: layer  23 assigned to device CPU, is_swa = 0
 load_tensors: layer  24 assigned to device CPU, is_swa = 0
 ```
 
-> On voit bien que le modèle est chargé sur le CPU, ce qui explique les perfs de merde. Mais je sais que je pourrais jamais tout mettre sur le GPU, mais je peux peut être mettre une partie sur le GPU, et le reste sur le CPU, pour optimiser les perfs. 
+> It's clearly visible that the model is loaded on the CPU, which explains the crappy performance. But I know I could never put everything on the GPU, though I might be able to put part of it on the GPU and the rest on the CPU to optimize performance.
 
-Et donc après 2 secondes de recherches, je vois que je dois réinstaller llama-cpp-python avec les options de compilation qui vont bien. 
+So, after 2 seconds of research, I see that I need to reinstall llama-cpp-python with the appropriate compilation options.
 
 ```bash
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
 ```
 
-> C'était juste dans le readme de llama-cpp-python
+> It was right there in the llama-cpp-python readme.
 
-Et là déja je peux utiliser (en partie) mon GPU.
+And now I can (partially) use my GPU.
 
-Grace à ça : https://llama-cpp-python.readthedocs.io/en/latest/api-reference/
+Thanks to this: https://llama-cpp-python.readthedocs.io/en/latest/api-reference/
 
-Mais comme je le pensais, la vie aurait été trop belle, on ne peut pas selectionner quelle couche va sur le GPU, et quelle couche va sur le CPU. Mais on peut choisir les X couches d'affilées qui vont sur le GPU, et le reste sur le CPU. (C'est principalement dû au fait que les couches sont imbriqués entre elle donc on ne peut pas vraiment les séparer sans casser le modèle)
+But as I thought, life would have been too beautiful; you can't select exactly which layer goes to the GPU and which goes to the CPU. You can only choose X consecutive layers to go on the GPU, and the rest on the CPU. (This is mainly because the layers are nested with each other, so you can't really separate them without breaking the model.)
 
-Donc on va déja tenté avec un **n_gpu_layers** à 8.
+So let's first try with **n_gpu_layers** set to 8.
 
-Et ça marche (et ça me prend que 4g de VRAM en plus).
+And it works (and it only takes up an extra 4GB of VRAM).
 
 ```
 load_tensors: layer   0 assigned to device CPU, is_swa = 1
@@ -221,30 +221,30 @@ load_tensors: layer  23 assigned to device CUDA0, is_swa = 0
 load_tensors: layer  24 assigned to device CPU, is_swa = 0
 ```
 
-> Et on monte à 12 T/s, donc augmentons la dose avec 12 n_gpu_layers, ce qui nous fait monter à 14 T/s (**14.57 tokens per second** pour être exact)
+> And we're up to 12 T/s, so let's increase the dose with 12 n_gpu_layers, which brings us up to 14 T/s (**14.57 tokens per second** to be exact).
 
-Sauf que il reste encore une carte dans ma manche, flash attn pourrait peut être accélerer tout ça.
+Except I still have one card up my sleeve: flash attn might be able to speed all this up.
 
-Mais pour aller plus loin il me faut une version toute neuve de pytorch qui coincide avec Cuda 13.1 qui est une nouvelle version de Cuda et qui tournerait vachement mieux aussi.
+But to go further, I need a brand new version of pytorch that coincides with Cuda 13.1, which is a new version of Cuda and would run much better too.
 
-```
+```bash
 pip3 install --pre torch torchvision --index-url https://download.pytorch.org/whl/nightly/cu131
 ```
 
-> https://discuss.pytorch.org/t/nvidia-rtx-5070-with-cuda-13/223638/2 comme peut en temoigner cette discussion, les gens sont pas tous d'accord mais bon, faut tester pour savoir. nightly build = danger.
+> https://discuss.pytorch.org/t/nvidia-rtx-5070-with-cuda-13/223638/2 as this discussion testifies, people don't all agree, but well, you have to test to know. nightly build = danger.
 
-Bon déja là, en poussant le num_gpu_layers à 14 et en activant flash_attn j'obtiens entre 18 et 20 T/s, ce qui reste encore assez stable et correct. (c'est déja mieux que le résultat obtenu avec LM Studio)
+Well, already there, by pushing num_gpu_layers to 14 and enabling flash_attn, I get between 18 and 20 T/s, which remains quite stable and correct. (It's already better than the result obtained with LM Studio).
 
-# Conclusion
+# Conclusion
 
-Je serais arrivé à un résultat surement mieux si j'avais tout fait via l'interface graphique de LM Studio, mais j'aurais surement pas fait toutes les recherches nécessaires qui m'ont permis de comprendre mieux comment run un modèle et ce que ça impliquait. J'ai finalement pas fait grand chose mais c'était suffisant pour cette fois. 
+I would have probably arrived at a better result if I had done everything through the LM Studio graphical interface, but I probably wouldn't have done all the necessary research that allowed me to better understand how to run a model and what it implied. I finally didn't do much, but it was enough for this time.
 
-C'est une étape nécessaire pour mon apprentissage je pense, enfin de toute façon c'est trop tard je l'ai fait.
+It's a necessary step for my learning, I think—well, anyway, it's too late, I did it.
 
-> Je prends aussi en compte le fait que le modèle a du mal avec le gleam :) (ca fera surement l'objet d'une prochaine expérimentation)
+> I also take into account that the model struggles with Gleam :) (that will probably be the subject of a future experiment).
 
 # Notes
 
 ![cpufeu](/gpt-oss-20b_media/cpufeu.png)
 
-> CPU feu parce que je compile llama-cpp-python avec les options de compilation qui vont bien. (ça a pris 30 minutes, je ne rigole pas), j'aurais du prendre une version pré-compilée. (ça aurait été plus rapide) (plus simple aussi)
+> CPU on fire because I'm compiling llama-cpp-python with the right compilation options. (It took 30 minutes, I'm not kidding), I should have used a pre-compiled version. (It would've been faster) (Simpler too).
