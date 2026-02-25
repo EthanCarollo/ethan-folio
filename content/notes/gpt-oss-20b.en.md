@@ -85,9 +85,9 @@ Okay, so I stumbled upon this site: https://openai.com/index/triton/ and basical
 
 So I do:
 
-```bash
+``̀ bash
 pip install triton kernels
-```
+``̀ 
 
 AND EXPLOSION `CUDA out of memory`. Normal, I have 8GB of VRAM, so I shouldn't try to load part of the model into my CPU at the same time.
 

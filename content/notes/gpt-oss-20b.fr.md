@@ -1,8 +1,8 @@
 ---
 title: "LlamaCPP Python & GPT-OSS-20B"
-date: "2025-02-24"
+date: "2026-02-24"
 slug: "gpt-oss-20b"
-description: "Essayon de faire tourner un modèle open source en local (GPT-OSS-20B) et voyons ce que ça donne."
+description: "Essayon de faire tourner un modèle open source en local (GPT-OSS-20B) avec LlamaCPP Python et voyons ce que ça donne."
 tags: ["lab", "ml"]
 ---
 
