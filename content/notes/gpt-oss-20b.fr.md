@@ -235,7 +235,7 @@ pip3 install --pre torch torchvision --index-url https://download.pytorch.org/wh
 
 Bon déja là, en poussant le num_gpu_layers à 14 et en activant flash_attn j'obtiens entre 18 et 20 T/s, ce qui reste encore assez stable et correct. (c'est déja mieux que le résultat obtenu avec LM Studio)
 
-# Conclusion
+# Conclusion
 
 Je serais arrivé à un résultat surement mieux si j'avais tout fait via l'interface graphique de LM Studio, mais j'aurais surement pas fait toutes les recherches nécessaires qui m'ont permis de comprendre mieux comment run un modèle et ce que ça impliquait. J'ai finalement pas fait grand chose mais c'était suffisant pour cette fois. 
 
