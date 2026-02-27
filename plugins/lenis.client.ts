@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 export default defineNuxtPlugin((nuxtApp) => {
   const lenis = new Lenis({
     autoRaf: true,
+    lerp: 0.15,
   })
 
   nuxtApp.vueApp.provide('lenis', lenis)
