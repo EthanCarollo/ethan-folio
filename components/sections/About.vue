@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
-const { t, locale } = useI18n();
+const { t, tm, rt, locale } = useI18n();
 
 // Utiliser des refs réactives pour les mots et items
 const rotatingWords = ref<string[]>([]);
@@ -69,19 +69,12 @@ const items = ref<string[]>([]);
 
 // Fonction pour mettre à jour les traductions
 const updateTranslations = () => {
-    rotatingWords.value = [
-        t('about.words[0]'),
-        t('about.words[1]'),
-        t('about.words[2]'),
-        t('about.words[3]')
-    ];
+    // Dans Nuxt i18n, tm retourne des "message nodes" qu'il faut résoudre avec rt()
+    const rawWords = tm('about.words');
+    rotatingWords.value = Object.values(rawWords).map(v => typeof v === 'string' ? v : rt(v));
 
-    items.value = [
-        t('about.interests[0]'),
-        t('about.interests[1]'),
-        t('about.interests[2]'),
-        t('about.interests[3]')
-    ];
+    const rawInterests = tm('about.interests');
+    items.value = Object.values(rawInterests).map(v => typeof v === 'string' ? v : rt(v));
 };
 
 const longestWord = computed(() => rotatingWords.value.reduce((a, b) => a.length > b.length ? a : b));
