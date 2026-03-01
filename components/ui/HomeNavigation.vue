@@ -1,35 +1,35 @@
 <template>
     <div class="mt-8 flex flex-row items-center justify-center gap-6
-        md:fixed md:bottom-6 md:left-6 md:z-40 md:mt-0 md:flex-col md:items-start md:justify-start
-        md:gap-2 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
+        md:fixed md:top-8 md:right-24 md:z-40 md:mt-0 md:flex-row md:items-center md:justify-end
+        md:gap-4 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
         :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
         <!-- 
         <div class="text-white/60 mb-1 hidden md:block">{{ $t('hero.navigation') }}</div>
         -->
 
         <a href="#home" class="white block transition-all duration-300"
-            :class="activeSection === 'home' ? 'text-white opacity-100 font-bold' : 'text-white/70 opacity-70 hover:opacity-100'">
-            → {{ $t('hero.home') }}
+            :class="activeSection === 'home' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
+            {{ $t('hero.home') }}
         </a>
 
         <a href="#about" class="block transition-all duration-300"
-            :class="activeSection === 'about' ? 'text-white opacity-100 font-bold' : 'text-white/70 opacity-70 hover:opacity-100'">
-            → {{ $t('hero.about') }}
+            :class="activeSection === 'about' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
+            {{ $t('hero.about') }}
         </a>
 
         <a href="#projects" class="block transition-all duration-300"
-            :class="activeSection === 'projects' ? 'text-white opacity-100 font-bold' : 'text-white/70 opacity-70 hover:opacity-100'">
-            → {{ $t('hero.projects') }}
+            :class="activeSection === 'projects' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
+            {{ $t('hero.projects') }}
         </a>
 
         <a href="#notes" class="block transition-all duration-300"
-            :class="activeSection === 'notes' ? 'text-white opacity-100 font-bold' : 'text-white/70 opacity-70 hover:opacity-100'">
-            → Notes
+            :class="activeSection === 'notes' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
+            Notes
         </a>
 
         <a href="#contact" class="block transition-all duration-300"
-            :class="activeSection === 'contact' ? 'text-white opacity-100 font-bold' : 'text-white/70 opacity-70 hover:opacity-100'">
-            → {{ $t('hero.contact') }}
+            :class="activeSection === 'contact' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
+            {{ $t('hero.contact') }}
         </a>
     </div>
 </template>

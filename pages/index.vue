@@ -2,9 +2,13 @@
     <main class="min-h-screen">
         <HomeNavigation />
         <Hero />
+        <hr class="border-t border-white/10 mx-auto max-w-6xl" />
         <About />
+        <hr class="border-t border-white/10 mx-auto max-w-6xl" />
         <Projects />
+        <hr class="border-t border-white/10 mx-auto max-w-6xl" />
         <LatestNotes />
+        <hr class="border-t border-white/10 mx-auto max-w-6xl" />
         <Contact />
     </main>
 </template>

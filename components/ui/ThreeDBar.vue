@@ -131,12 +131,11 @@ const rotateBar = () => {
 
 <style scoped>
 .scene {
-    width: 300px;
-    /* Mobile width */
-    height: 90px;
+    width: 280px;
+    height: 70px;
     perspective: 1200px;
     cursor: pointer;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 @media (min-width: 640px) {
@@ -182,10 +181,14 @@ const rotateBar = () => {
     justify-content: center;
     font-weight: bold;
     font-family: monospace;
-    font-size: 1.5rem;
-    /* Larger font */
+    font-size: 1rem;
     backface-visibility: hidden;
-    /* Default border and colors removed from general class, handled by specific face classes below */
+}
+
+@media (min-width: 640px) {
+    .face {
+        font-size: 1.5rem;
+    }
 }
 
 /* Dimensions */
@@ -201,14 +204,19 @@ const rotateBar = () => {
 }
 
 /* Alternating themes */
-/* Front (0): Inverted (White bg, Black text) */
 .face.front {
     background: theme('colors.foreground');
     color: theme('colors.background');
     /* Removed border */
-    font-size: 2.5rem;
-    /* Larger font for the name */
+    /* Reduced font size on mobile to prevent overflow */
+    font-size: 1.5rem;
     letter-spacing: -0.05em;
+}
+
+@media (min-width: 640px) {
+    .face.front {
+        font-size: 2.5rem;
+    }
 }
 
 /* Bottom (1): Default (Black bg, White text) */
@@ -272,7 +280,7 @@ const rotateBar = () => {
 /* Depth is dynamic with media query, so we might need CSS vars */
 
 .scene {
-    --depth: 90px;
+    --depth: 70px;
 }
 
 @media (min-width: 640px) {
