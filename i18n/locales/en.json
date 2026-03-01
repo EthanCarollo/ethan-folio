@@ -2,7 +2,7 @@
   "hero": {
     "whoami": "$ whoami",
     "name": "ETHAN CAROLLO",
-    "title": "Polymorphic Developer & Master's Student",
+    "title": "Polymorphic Developer & Interactive Dev Master Student",
     "pwd": "$ pwd",
     "path": "~/portfolio",
     "ls": "$ ls -la",
@@ -13,20 +13,20 @@
     "home": "Home",
     "contact": "Contact",
     "role1": "POLYMORPHIC DEV",
-    "role2": "MASTER'S STUDENT",
+    "role2": "INTERACTIVE DEV MASTER STUDENT",
     "role3": "GAME DEV ADDICT"
   },
   "about": {
-    "backgroundText": "I'm Ethan Carollo, a {word} developer and a Master's student at Annecy Gobelins. I work with a variety of languages, including Kotlin for Android and Python for machine learning. I also love Nuxt and spend my free time developing games with Unity.",
+    "backgroundText": "I'm Ethan Carollo, a {word} developer and a Master's student in Interactive Dev at Annecy Gobelins. I work with a variety of languages, including Kotlin for Android and Python for machine learning. I also love Nuxt and spend my free time developing games with Unity.",
     "interests": [
       "Develop web applications",
-      "Create mobile applications", 
+      "Create mobile applications",
       "Design and build video games",
       "Implement continuous delivery cycles"
     ],
     "words": [
       "Versatile",
-      "Adaptable", 
+      "Adaptable",
       "Resilient",
       "All-round"
     ],
