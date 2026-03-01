@@ -2,7 +2,7 @@
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="projects">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60 mb-2">{{ $t('projects.title') }}</div>
+                <div class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('projects.title') }}</div>
                 <div class="text-foreground/70 pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <NuxtLink v-for="(project, index) in allProjects" :key="index" :to="'/projects/' + project.slug"
                         class="block hover:text-foreground transition-colors">

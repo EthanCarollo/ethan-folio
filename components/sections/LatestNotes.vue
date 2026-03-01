@@ -2,7 +2,7 @@
     <section id="notes" class="py-8 sm:py-10 md:py-12 px-4 font-mono">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-4">
-                <div class="text-foreground/60 mb-2">{{ $t('notes.title') }}</div>
+                <div class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('notes.title') }}</div>
 
                 <div class="pt-6">
                     <div v-if="notes && notes.length > 0" class="flex flex-col space-y-0 mb-8">

@@ -8,7 +8,7 @@
                         <!-- Intro Text container: takes remaining width on mobile, 2 columns on desktop -->
                         <div class="flex-1 md:col-start-1 md:col-span-2 md:row-start-1">
                             <div class="space-y-1 text-sm">
-                                <div class="text-foreground/60 mb-2">{{ $t('about.title') }}</div>
+                                <div class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('about.title') }}</div>
                                 <div class="text-foreground/70 mt-2">
                                     <p v-if="rotatingWords[currentWordIndex]">
                                         {{ $t('about.backgroundText', { word: rotatingWords[currentWordIndex].toLowerCase() })

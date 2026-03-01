@@ -4,7 +4,7 @@
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="contact">
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-8">
-                <div class="text-foreground/60 mb-2">{{ $t('hero.contact') }}</div>
+                <div class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('hero.contact') }}</div>
                 <div class="text-foreground/70 mt-2">
                     {{ $t('contactSection.description') }}
                 </div>

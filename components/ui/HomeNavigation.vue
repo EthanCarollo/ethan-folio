@@ -1,7 +1,6 @@
 <template>
-    <div class="mt-8 flex flex-row items-center justify-center gap-6
-        md:fixed md:top-8 md:right-24 md:z-40 md:mt-0 md:flex-row md:items-center md:justify-end
-        md:gap-4 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
+    <div class="fixed top-4 right-4 z-40 flex flex-row items-center justify-end gap-4
+        md:top-8 md:right-24 md:gap-4 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
         :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
         <!-- 
         <div class="text-white/60 mb-1 hidden md:block">{{ $t('hero.navigation') }}</div>
