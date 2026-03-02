@@ -43,8 +43,15 @@ export default defineNuxtConfig({
         "nuxt-umami",
         '@nuxt/content',
         '@nuxtjs/i18n',
-        '@nuxtjs/seo'
+        // '@nuxtjs/seo'
     ],
+
+    content: {
+        highlight: {
+            theme: 'github-dark',
+            langs: ['python', 'gleam', 'xml', 'bash', 'json', 'vue']
+        }
+    },
 
     site: {
         url: 'https://ethan-folio.fr',

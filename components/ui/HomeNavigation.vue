@@ -1,6 +1,6 @@
 <template>
-    <div class="fixed top-4 right-4 z-40 flex flex-row items-center justify-end gap-4
-        md:top-8 md:right-24 md:gap-4 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
+    <div class="fixed top-4 left-4 z-40 flex flex-col items-start justify-start gap-2
+        md:top-8 md:left-12 md:gap-3 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
         :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
         <!-- 
         <div class="text-white/60 mb-1 hidden md:block">{{ $t('hero.navigation') }}</div>
@@ -10,21 +10,25 @@
             :class="activeSection === 'home' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             {{ $t('hero.home') }}
         </a>
+        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
 
         <a href="#about" class="block transition-all duration-300"
             :class="activeSection === 'about' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             {{ $t('hero.about') }}
         </a>
+        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
 
         <a href="#projects" class="block transition-all duration-300"
             :class="activeSection === 'projects' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             {{ $t('hero.projects') }}
         </a>
+        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
 
         <a href="#notes" class="block transition-all duration-300"
             :class="activeSection === 'notes' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             Notes
         </a>
+        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
 
         <a href="#contact" class="block transition-all duration-300"
             :class="activeSection === 'contact' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
@@ -73,7 +77,7 @@ onUnmounted(() => {
 const hasScrolled = ref(false)
 
 const handleScroll = () => {
-    hasScrolled.value = window.scrollY > window.innerHeight
+    hasScrolled.value = window.scrollY > 50
 }
 
 onMounted(() => {

@@ -15,10 +15,14 @@
 
             <ContentRenderer :value="note" class="prose prose-invert max-w-none w-full" />
 
-            <div class="mt-16 pt-8 border-t border-foreground/10 flex justify-center">
-                <NuxtLink to="/notes"
+            <div class="mt-16 pt-8 border-t border-foreground/10 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+                <NuxtLink :to="localePath('/')"
                     class="text-sm font-mono text-foreground/60 hover:text-foreground transition-colors">
-                    ← Back to Notes
+                    {{ t('notes.backToHome') }}
+                </NuxtLink>
+                <NuxtLink :to="localePath('/notes')"
+                    class="text-sm font-mono text-foreground/60 hover:text-foreground transition-colors">
+                    {{ t('notes.backToNotes') }}
                 </NuxtLink>
             </div>
         </article>
@@ -31,7 +35,8 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const { locale } = useI18n()
+const localePath = useLocalePath()
+const { t, locale } = useI18n()
 
 const { data: note, refresh } = await useAsyncData(`note-${route.params.slug}-${locale.value}`, () => {
     return queryCollection('notes').path(`/notes/${route.params.slug}.${locale.value}`).first()
