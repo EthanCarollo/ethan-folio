@@ -1,6 +1,6 @@
 ---
 title: "Finetuning Qwen3-4B avec Unsloth"
-date: "2026-02-24"
+date: "2026-03-02"
 slug: "finetuning-qwen-unsloth"
 description: "Adaptons un modèle pour un cas particulier."
 tags: ["lab", "ml"]
@@ -224,4 +224,11 @@ trainer = SFTTrainer(
 )
 ```
 
-En gros, le `SFTTrainer` fait le pont entre le modèle, le tokenizer et nos données formattées. Les `TrainingArguments` permettent de définir comment le modèle apprend (vitesse, mémoire, nombre d'itérations). Ici, on optimise à fond pour que ça tourne même sur une config modeste grâce au QLoRA et au checkpointing.
+En gros, le `SFTTrainer` fait le pont entre le modèle, le tokenizer et nos données formattées. Les `TrainingArguments` permettent de définir comment le modèle apprend (vitesse, mémoire, nombre d'itérations). Ici, on optimise à fond pour que ça tourne même sur une config modeste (un peu merdik) grâce au QLoRA et au checkpointing.
+
+# C'est entrainé, testons :3
+
+Okay, maintenant le plus dur est fait, testons ! Par défaut, je dirais qu'il faudrait préparé
+un vrai benchmark pour ce cas d'usages spécifique et comparé avec d'autres modèles pour
+avoir un ordre d'idée dans notre cas d'usage spécifique, mais ça fera surement l'affaire
+pour un autre article !

@@ -25,12 +25,14 @@
   "devDependencies": {
     "@nuxt/content": "^3.9.0",
     "@nuxtjs/i18n": "^10.2.1",
+    "@nuxtjs/mdc": "^0.20.1",
     "@nuxtjs/seo": "^3.3.0",
     "@types/node": "^22.10.5",
     "@types/p5": "^1.7.7",
     "nuxt-lucide-icons": "^2.0.0",
     "nuxt-umami": "^3.2.1",
     "postcss": "8.5.6",
+    "shiki": "^4.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
   }

@@ -5,7 +5,7 @@
             <div class="toc-header flex flex-col">
                 <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{
                     $t('toc.backToHome') }}</NuxtLink>
-                <span class="toc-title">{{ $t('toc.title') }}</span>
+                <span class="toc-title">{{ t('toc.title') }}</span>
             </div>
 
             <nav class="toc-nav">
@@ -23,46 +23,46 @@
             <div class="toc-indicator" :style="{ top: `${indicatorPosition}px` }"></div>
         </div>
 
-        <!-- Mobile Chip -->
-        <button v-if="hasHeadings" @click="isMobileMenuOpen = true"
-            class="lg:hidden fixed bottom-6 right-6 z-50 bg-foreground text-background px-4 py-2 rounded-full shadow-lg font-mono text-xs flex items-center gap-2 transition-transform hover:scale-105 active:scale-95">
-            <span class="text-lg">≡</span>
-            {{ $t('toc.title') }}
-        </button>
-
-        <!-- Mobile Menu Overlay -->
-        <div v-if="isMobileMenuOpen" class="lg:hidden fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm p-6 overflow-y-auto"
-            @click.self="isMobileMenuOpen = false">
-            
-            <div class="flex justify-between items-center mb-8">
-                <span class="text-foreground font-mono font-bold">{{ $t('toc.title') }}</span>
-                <button @click="isMobileMenuOpen = false" class="text-foreground p-2 text-xl">✕</button>
-            </div>
-
-            <nav class="toc-mobile-nav">
-                <ul class="space-y-4">
-                     <li class="mb-6">
-                        <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground flex items-center gap-2">
-                             {{ $t('toc.backToHome') }}
-                        </NuxtLink>
-                    </li>
-                    <li v-for="heading in headings" :key="heading.id"
-                        class="toc-item-mobile"
-                        :class="[`pl-${(heading.level - 1) * 4}`]">
-                        <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" 
-                           class="block text-foreground/80 py-2 border-b border-foreground/10"
-                           :class="{ 'text-foreground font-bold': heading.id === activeHeading }">
-                            {{ heading.text }}
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <!-- Mobile Accordion -->
+        <div v-if="hasHeadings" class="lg:hidden mb-8 border border-foreground/20 rounded-lg overflow-hidden">
+            <details class="group">
+                <summary class="flex justify-between items-center p-4 bg-foreground/5 cursor-pointer font-mono text-sm text-foreground/80 hover:bg-foreground/10 transition-colors">
+                    <span class="flex items-center gap-2">
+                        <span class="text-base group-open:hidden">▶</span>
+                        <span class="text-base hidden group-open:block">▼</span>
+                        {{ t('toc.title') }}
+                    </span>
+                </summary>
+                <div class="p-4 bg-background">
+                    <nav class="toc-mobile-nav">
+                        <ul class="space-y-3">
+                            <li class="mb-4 pb-4 border-b border-foreground/10">
+                                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-sm font-mono hover:text-foreground flex items-center gap-2">
+                                     {{ t('toc.backToHome') }}
+                                </NuxtLink>
+                            </li>
+                            <li v-for="heading in headings" :key="heading.id"
+                                class="toc-item-mobile"
+                                :class="[`pl-${(heading.level - 1) * 4}`]">
+                                <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" 
+                                   class="block text-foreground/80 hover:text-foreground transition-colors"
+                                   :class="{ 'text-foreground font-bold py-1': heading.id === activeHeading }">
+                                    {{ heading.text }}
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </details>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const { t } = useI18n()
+const localePath = useLocalePath()
 
 interface Heading {
     id: string
