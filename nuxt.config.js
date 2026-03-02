@@ -46,6 +46,13 @@ export default defineNuxtConfig({
         // '@nuxtjs/seo'
     ],
 
+    mdc: {
+        highlight: {
+            theme: 'github-light',
+            langs: ['python', 'gleam', 'xml', 'bash', 'json', 'vue', 'md']
+        }
+    },
+
     site: {
         url: 'https://ethan-folio.fr',
         name: 'Ethan Carollo',

@@ -146,6 +146,8 @@ Et donc si je veux spécialiser vraiment le modèle, je vais imposer une structu
 </entry>
 ```
 
+![data-sample](/finetuning-qwen-unsloth_media/data-sample.png)
+
 # On train 
 
 > Pour ce qui va suivre, je vais me baser en grande partie sur cette article : https://medium.com/@matteo28/qlora-fine-tuning-with-unsloth-a-complete-guide-8652c9c7edb3
