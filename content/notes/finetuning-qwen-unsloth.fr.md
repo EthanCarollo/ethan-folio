@@ -14,13 +14,13 @@ et je ne suis pas très fan de [Google Collab](https://colab.research.google.com
 
 # Bon, on se fait un petit notebook
 
-Comme ça, c'est facile et rapide et modulable et on peut bidouiller facilement.
+Comme ça c'est plus facile, rapide, modulable, et on peut bidouiller tranquillement.
 
->  Extremement important, je mets mon petit theme pastel preferer dans le monde entier. ([Catppuccin](https://github.com/catppuccin/jupyterlab))
+> Extrêmement important, j'installe mon petit thème pastel préféré au monde. ([Catppuccin](https://github.com/catppuccin/jupyterlab))
 
 # On teste le modèle avant
 
-Okay alors déja on va run Qwen3-4B avec unsloth et voir un peu ce que le modèle en dit et ce qu'il connait, mon but là de suite, c'est de voir si il a des connaissances sur [Gleam](https://gleam.run/). Donc on va regarder la [doc doc doc](https://unsloth.ai/docs/models/qwen3-how-to-run-and-fine-tune). 
+Okay alors déjà, on va faire tourner Qwen3-4B avec Unsloth et voir un peu ce que le modèle en dit et ce qu'il connaît. Mon but, là tout de suite, c'est de voir s'il a des connaissances sur [Gleam](https://gleam.run/). Donc on va regarder la [documentation](https://unsloth.ai/docs/models/qwen3-how-to-run-and-fine-tune). 
 
 ```python
 from unsloth import FastLanguageModel
@@ -40,7 +40,7 @@ model, tokenizer = FastLanguageModel.from_pretrained(
 FastLanguageModel.for_inference(model)
 ```
 
-> Donc là, on va simplement mettre le modèle en ram pour pouvoir lui parler chill
+> Donc là, on va simplement charger le modèle en RAM pour pouvoir lui parler tranquillement
 
 ```python
 def chat():
@@ -85,11 +85,11 @@ chat()
 
 ![talk-to-qwen](/finetuning-qwen-unsloth_media/talk-to-qwen.png)
 
-> Bon, ok déja on remarque les `<think>` et les `</think>` dans la réponse, c'est pas mal, c'est un modèle qui "réfléchit" avant de répondre, mais bon, c'est toujours pas ça.
+> Bon, ok déjà on remarque les `<think>` et les `</think>` dans la réponse, c'est pas mal, c'est un modèle qui "réfléchit" avant de répondre, mais bon, c'est pas encore parfait.
 
-Donc. parlons lui un peu de Gleam et de lui demander de générer un peu de code :p avec un prompt simple : `"Donne un exemple de code en Gleam pour faire un 'hello world'"`.
+Donc, parlons-lui un peu de Gleam et demandons-lui de générer un peu de code :p avec un prompt simple : `"Donne un exemple de code en Gleam pour faire un 'hello world'"`.
 
-Et on remarque direct qu'il réfléchit pas spécialement mal, même plutot ok !
+Et on remarque direct qu'il ne réfléchit pas si mal, c'est même plutôt ok !
 
 ```
 Okay, the user is asking for an example of code in Gleam to print "hello world". 
@@ -97,7 +97,7 @@ Let me recall how Gleam works. Gleam is a functional programming language that's
 It uses a compile-to-WebAssembly approach, so the code would be written in a way that's compatible with that.
 ```
 
-> C'est quand même assez ok, similaire à Elixir, il sait que c'est un langage fonctionnel...
+> C'est quand même assez correct, similaire à Elixir, il sait que c'est un langage fonctionnel...
 
 Mais bordel au niveau du code ressorti, ça chie fort fort dans le pantalon.
 
@@ -119,7 +119,7 @@ fn main() {
 - `IO.println("hello world")` : Affiche "hello world" dans la console.
 ---
 
-Donc là, on voit clairement qu'il ne sait pas ce qu'il dit ni ce qu'il fait. Pour qu'il en sache plus, on a deux choix, injecter dans le prompt des données sur Gleam, mais du coup ça consommerait potentiellement + de tokens et prendrait peut être un peu + de temps, ou spécialiser le modèle pour du Gleam en faisant un LoRA avec Unsloth ([Low Rank Adapter](https://www.cloudflare.com/fr-fr/learning/ai/what-is-lora/)).
+Donc là, on voit clairement qu'il ne sait pas vraiment ce qu'il dit ni ce qu'il fait. Pour qu'il en sache plus, on a deux choix : injecter dans le prompt des données sur Gleam, mais du coup ça consommerait potentiellement plus de tokens et prendrait peut-être un peu plus de temps, ou spécialiser le modèle pour le Gleam en effectuant un LoRA avec Unsloth ([Low Rank Adapter](https://www.cloudflare.com/fr-fr/learning/ai/what-is-lora/)).
 
 Dans mon cas, je veux faire du LoRA, mais j'ai pas l'hardware donc, ça sera du QLoRA, du LoRA en 4-bit. 
 
@@ -127,11 +127,11 @@ Dans mon cas, je veux faire du LoRA, mais j'ai pas l'hardware donc, ça sera du 
 
 Faire en sorte que le modèle soit vraiment performant pour de la modification et la création de code en Gleam.
 
-Pourquoi ? Ca parrait un usage bete, mais étant un langage "naissant", le Gleam n'a pas énormément d'informations disponibles en ligne, donc les petits modèles ont souvent très peu de connaissances, en Gleam, on verra donc l'avant / après très clairement.
+Pourquoi ? Ça paraît être un usage bête, mais étant un langage "naissant", le Gleam n'a pas énormément d'informations disponibles en ligne, donc les petits modèles ont souvent très peu de connaissances en Gleam. On verra donc un avant/après très clair.
 
 # On se fait un dataset
 
-Comme on la vu précedemment, le modèle réfléchit, donc va falloir prendre ça en compte pour générer le dataset.
+Comme on l'a vu précédemment, le modèle réfléchit, donc il va falloir prendre ça en compte pour générer le dataset.
 
 Je vais privilégier le XML pour la génération de mon dataset, parce que je trouve ça plus lisible que le JSON et qu'on peut faire des sauts de lignes facilement, nan le XML j'aime trop ça.
 
@@ -150,9 +150,9 @@ Et donc si je veux spécialiser vraiment le modèle, je vais imposer une structu
 
 # On train 
 
-> Pour ce qui va suivre, je vais me baser en grande partie sur cette article : https://medium.com/@matteo28/qlora-fine-tuning-with-unsloth-a-complete-guide-8652c9c7edb3
+> Pour ce qui va suivre, je vais me baser en grande partie sur cet article : https://medium.com/@matteo28/qlora-fine-tuning-with-unsloth-a-complete-guide-8652c9c7edb3
 
-Okay donc on va configurer un adapter LoRA sur notre modèle qui est complètement frozen ! (En gros le finetuning avec le QLoRA, c'est qu'on va rajouter des poids  par dessus notre modèle, et on va entrainer que ces poids là, ce qui fait qu'on consomme beaucoup moins de VRAM et au passage garde la puissance de base du modèle).
+Okay, donc on va configurer un adapter LoRA sur notre modèle qui est complètement gelé (frozen) ! (En gros, le finetuning avec QLoRA c'est qu'on va rajouter des poids par-dessus notre modèle, et on ne va entraîner que ces poids-là, ce qui fait qu'on consomme beaucoup moins de VRAM tout en gardant la puissance de base du modèle).
 
 ```python
 LORA_R = 16  # Rank of LoRA matrices
@@ -182,17 +182,17 @@ all_params = sum(p.numel() for p in model.parameters())
 print(f"Trainable: {trainable_params:,} ({100 * trainable_params / all_params:.4f}%)")
 ```
 
-Et donc je vais load le dataset avec le dossier précédemment.
+Et donc je vais charger le dataset avec notre format précédent.
 
 ```python
 return {
     "user": example["user"],
     "response": f"<think>\n{example['think']}\n</think>\n\n{example['code']}\n\n<explanation>\n{example['explanation']}\n</explanation>"
 }
-# Le but ici c'est de formatter la réponse du dataset de façon efficiente
+# Le but ici c'est de formater la réponse du dataset de façon efficiente
 ```
 
-Okay et donc on a pleins de data généré avec Gemini Flash (j'ai Google AI Pro avec mon status d'etudiant, donc je suis au max).
+Okay et donc on a plein de données générées avec Gemini Flash (J'ai Google AI Pro avec mon statut d'étudiant, je me mets bien).
 
 # On lance l'entraînement
 
@@ -226,11 +226,27 @@ trainer = SFTTrainer(
 )
 ```
 
-En gros, le `SFTTrainer` fait le pont entre le modèle, le tokenizer et nos données formattées. Les `TrainingArguments` permettent de définir comment le modèle apprend (vitesse, mémoire, nombre d'itérations). Ici, on optimise à fond pour que ça tourne même sur une config modeste (un peu merdik) grâce au QLoRA et au checkpointing.
+En gros, le `SFTTrainer` fait le pont entre le modèle, le tokenizer et nos données formatées. Les `TrainingArguments` permettent de définir comment le modèle apprend (vitesse, mémoire, nombre d'itérations). Ici, on optimise à fond pour que ça tourne même sur une config modeste (un peu éclatée) grâce au QLoRA et au checkpointing.
 
 # C'est entrainé, testons :3
 
-Okay, maintenant le plus dur est fait, testons ! Par défaut, je dirais qu'il faudrait préparé
-un vrai benchmark pour ce cas d'usages spécifique et comparé avec d'autres modèles pour
-avoir un ordre d'idée dans notre cas d'usage spécifique, mais ça fera surement l'affaire
+Okay, maintenant le plus dur est fait, testons ! Par défaut, je dirais qu'il faudrait préparer
+un vrai benchmark pour ce cas d'usage spécifique et comparer avec d'autres modèles pour
+avoir un ordre d'idée de ses performances, mais ça fera l'affaire
 pour un autre article !
+
+Donc on va tester ce petit modèle avec une petite question sur Gleam : "Donne un exemple de code en Gleam pour faire un 'hello world'"
+
+![test-qwen-on-google-collab](/finetuning-qwen-unsloth_media/test-qwen-on-google-collab.png)
+
+Et le code marche !!!!! ON A DU CODE QUI MARCHE !!!!!!!! Je suis très très content. J'adore ça. Quel bonheur.
+
+(J'ai juste ajouté un log pour voir s'il marchait, le code, et hop)
+
+![test-gleam](/finetuning-qwen-unsloth_media/test-gleam.png)
+
+> Notes : il est 14:12, je viens de voir que Qwen venait de sortir Qwen3.5 en 4B (en gros, ils ont sorti les 3.5 en version small). Bon, j'ai un peu le seum, j'aurais dû fine-tuner celui-là, mais bon je pense que j'en ferai autre chose.
+
+# Conclusion
+
+J'ai fait un test, ça a marché, je suis content, mais pour en être sûr il faudrait tester en pratique et avec un benchmark. Ça fera l'affaire d'une prochaine note :)

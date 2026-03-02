@@ -1,16 +1,21 @@
 <template>
     <section id="home" class="relative h-screen w-screen transition-all duration-700 ease-in-out"
         :class="hasScrolled ? 'px-8 py-8' : 'px-0 py-0'">
-        <div class="bg-black h-full w-full flex overflow-hidden items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono transition-all duration-700 ease-in-out"
+        <div class="bg-black relative h-full w-full flex overflow-hidden items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono transition-all duration-700 ease-in-out"
             :class="hasScrolled ? 'rounded-xl' : 'rounded-none'">
-            <div class="max-w-4xl mx-auto w-full">
+            <ClientOnly>
+                <div class="absolute inset-0 z-0 opacity-20 text-white">
+                    <AsciiWave />
+                </div>
+            </ClientOnly>
+            
+            <div class="max-w-4xl mx-auto w-full relative z-10">
                 <div class="space-y-1 text-sm">
                     <!-- Profile label removed -->
                     <div class="text-foreground mt-2 relative z-10">
                         <ThreeDBar :texts="heroTexts" />
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -18,6 +23,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const { t, locale } = useI18n();
 const activeSection = ref('home');
