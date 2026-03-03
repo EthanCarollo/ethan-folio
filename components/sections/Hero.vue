@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 const { t, locale } = useI18n();
 const activeSection = ref('home');
