@@ -1,5 +1,5 @@
 <template>
-    <div ref="sketchContainer" class="ascii-wave-container w-full h-full select-none pointer-events-none"></div>
+  <div ref="sketchContainer" class="ascii-wave-container w-full h-full select-none pointer-events-none"></div>
 </template>
 
 <script setup>
@@ -9,131 +9,165 @@ const sketchContainer = ref(null)
 let myP5 = null
 
 const handleScroll = () => {
-    if (!myP5) return;
-    
-    const scrollY = window.scrollY;
-    // Hero section height is roughly 100vh
-    const vh = window.innerHeight;
-    
-    if (scrollY > vh) {
-        // Pauses all canvas calculations and renders
-        myP5.noLoop();
-    } else {
-        // Slow down framerate proportionally to scroll depth (max 24fps, min 2fps)
-        const progress = scrollY / vh;
-        const fps = Math.max(2, Math.floor(24 * (1 - progress)));
-        
-        myP5.frameRate(fps);
-        
-        // Ensure looping resumes if scrolling back up
-        if (!myP5.isLooping()) {
-            myP5.loop();
-        }
-    }
-};
+  if (!myP5) return
+  const scrollY = window.scrollY
+  const vh = window.innerHeight
+  if (scrollY > vh) {
+    myP5.noLoop()
+  } else {
+    if (!myP5.isLooping()) myP5.loop()
+  }
+}
 
 onMounted(async () => {
-    // Dynamically import p5 so it doesn't break Nuxt SSR
-    const p5 = (await import('p5')).default
+  const p5 = (await import('p5')).default
+  // Crucial: assign to window so p5 internal calls (like shader()) can find the constructor
+  window.p5 = p5
+
+  const sketch = (p) => {
+    let asciiShader
+    let fontTexture
+    const density = " _.,-=+:;cba!?0123456789$W#@Ñ"
     
-    // Configure ASCII characters to use from least to most dense
-    const density = " _.,-=+:;cba!?0123456789$W#@Ñ";
-    
-    const sketch = (p) => {
-        let cols, rows;
-        // Increase scale to reduce the number of characters computed and drawn
-        const scl = 25; 
-        let zoff = 0; 
+    // Shader with Flip-Y fix and cleaner noise
+    const vert = `
+      precision highp float;
+      attribute vec3 aPosition;
+      attribute vec2 aTexCoord;
+      varying vec2 vTexCoord;
+      void main() {
+        vTexCoord = aTexCoord;
+        vec4 positionVec4 = vec4(aPosition, 1.0);
+        positionVec4.xy = positionVec4.xy * 2.0 - 1.0;
+        gl_Position = positionVec4;
+      }
+    `
+
+    const frag = `
+      precision highp float;
+      varying vec2 vTexCoord;
+      uniform float u_time;
+      uniform vec2 u_resolution;
+      uniform float u_cols;
+      uniform float u_rows;
+      uniform sampler2D u_fontTex;
+      uniform float u_densityLen;
+
+      // Robust Simplex 2D noise
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+      float snoise(vec2 v) {
+        const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+        vec2 i  = floor(v + dot(v, C.yy) );
+        vec2 x0 = v -   i + dot(i, C.xx);
+        vec2 i1;
+        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+        vec4 x12 = x0.xyxy + C.xxzz;
+        x12.xy -= i1;
+        i = mod289(i);
+        vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+        m = m*m ; m = m*m ;
+        vec3 x = 2.0 * fract(p * C.www) - 1.0;
+        vec3 h = abs(x) - 0.5;
+        vec3 ox = floor(x + 0.5);
+        vec3 a0 = x - ox;
+        m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+        vec3 g;
+        g.x  = a0.x  * x0.x  + h.x  * x0.y;
+        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+        return 130.0 * dot(m, g);
+      }
+
+      void main() {
+        vec2 st = vTexCoord;
+        float xIdx = floor(st.x * u_cols);
+        float yIdx = floor(st.y * u_rows);
+        vec2 gridUV = fract(vec2(st.x * u_cols, st.y * u_rows));
         
-        p.setup = () => {
-            p.disableFriendlyErrors = true; 
-            
-            const container = sketchContainer.value;
-            if (!container) return;
-            
-            // Limit pixel density so high-DPI screens don't choke
-            p.pixelDensity(1);
-            
-            const canvas = p.createCanvas(container.clientWidth, container.clientHeight);
-            canvas.parent(container);
-            p.textFont('monospace');
-            p.textSize(scl);
-            p.textAlign(p.CENTER, p.CENTER);
-            
-            // Limit frame rate to save battery and CPU on mobile/low-end PCs
-            p.frameRate(24);
-            
-            cols = p.floor(p.width / scl) + 1;
-            rows = p.floor(p.height / scl) + 1;
-        }
+        vec2 center = vec2(0.5, 0.5);
+        vec2 pos = vec2(xIdx / u_cols, yIdx / u_rows);
+        float dist = distance(pos, center);
+        float angle = atan(pos.y - center.y, pos.x - center.x);
 
-        p.draw = () => {
-            p.clear(); 
-            p.fill(255); 
+        float n = snoise(vec2(dist * 2.5 - u_time * 0.15, angle * 1.5 + u_time * 0.1));
+        n = clamp(n * 0.5 + 0.5, 0.0, 0.99);
 
-            const centerX = p.width / 2;
-            const centerY = p.height / 2;
-            const maxDist = p.dist(0, 0, centerX, centerY);
-
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    const posX = x * scl + scl / 2;
-                    const posY = y * scl + scl / 2;
-                    
-                    // Calculate distance from center for radial effect
-                    const d = p.dist(posX, posY, centerX, centerY);
-                    // Normalize distance
-                    const normD = d / maxDist;
-                    
-                    // Use radial distance and angle for noise
-                    const angle = p.atan2(posY - centerY, posX - centerX);
-                    
-                    // The "expansion" comes from subtracting zoff from the distance component
-                    // Adjusting the multipliers (0.5, 2, 0.5) to fine-tune the "fluidity"
-                    const noiseVal = p.noise(
-                        normD * 2 - zoff * 0.5, 
-                        p.cos(angle) * 0.5 + 0.5, 
-                        p.sin(angle) * 0.5 + zoff * 0.2
-                    );
-                    
-                    const charIndex = (p.map(noiseVal, 0.2, 0.8, 0, density.length, true)) >> 0;
-                    
-                    if (charIndex >= 0 && charIndex < density.length) {
-                        const char = density.charAt(charIndex);
-                        p.text(char, posX, posY);
-                    }
-                }
-            }
-            zoff += 0.01; // Slower, smoother progression
-        }
+        float charIdx = floor(n * u_densityLen);
+        float atlasX = (charIdx + gridUV.x) / u_densityLen;
+        vec2 atlasUV = vec2(atlasX, gridUV.y); 
         
-        p.windowResized = () => {
-            const container = sketchContainer.value;
-            if (!container) return;
-            p.resizeCanvas(container.clientWidth, container.clientHeight);
-            cols = p.floor(p.width / scl) + 1;
-            rows = p.floor(p.height / scl) + 1;
-        }
+        vec4 textColor = texture2D(u_fontTex, atlasUV);
+        gl_FragColor = vec4(textColor.rgb, textColor.a);
+      }
+    `
+
+    const createFontTexture = () => {
+      const fontSize = 64
+      const pg = p.createGraphics(fontSize * density.length, fontSize)
+      pg.clear() // Transparent background
+      pg.fill(255)
+      pg.textFont('monospace')
+      pg.textSize(fontSize)
+      pg.textAlign(p.CENTER, p.CENTER)
+      
+      for (let i = 0; i < density.length; i++) {
+        pg.text(density[i], i * fontSize + fontSize / 2, fontSize / 2)
+      }
+      return pg
     }
-    
-    myP5 = new p5(sketch)
-    
-    // Bind scroll handler
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    // Initial call to set correct framerate or pause state
-    handleScroll()
+
+    p.setup = () => {
+      const container = sketchContainer.value
+      if (!container) return
+      p.pixelDensity(1) // Better performance
+      p.createCanvas(container.clientWidth, container.clientHeight, p.WEBGL)
+      asciiShader = p.createShader(vert, frag)
+      fontTexture = createFontTexture()
+      p.noStroke()
+    }
+
+    p.draw = () => {
+      if (!asciiShader) return
+      p.background(0)
+      p.shader(asciiShader)
+      
+      const scl = 18
+      const cols = p.width / scl
+      const rows = p.height / scl
+
+      asciiShader.setUniform('u_time', p.frameCount * 0.05)
+      asciiShader.setUniform('u_resolution', [p.width, p.height])
+      asciiShader.setUniform('u_cols', cols)
+      asciiShader.setUniform('u_rows', rows)
+      asciiShader.setUniform('u_fontTex', fontTexture)
+      asciiShader.setUniform('u_densityLen', Number(density.length))
+
+      p.rect(0, 0, p.width, p.height)
+    }
+
+    p.windowResized = () => {
+      const container = sketchContainer.value
+      if (!container) return
+      p.resizeCanvas(container.clientWidth, container.clientHeight)
+    }
+  }
+
+  myP5 = new p5(sketch, sketchContainer.value)
+  window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-    if (myP5) {
-        myP5.remove()
-    }
+  window.removeEventListener('scroll', handleScroll)
+  if (myP5) myP5.remove()
 })
 </script>
 
 <style scoped>
 .ascii-wave-container {
-    overflow: hidden;
+  overflow: hidden;
+  background: black;
 }
 </style>
