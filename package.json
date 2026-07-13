@@ -37,6 +37,25 @@
     "typescript": "^5.7.3"
   },
   "overrides": {
-    "esbuild": "0.28.1"
+    "esbuild": "0.28.1",
+    "brace-expansion": "2.0.3",
+    "flatted": "3.4.2",
+    "js-yaml": "4.2.0",
+    "lodash": "4.18.1",
+    "minimatch": "10.2.5",
+    "picomatch": "4.0.4",
+    "shell-quote": "1.8.4",
+    "simple-git": "3.36.0",
+    "socket.io-parser": "4.2.6",
+    "svgo": "4.0.2",
+    "ws": "8.21.0",
+    "yaml": "2.9.0",
+    "srvx": "0.11.13",
+    "ajv": "8.18.0",
+    "launch-editor": "2.14.1",
+    "koa": "2.16.4",
+    "engine.io-client": "6.6.5",
+    "@babel/core": "7.29.7",
+    "vite": "7.3.6"
   }
 }

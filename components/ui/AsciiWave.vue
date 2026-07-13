@@ -7,6 +7,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const sketchContainer = ref(null)
 let myP5 = null
+let resizeObserver = null
 
 const handleScroll = () => {
   if (!myP5) return
@@ -15,21 +16,33 @@ const handleScroll = () => {
   if (scrollY > vh) {
     myP5.noLoop()
   } else {
-    if (!myP5.isLooping()) myP5.loop()
+    if (!myP5.isLooping()) {
+      // Resize canvas to current container dimensions before resuming
+      resizeCanvasToContainer()
+      myP5.loop()
+    }
+  }
+}
+
+const resizeCanvasToContainer = () => {
+  if (!myP5 || !sketchContainer.value) return
+  const container = sketchContainer.value
+  const w = container.clientWidth
+  const h = container.clientHeight
+  if (w > 0 && h > 0) {
+    myP5.resizeCanvas(w, h)
   }
 }
 
 onMounted(async () => {
   const p5 = (await import('p5')).default
-  // Crucial: assign to window so p5 internal calls (like shader()) can find the constructor
   window.p5 = p5
 
   const sketch = (p) => {
     let asciiShader
     let fontTexture
     const density = " _.,-=+:;cba!?0123456789$W#@Ñ"
-    
-    // Shader with Flip-Y fix and cleaner noise
+
     const vert = `
       precision highp float;
       attribute vec3 aPosition;
@@ -53,7 +66,6 @@ onMounted(async () => {
       uniform sampler2D u_fontTex;
       uniform float u_densityLen;
 
-      // Robust Simplex 2D noise
       vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -86,7 +98,7 @@ onMounted(async () => {
         float xIdx = floor(st.x * u_cols);
         float yIdx = floor(st.y * u_rows);
         vec2 gridUV = fract(vec2(st.x * u_cols, st.y * u_rows));
-        
+
         vec2 center = vec2(0.5, 0.5);
         vec2 pos = vec2(xIdx / u_cols, yIdx / u_rows);
         float dist = distance(pos, center);
@@ -97,8 +109,8 @@ onMounted(async () => {
 
         float charIdx = floor(n * u_densityLen);
         float atlasX = (charIdx + gridUV.x) / u_densityLen;
-        vec2 atlasUV = vec2(atlasX, gridUV.y); 
-        
+        vec2 atlasUV = vec2(atlasX, gridUV.y);
+
         vec4 textColor = texture2D(u_fontTex, atlasUV);
         gl_FragColor = vec4(textColor.rgb, textColor.a);
       }
@@ -107,12 +119,12 @@ onMounted(async () => {
     const createFontTexture = () => {
       const fontSize = 64
       const pg = p.createGraphics(fontSize * density.length, fontSize)
-      pg.clear() // Transparent background
+      pg.clear()
       pg.fill(255)
       pg.textFont('monospace')
       pg.textSize(fontSize)
       pg.textAlign(p.CENTER, p.CENTER)
-      
+
       for (let i = 0; i < density.length; i++) {
         pg.text(density[i], i * fontSize + fontSize / 2, fontSize / 2)
       }
@@ -122,7 +134,7 @@ onMounted(async () => {
     p.setup = () => {
       const container = sketchContainer.value
       if (!container) return
-      p.pixelDensity(1) // Better performance
+      p.pixelDensity(1)
       p.createCanvas(container.clientWidth, container.clientHeight, p.WEBGL)
       asciiShader = p.createShader(vert, frag)
       fontTexture = createFontTexture()
@@ -133,7 +145,7 @@ onMounted(async () => {
       if (!asciiShader) return
       p.background(0)
       p.shader(asciiShader)
-      
+
       const scl = 18
       const cols = p.width / scl
       const rows = p.height / scl
@@ -147,20 +159,27 @@ onMounted(async () => {
 
       p.rect(0, 0, p.width, p.height)
     }
-
-    p.windowResized = () => {
-      const container = sketchContainer.value
-      if (!container) return
-      p.resizeCanvas(container.clientWidth, container.clientHeight)
-    }
   }
 
   myP5 = new p5(sketch, sketchContainer.value)
+
+  // Use ResizeObserver for reliable resize detection regardless of scroll state
+  if (sketchContainer.value) {
+    resizeObserver = new ResizeObserver(() => {
+      resizeCanvasToContainer()
+    })
+    resizeObserver.observe(sketchContainer.value)
+  }
+
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObserver = null
+  }
   if (myP5) myP5.remove()
 })
 </script>
