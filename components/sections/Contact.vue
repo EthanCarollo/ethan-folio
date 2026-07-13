@@ -1,6 +1,6 @@
 <script setup>
-const runtimeConfig = useRuntimeConfig()
-const contactEmail = runtimeConfig.public.contactEmail
+const appConfig = useAppConfig()
+const contactEmail = appConfig.contactEmail
 </script>
 <template>
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="contact">

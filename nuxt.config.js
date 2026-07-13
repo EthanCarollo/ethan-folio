@@ -85,11 +85,5 @@ export default defineNuxtConfig({
             name: 'terminal',
             mode: 'out-in'
         }
-    },
-
-    runtimeConfig: {
-        public: {
-            contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL || 'etcarollo@gmail.com',
-        }
     }
 })
