@@ -3,12 +3,24 @@
         :class="hasScrolled ? 'px-8 py-8' : 'px-0 py-0'">
         <div class="bg-black relative h-full w-full flex overflow-hidden items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono transition-all duration-700 ease-in-out"
             :class="hasScrolled ? 'rounded-xl' : 'rounded-none'">
+
+            <!-- Server-rendered ASCII loader: visible instantly, hidden when WebGL is ready -->
+            <div
+                ref="loaderEl"
+                class="ascii-hero-loader absolute inset-0 z-10 bg-black flex items-center justify-center overflow-hidden"
+            >
+                <pre
+                    class="text-[#0a0a0a] leading-none font-mono whitespace-pre select-none pointer-events-none"
+                    style="font-size: 14px; letter-spacing: 1px; opacity: 0.7;"
+                >{{ loaderGrid }}</pre>
+            </div>
+
             <ClientOnly>
                 <div class="absolute inset-0 z-0 opacity-20 text-white">
-                    <AsciiWave />
+                    <AsciiWave @ready="onAsciiReady" />
                 </div>
             </ClientOnly>
-            
+
             <div class="max-w-4xl mx-auto w-full relative z-10">
                 <div class="space-y-1 text-sm">
                     <!-- Profile label removed -->
@@ -26,6 +38,37 @@ import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 
 const { t, locale } = useI18n();
 const activeSection = ref('home');
+const loaderEl = ref<HTMLElement | null>(null);
+
+// ---- ASCII loader grid (server-rendered, visible from first paint) ----
+const loaderChars = '▓▒░◆◇○●□■△▲▽▼☆★♦♢♤♧'
+const loaderCols = 60
+const loaderRows = 20
+
+const buildLoaderGrid = () => {
+  const lines: string[] = []
+  for (let y = 0; y < loaderRows; y++) {
+    let line = ''
+    for (let x = 0; x < loaderCols; x++) {
+      const idx = ((x * 7 + y * 13) ^ (x << 3)) % loaderChars.length
+      line += loaderChars[Math.abs(idx)]
+    }
+    lines.push(line)
+  }
+  return lines.join('\n')
+}
+
+const loaderGrid = buildLoaderGrid()
+
+const onAsciiReady = () => {
+  if (loaderEl.value) {
+    loaderEl.value.style.opacity = '0'
+    loaderEl.value.style.transition = 'opacity 0.4s ease-out'
+    setTimeout(() => {
+      if (loaderEl.value) loaderEl.value.style.display = 'none'
+    }, 400)
+  }
+}
 
 // Texts for the 3D Bar
 const heroTexts = computed(() => [
