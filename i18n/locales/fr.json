@@ -43,7 +43,10 @@
     "notFound": "Aucune note trouvée pour le moment.",
     "viewAll": "Voir toutes les notes",
     "backToNotes": "← Retour aux notes",
-    "backToHome": "⌂ Retour à l'accueil"
+    "backToHome": "⌂ Retour à l'accueil",
+    "allTags": "tout",
+    "noMatch": "Aucune note ne correspond aux tags sélectionnés.",
+    "clearFilters": "effacer les filtres"
   },
   "blog": {
     "date": "Date",

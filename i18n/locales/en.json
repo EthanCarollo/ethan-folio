@@ -43,7 +43,10 @@
     "notFound": "No notes found yet.",
     "viewAll": "View all notes",
     "backToNotes": "← Back to Notes",
-    "backToHome": "⌂ Back to Home"
+    "backToHome": "⌂ Back to Home",
+    "allTags": "all",
+    "noMatch": "No notes match the selected tags.",
+    "clearFilters": "clear filters"
   },
   "blog": {
     "date": "Date",
