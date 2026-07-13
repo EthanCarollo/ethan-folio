@@ -1,14 +1,52 @@
 <template>
-  <div ref="sketchContainer" class="ascii-wave-container w-full h-full select-none pointer-events-none"></div>
+  <div ref="sketchContainer" class="ascii-wave-container w-full h-full select-none pointer-events-none relative">
+    <!-- ASCII loader shown while WebGL initializes -->
+    <div
+      v-if="!loaded"
+      class="ascii-loader absolute inset-0 z-10 bg-black flex items-center justify-center overflow-hidden"
+    >
+      <pre
+        class="ascii-loader-grid text-[#0a0a0a] leading-none font-mono whitespace-pre select-none"
+        :style="{ fontSize: loaderFontSize + 'px' }"
+        v-text="loaderGrid"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const sketchContainer = ref(null)
+const loaded = ref(false)
+
 let myP5 = null
 let resizeObserver = null
 
+// ---- ASCII loader data ----
+const loaderChars = '▓▒░◆◇○●□■△▲▽▼☆★♦♢♤♧♡♢♤♧'
+const loaderCols = 60
+const loaderRows = 20
+const loaderFontSize = 14
+
+// Build a static ASCII "noise" grid that looks like the shader output
+const buildLoaderGrid = () => {
+  const lines = []
+  for (let y = 0; y < loaderRows; y++) {
+    let line = ''
+    for (let x = 0; x < loaderCols; x++) {
+      // Pseudo-random based on position (no Math.random for SSR safety)
+      const idx = ((x * 7 + y * 13) ^ (x << 3)) % loaderChars.length
+      line += loaderChars[Math.abs(idx)]
+    }
+    lines.push(line)
+  }
+  return lines.join('\n')
+}
+
+const loaderGrid = buildLoaderGrid()
+
+// ---- Scroll handling ----
 const handleScroll = () => {
   if (!myP5) return
   const scrollY = window.scrollY
@@ -17,7 +55,6 @@ const handleScroll = () => {
     myP5.noLoop()
   } else {
     if (!myP5.isLooping()) {
-      // Resize canvas to current container dimensions before resuming
       resizeCanvasToContainer()
       myP5.loop()
     }
@@ -139,6 +176,9 @@ onMounted(async () => {
       asciiShader = p.createShader(vert, frag)
       fontTexture = createFontTexture()
       p.noStroke()
+
+      // Signal that WebGL is ready
+      loaded.value = true
     }
 
     p.draw = () => {
@@ -163,7 +203,6 @@ onMounted(async () => {
 
   myP5 = new p5(sketch, sketchContainer.value)
 
-  // Use ResizeObserver for reliable resize detection regardless of scroll state
   if (sketchContainer.value) {
     resizeObserver = new ResizeObserver(() => {
       resizeCanvasToContainer()
@@ -188,5 +227,23 @@ onBeforeUnmount(() => {
 .ascii-wave-container {
   overflow: hidden;
   background: black;
+}
+
+.ascii-loader {
+  animation: loaderFadeOut 0.4s ease-out 0.1s forwards;
+  animation-play-state: paused;
+}
+
+/* When loaded becomes true, the v-if removes the element instantly.
+   But in case of a slow transition, we fade it. */
+.ascii-loader-grid {
+  opacity: 0.7;
+  animation: loaderPulse 1.5s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
 }
 </style>
