@@ -73,8 +73,8 @@ export default defineNuxtConfig({
     },
 
     umami: {
-        id: '4f9b3a39-88e1-40c5-98d7-974fbe95d5ea',
-        host: 'https://methil.analytics.ethan-folio.fr',
+        id: process.env.NUXT_PUBLIC_UMAMI_ID || '',
+        host: process.env.NUXT_PUBLIC_UMAMI_HOST || 'https://methil.analytics.ethan-folio.fr',
         autoTrack: true,
     },
 
@@ -84,6 +84,12 @@ export default defineNuxtConfig({
         pageTransition: {
             name: 'terminal',
             mode: 'out-in'
+        }
+    },
+
+    runtimeConfig: {
+        public: {
+            contactEmail: process.env.NUXT_PUBLIC_CONTACT_EMAIL || 'etcarollo@gmail.com',
         }
     }
 })

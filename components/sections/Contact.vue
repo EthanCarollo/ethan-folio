@@ -1,4 +1,6 @@
 <script setup>
+const runtimeConfig = useRuntimeConfig()
+const contactEmail = runtimeConfig.public.contactEmail
 </script>
 <template>
     <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="contact">
@@ -13,9 +15,9 @@
             <div class="space-y-6 mb-12">
                 <div class="border-l-2 border-foreground/20 pl-4">
                     <div class="text-sm text-foreground/60 mb-1 uppercase tracking-wider">{{ $t('contactSection.email') }}</div>
-                    <a href="mailto:etcarollo@gmail.com"
+                    <a :href="`mailto:${contactEmail}`"
                         class="text-foreground hover:text-foreground/70 transition-colors">
-                        etcarollo@gmail.com
+                        {{ contactEmail }}
                     </a>
                 </div>
 
@@ -28,7 +30,7 @@
             </div>
 
             <div class="text-center">
-                <a href="mailto:etcarollo@gmail.com"
+                <a :href="`mailto:${contactEmail}`"
                     class="inline-block px-8 py-3 border rounded-md border-foreground hover:bg-foreground hover:text-background transition-all text-sm">
                     {{ $t('contactSection.sendMessage') }}
                 </a>

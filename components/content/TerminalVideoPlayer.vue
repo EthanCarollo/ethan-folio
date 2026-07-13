@@ -214,8 +214,8 @@ const toggleFullscreen = () => {
   if (!videoPlayer.value) return
 
   if (!document.fullscreenElement) {
-    videoPlayer.value.requestFullscreen().catch(err => {
-      console.error(`Error attempting to enable fullscreen: ${err.message}`)
+    videoPlayer.value.requestFullscreen().catch(() => {
+      // Fullscreen request denied — browser may block this without user gesture
     })
   } else {
     document.exitFullscreen()

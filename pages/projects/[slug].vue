@@ -24,7 +24,7 @@
                             </div>
                             <div v-if="project.repo">
                                 <span class="text-foreground/60">Repo: </span>
-                                <a :href="project.repo" target="_blank"
+                                <a :href="project.repo" target="_blank" rel="noopener noreferrer"
                                     class="text-foreground/80 hover:text-foreground">{{ project.repo }}</a>
                             </div>
                         </div>
@@ -68,36 +68,12 @@ const { data: project, refresh } = await useAsyncData(
     }
 )
 
-// Forcer le refresh quand on change de langue
+// Refresh when locale changes
 watch(locale, async (newLocale, oldLocale) => {
     if (newLocale !== oldLocale) {
-        console.log(`Changement de langue détecté: ${oldLocale} → ${newLocale}`)
-
-        // Méthode 1 : Refresh via useAsyncData
         await refresh()
-
-        // Méthode 2 : Forcer un rechargement complet si nécessaire
-        // setTimeout(() => {
-        //     window.location.reload()
-        // }, 100)
     }
 })
-
-// Fonction de secours pour forcer le rechargement complet
-const forcePageReload = () => {
-    // Recharger la page complète en conservant la nouvelle langue
-    const currentPath = window.location.pathname
-    const newPath = locale.value === 'en' && !currentPath.startsWith('/en')
-        ? `/en${currentPath}`
-        : locale.value === 'fr' && currentPath.startsWith('/en')
-            ? currentPath.replace(/^\/en/, '') || '/'
-            : currentPath
-
-    window.location.href = newPath
-}
-
-// Optionnel : bouton de secours pour forcer le rechargement
-// Vous pouvez appeler forcePageReload() si le refresh ne fonctionne pas
 </script>
 
 <style>
