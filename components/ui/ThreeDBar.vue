@@ -64,6 +64,17 @@ const handleMouseMove = (e: MouseEvent) => {
     mouseSkewX.value = -y * 10; // Rotate X based on Mouse Y
 };
 
+const handleTouchMove = (e: TouchEvent) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const { innerWidth, innerHeight } = window;
+    const x = (touch.clientX - innerWidth / 2) / innerWidth;
+    const y = (touch.clientY - innerHeight / 2) / innerHeight;
+
+    mouseSkewY.value = x * 10;
+    mouseSkewX.value = -y * 10;
+};
+
 const handleScroll = () => {
     const scrollY = window.scrollY;
     // Descent in 3 dimensions effect
@@ -98,6 +109,7 @@ const handleVisibilityChange = () => {
 
 onMounted(() => {
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
@@ -107,6 +119,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('touchmove', handleTouchMove);
     window.removeEventListener('scroll', handleScroll);
     document.removeEventListener('visibilitychange', handleVisibilityChange);
     stopAutoRotate();
@@ -183,6 +196,10 @@ const rotateBar = () => {
     font-family: monospace;
     font-size: 1rem;
     backface-visibility: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 4px;
 }
 
 @media (min-width: 640px) {
@@ -209,7 +226,7 @@ const rotateBar = () => {
     color: theme('colors.background');
     /* Removed border */
     /* Reduced font size on mobile to prevent overflow */
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     letter-spacing: -0.05em;
 }
 

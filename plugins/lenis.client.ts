@@ -1,9 +1,13 @@
 import Lenis from 'lenis'
 
 export default defineNuxtPlugin((nuxtApp) => {
+  // Désactiver Lenis sur mobile : conflit avec le scroll natif, rubber-banding, pull-to-refresh
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth < 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0))
+
   const lenis = new Lenis({
     autoRaf: true,
-    lerp: 0.15,
+    lerp: isMobile ? 0 : 0.15,
+    duration: isMobile ? 0 : undefined,
   })
 
   nuxtApp.vueApp.provide('lenis', lenis)

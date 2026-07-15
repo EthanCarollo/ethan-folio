@@ -1,6 +1,6 @@
 <template>
     <div class="fixed top-4 left-4 z-40 flex flex-col items-start justify-start gap-2
-        md:top-8 md:left-12 md:gap-3 text-sm font-mono mix-blend-mode mix-blend-exclusion transition-opacity duration-500"
+        md:top-8 md:left-12 md:gap-3 text-sm font-mono mix-blend-exclusion nav-blend-fallback transition-opacity duration-500"
         :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
         <!-- 
         <div class="text-white/60 mb-1 hidden md:block">{{ $t('hero.navigation') }}</div>
@@ -88,3 +88,15 @@ onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
 })
 </script>
+
+<style scoped>
+/* Désactiver mix-blend-mode sur mobile (coûteux en GPU, illisible) */
+@media (max-width: 767px) {
+  .nav-blend-fallback {
+    mix-blend-mode: normal;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 0 8px 8px 0;
+    padding: 8px 6px;
+  }
+}
+</style>

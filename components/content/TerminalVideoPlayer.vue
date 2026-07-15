@@ -369,7 +369,7 @@ onUnmounted(() => {
 
 .control-btn {
   @apply bg-white/20 hover:bg-white/30 text-white border border-white/30 rounded px-3 py-1 transition-colors;
-  @apply flex items-center justify-center min-w-[32px] h-8;
+  @apply flex items-center justify-center min-w-[44px] h-[44px];
 }
 
 .control-btn:hover {

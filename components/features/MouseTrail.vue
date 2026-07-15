@@ -11,6 +11,10 @@ let p5Instance: any = null;
 onMounted(async () => {
     if (typeof window === 'undefined' || !p5Container.value) return;
 
+    // Désactiver complètement sur mobile pour performances et batterie
+    const isMobile = window.innerWidth < 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    if (isMobile) return;
+
     const p5 = (await import('p5')).default;
 
     const sketch = (p: any) => {

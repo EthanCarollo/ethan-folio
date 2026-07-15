@@ -66,6 +66,13 @@ const grid = computed(() => {
   animation: app-loader-pulse 1.5s ease-in-out infinite;
 }
 
+@media (max-width: 480px) {
+  .app-loader-grid {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+}
+
 @keyframes app-loader-pulse {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 0.9; }

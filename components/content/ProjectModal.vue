@@ -50,7 +50,7 @@ const getHighlights = (project: Project | null) => {
                     <!-- Close Button -->
                     <button
                         @click="$emit('close')"
-                        class="absolute top-6 right-6 w-12 h-12 bg-black text-white hover:bg-red-500 transition-colors font-black text-xl z-10 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center"
+                        class="absolute top-6 right-6 w-12 h-12 bg-black text-white hover:bg-red-500 transition-colors font-black text-xl z-20 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center"
                         aria-label="Close modal"
                     >
                         <X class="w-6 h-6" />

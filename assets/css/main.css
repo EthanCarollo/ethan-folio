@@ -21,8 +21,8 @@ body {
     overflow-x: hidden;
 }
 
-/* Prevent horizontal overflow globally */
-main, section, article, div {
+/* Prevent horizontal overflow on main structural elements only */
+main {
     max-width: 100%;
 }
 
@@ -232,6 +232,16 @@ main, section, article, div {
 
 .prose table {
     @apply w-full border-collapse border border-foreground/20 my-4;
+}
+
+/* Scroll horizontal pour les tableaux sur mobile */
+@media (max-width: 640px) {
+    .prose table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 .prose th {

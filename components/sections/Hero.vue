@@ -1,5 +1,5 @@
 <template>
-    <section id="home" class="relative h-screen w-screen transition-all duration-700 ease-in-out"
+    <section id="home" class="relative h-dvh w-screen transition-all duration-700 ease-in-out"
         :class="hasScrolled ? 'px-8 py-8' : 'px-0 py-0'">
         <div class="bg-black relative h-full w-full flex overflow-hidden items-center justify-center px-4 py-12 sm:py-16 md:py-20 font-mono transition-all duration-700 ease-in-out"
             :class="hasScrolled ? 'rounded-xl' : 'rounded-none'">
