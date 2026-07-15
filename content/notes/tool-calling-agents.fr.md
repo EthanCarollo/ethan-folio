@@ -8,23 +8,23 @@ tags: ["lab", "ml"]
 
 # Introduction
 
-Bon, aujourd'hui on va parler d'un truc qui est au cœur de tous les trucs un peu sérieux qu'on fait avec les LLMs : le **tool calling** (ou *function calling*, c'est pareil). C'est ce qui permet à un modèle de ne pas juste cracher du texte, mais d'interagir avec le monde extérieur — appeler une API, lire un fichier, exécuter du code, lancer une recherche web, etc.
+Bon, aujourd'hui on va parler de **tool calling** (aussi appelé *function calling*, c'est pareil). C'est le mécanisme qui permet à un LLM de ne pas juste cracher du texte, mais d'interagir avec le monde extérieur : appeler une API, lire un fichier, exécuter du code, lancer une recherche web, etc.
 
-Et à partir de ce mécanisme tout simple, on construit ce qu'on appelle des **agents** : des boucles autonomes où le LLM décide, agit, observe, et recommence.
+Et ce qui est encore plus intéressant, c'est qu'à partir de ce mécanisme tout simple, on peut construire ce qu'on appelle des **agents**. Des boucles autonomes où le LLM décide, agit, observe, et recommence jusqu'à atteindre un objectif.
 
-Bref, on va décortiquer tout ça, et comme d'hab, on va tester avec un petit **Qwen3-4B** en local pour voir ce que ça donne.
+Bref, on va décortiquer tout ça en partant de zéro, avec du code barebone, sans framework, juste avec `llama-cpp-python` et un petit **Qwen3-4B** en local.
 
-> Parce que comprendre comment ça marche derrière la magie, c'est quand même plus satisfaisant que de juste appeler `agent.run()` sans savoir ce qui se passe.
+> Parce que comprendre ce qui se passe derrière la magie, c'est quand même plus satisfaisant que de juste appeler `agent.run()` sans savoir comment ça marche.
 
-# Un LLM de base, c'est juste une fonction `texte → texte`
+# Un LLM de base, c'est juste `texte -> texte`
 
-Faut se rappeler un truc fondamental : un LLM, à la base, c'est une boîte noire qui prend du texte en entrée et qui prédit le token suivant, encore et encore, jusqu'à produire une réponse complète.
+Faut jamais oublier ce truc fondamental : un LLM, à la base, c'est une boîte noire qui prend du texte en entrée et qui prédit le token suivant, encore et encore, jusqu'à produire une réponse complète.
 
 ```
-prompt → [LLM] → réponse
+prompt -> [LLM] -> réponse
 ```
 
-C'est tout. Pas d'accès à internet, pas de calculatrice, pas de mémoire externe. Juste du texte. Le modèle ne peut pas :
+C'est tout. Pas d'accès à internet, pas de calculatrice, pas de mémoire externe. Juste du texte qui rentre et du texte qui sort. Le modèle ne peut pas :
 
 - Connaître la météo d'aujourd'hui
 - Faire une addition sur des grands nombres de façon fiable
@@ -37,18 +37,18 @@ C'est là que le **tool calling** entre en jeu.
 
 Le principe est simple : au lieu de répondre directement, le LLM peut décider de **demander l'exécution d'une fonction externe**. Il ne l'exécute pas lui-même (il en est incapable), il émet une instruction structurée du genre :
 
-> *"Hé, je sais pas répondre à ça tout seul, peux-tu appeler la fonction `get_weather` avec comme paramètre `city: Paris` ?"*
+> *"Je sais pas répondre à ça tout seul, peux-tu appeler la fonction `get_weather` avec `city: Paris` ?"*
 
 Et c'est ton code (le "runtime") qui intercepte cette demande, exécute la vraie fonction, et renvoie le résultat au modèle pour qu'il puisse continuer.
 
 Le flux devient :
 
 ```
-prompt → [LLM] → "je veux appeler get_weather(Paris)"
-                      ↓
-              appel réel à get_weather(Paris) → "18°C, nuageux"
-                      ↓
-résultat → [LLM] → "Il fait 18°C à Paris avec un ciel nuageux."
+prompt -> [LLM] -> "je veux appeler get_weather(Paris)"
+                         ↓
+                 appel réel à get_weather(Paris) -> "18°C, nuageux"
+                         ↓
+résultat -> [LLM] -> "Il fait 18°C à Paris avec un ciel nuageux."
 ```
 
 > C'est un peu comme si le LLM levait la main en disant "je délègue, revenez vers moi avec le résultat".
@@ -57,7 +57,7 @@ résultat → [LLM] → "Il fait 18°C à Paris avec un ciel nuageux."
 
 ## 1. On définit les outils disponibles
 
-On fournit au modèle une description des fonctions qu'il peut appeler. Selon le modèle et le framework, ça peut être au format JSON Schema, ou via un format propriétaire. Exemple classique :
+On fournit au modèle une description des fonctions qu'il peut appeler. Le format standard, c'est du **JSON Schema** :
 
 ```json
 [
@@ -71,7 +71,7 @@ On fournit au modèle une description des fonctions qu'il peut appeler. Selon le
         "properties": {
           "city": {
             "type": "string",
-            "description": "Le nom de la ville (ex: Paris, Tokyo)"
+            "description": "Le nom de la ville, ex: Paris, Tokyo"
           }
         },
         "required": ["city"]
@@ -98,14 +98,14 @@ On fournit au modèle une description des fonctions qu'il peut appeler. Selon le
 ]
 ```
 
-Ce bloc (le *tool schema*) est injecté dans le prompt système, ou passé via un champ dédié de l'API selon le modèle.
+Ce bloc s'appelle le **tool schema**. Il est injecté dans le prompt système pour que le modèle sache ce qu'il peut faire.
 
 ## 2. Le modèle décide (ou pas) d'appeler un outil
 
 Quand le modèle reçoit un message utilisateur, il a deux choix :
 
-- **Répondre normalement** avec du texte (pas besoin d'outil)
-- **Émettre un `tool_call`** — une réponse structurée qui dit "je veux appeler telle fonction avec tels arguments"
+- **Répondre normalement** avec du texte. Pas besoin d'outil, il gère tout seul.
+- **Émettre un `tool_call`**. Une réponse structurée qui dit "je veux appeler telle fonction avec tels arguments".
 
 La réponse structurée ressemble à ça :
 
@@ -125,11 +125,11 @@ La réponse structurée ressemble à ça :
 }
 ```
 
-> Le modèle ne décide pas "au hasard" : il a été fine-tuné (ou prompté) pour reconnaître quand une demande nécessite un outil et pour formater sa réponse correctement.
+> Le modèle ne décide pas au hasard. Il a été fine-tuné pour reconnaître quand une demande nécessite un outil et pour formater sa réponse correctement.
 
 ## 3. On exécute l'outil et on renvoie le résultat
 
-Ton code intercepte le `tool_call`, exécute la vraie fonction, et ajoute le résultat dans l'historique de conversation comme un message de rôle `tool` :
+Ton code intercepte le `tool_call`, exécute la vraie fonction, et ajoute le résultat dans l'historique de conversation :
 
 ```json
 {
@@ -141,17 +141,17 @@ Ton code intercepte le `tool_call`, exécute la vraie fonction, et ajoute le ré
 
 ## 4. Le modèle reprend la main
 
-Avec le résultat de l'outil dans son contexte, le modèle génère maintenant sa réponse finale à l'utilisateur :
+Avec le résultat de l'outil dans son contexte, le modèle génère sa réponse finale :
 
 > "Actuellement à Paris, il fait 18°C avec un ciel partiellement nuageux et une humidité de 65%."
 
 Et voilà, c'est tout le mécanisme. Simple, non ?
 
-# Testons avec Qwen3-4B en local
+# Testons en barebone avec Qwen3-4B et llama-cpp
 
-Bon, assez de théorie, on va faire tourner ça pour de vrai. Qwen3-4B supporte nativement le tool calling, et on peut le tester avec `llama-cpp-python` qui gère très bien ça.
+Bon, assez de théorie. On va faire tourner ça pour de vrai, **sans framework, sans `create_chat_completion`**, juste avec l'API d'inférence brute de `llama-cpp-python`. Le but c'est de voir exactement ce qui se passe sous le capot.
 
-## Setup
+## Setup de base
 
 ```python
 from llama_cpp import Llama
@@ -159,14 +159,19 @@ from llama_cpp import Llama
 llm = Llama(
     model_path="~/models/qwen3-4b-Q4_K_M.gguf",
     n_ctx=4096,
-    n_gpu_layers=12,      # 12 couches sur le GPU, le reste sur le CPU
+    n_gpu_layers=12,      # 12 couches sur GPU, le reste sur CPU
     verbose=False,
 )
 ```
 
-## Définir nos outils
+## Étape 1 : formater le prompt avec les outils
+
+Qwen attend un format de chat spécifique. On va construire notre prompt à la main avec le template de chat Qwen et nos définitions d'outils intégrées dans le message système.
 
 ```python
+import json
+
+# Nos outils au format JSON Schema
 tools = [
     {
         "type": "function",
@@ -176,10 +181,7 @@ tools = [
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "city": {
-                        "type": "string",
-                        "description": "La ville"
-                    }
+                    "city": {"type": "string", "description": "La ville"}
                 },
                 "required": ["city"]
             }
@@ -198,179 +200,240 @@ tools = [
         }
     }
 ]
+
+SYSTEM_PROMPT = f"""Tu es un assistant utile. Tu as accès aux outils suivants.
+Quand tu as besoin d'un outil, réponds UNIQUEMENT avec un bloc JSON comme ceci :
+{{"tool_call": {{"name": "<nom_outil>", "arguments": {{...}}}} }}
+
+Outils disponibles :
+{json.dumps(tools, indent=2, ensure_ascii=False)}"""
+
+user_query = "Quel temps fait-il à Tokyo ? Et quelle heure est-il ?"
+
+# Construction du prompt avec le template de chat Qwen
+# Format: <|im_start|>system\n...<|im_end|>\n<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n
+prompt = f"""<|im_start|>system
+{SYSTEM_PROMPT}<|im_end|>
+<|im_start|>user
+{user_query}<|im_end|>
+<|im_start|>assistant
+"""
 ```
 
-## La logique d'exécution des outils
+> On utilise le format `<|im_start|>` / `<|im_end|>` qui est le template natif de Qwen. Pas de magie, juste des tokens spéciaux.
+
+## Étape 2 : première inférence brute
 
 ```python
-from datetime import datetime
-import json
-
-def execute_tool(tool_name: str, arguments: dict) -> str:
-    """Exécute l'outil demandé et retourne le résultat."""
-    if tool_name == "get_weather":
-        city = arguments.get("city", "inconnue")
-        # Dans la vraie vie, on appellerait une API météo
-        return f"Météo à {city}: 22°C, ensoleillé."
-    
-    elif tool_name == "get_time":
-        return f"Heure actuelle: {datetime.now().strftime('%H:%M:%S')}"
-    
-    return "Outil inconnu."
-```
-
-## La boucle de conversation
-
-```python
-messages = [
-    {"role": "system", "content": "Tu es un assistant utile. "
-     "Utilise les outils disponibles quand c'est nécessaire."},
-    {"role": "user", "content": "Quel temps fait-il à Tokyo ? Et quelle heure est-il ?"}
-]
-
-# Premier appel : le modèle va demander des outils
-response = llm.create_chat_completion(
-    messages=messages,
-    tools=tools,
-    tool_choice="auto",   # le modèle décide lui-même
+# Inférence brute, sans outil automatique
+output = llm(
+    prompt,
+    max_tokens=512,
+    temperature=0.1,   # basse température pour du JSON propre
+    stop=["<|im_end|>", "<|im_start|>"],
 )
 
-msg = response["choices"][0]["message"]
-
-# Si le modèle veut appeler des outils
-if msg.get("tool_calls"):
-    messages.append(msg)  # on ajoute la demande d'outil à l'historique
-    
-    for tool_call in msg["tool_calls"]:
-        tool_name = tool_call["function"]["name"]
-        arguments = json.loads(tool_call["function"]["arguments"])
-        
-        print(f"[Tool] Appel de {tool_name}({arguments})")
-        result = execute_tool(tool_name, arguments)
-        
-        # On ajoute le résultat dans l'historique
-        messages.append({
-            "role": "tool",
-            "tool_call_id": tool_call["id"],
-            "content": result
-        })
-    
-    # Deuxième appel : le modèle synthétise les résultats
-    final_response = llm.create_chat_completion(
-        messages=messages,
-        tools=tools,
-    )
-    
-    print(final_response["choices"][0]["message"]["content"])
+raw_response = output["choices"][0]["text"].strip()
+print(f"Réponse brute du modèle:\n{raw_response}")
 ```
 
-Et là, normalement, le modèle va :
+Le modèle va produire quelque chose comme :
 
-1. **Premier call** → demander `get_weather("Tokyo")` et `get_time()`
-2. Ton code exécute les deux fonctions
-3. **Deuxième call** → le modèle reçoit les résultats et répond : *"À Tokyo, il fait 22°C avec un temps ensoleillé, et il est actuellement 14:32:15."*
+```json
+{"tool_call": {"name": "get_weather", "arguments": {"city": "Tokyo"}}}
+```
 
-> Et voilà, t'as un LLM qui interagit avec le monde extérieur. C'est pas magique, c'est juste un pipeline bien orchestré.
+> Voilà, c'est ça le tool calling en barebone. Le modèle répond avec un JSON qu'on va parser nous-mêmes. Aucun framework ne fait ça pour nous, c'est juste du texte.
+
+## Étape 3 : parser le tool call et exécuter
+
+```python
+import re
+from datetime import datetime
+
+def parse_tool_call(text: str) -> dict | None:
+    """Extrait un appel d'outil depuis la réponse JSON du modèle."""
+    try:
+        # Essaie de parser du JSON direct
+        data = json.loads(text)
+        if "tool_call" in data:
+            return data["tool_call"]
+    except json.JSONDecodeError:
+        pass
+    
+    # Fallback: cherche un bloc JSON avec regex
+    match = re.search(r'\{.*"tool_call".*\}', text, re.DOTALL)
+    if match:
+        try:
+            data = json.loads(match.group())
+            if "tool_call" in data:
+                return data["tool_call"]
+        except json.JSONDecodeError:
+            pass
+    
+    return None
+
+def execute_tool(name: str, arguments: dict) -> str:
+    """Exécute l'outil demandé et retourne le résultat."""
+    if name == "get_weather":
+        city = arguments.get("city", "inconnue")
+        # Dans la vraie vie, appel d'API météo ici
+        return f"Météo à {city}: 22°C, ensoleillé, humidité 40%"
+    
+    elif name == "get_time":
+        return f"Heure actuelle: {datetime.now().strftime('%H:%M:%S')}"
+    
+    return f"Erreur: outil '{name}' inconnu."
+
+# Parse et exécute
+tool_call = parse_tool_call(raw_response)
+
+if tool_call:
+    print(f"Tool appelé: {tool_call['name']}({tool_call['arguments']})")
+    result = execute_tool(tool_call["name"], tool_call["arguments"])
+    print(f"Résultat: {result}")
+```
+
+> Le parsing peut être fragile sur les petits modèles. Le JSON est parfois mal formé ou tronqué, d'où le fallback avec regex. En prod, on utiliserait le *grammar sampling* de llama.cpp pour forcer un JSON valide, mais on verra ça une autre fois.
+
+## Étape 4 : renvoyer le résultat pour la réponse finale
+
+```python
+# On reconstruit le prompt avec l'historique complet
+prompt += raw_response + "<|im_end|>\n"
+prompt += f"<|im_start|>tool\n{result}<|im_end|>\n"
+prompt += "<|im_start|>assistant\n"
+
+# Deuxième inférence : le modèle synthétise le résultat
+final_output = llm(
+    prompt,
+    max_tokens=512,
+    temperature=0.7,
+    stop=["<|im_end|>", "<|im_start|>"],
+)
+
+final_response = final_output["choices"][0]["text"].strip()
+print(f"Réponse finale:\n{final_response}")
+```
+
+Et là, le modèle répond naturellement :
+
+> "À Tokyo, il fait 22°C avec un temps ensoleillé et 40% d'humidité. L'heure actuelle est 14:32:15."
+
+> Et voilà. Zéro framework, zéro magie. Juste du prompt engineering, un appel d'inférence, du parsing JSON, et un deuxième appel d'inférence. C'est tout ce que font les "gros" frameworks comme LangChain derrière leurs abstractions.
 
 # De là à l'agent, il n'y a qu'un pas
 
-Un **agent**, c'est fondamentalement ce qu'on vient de faire, mais dans une boucle plus large et plus autonome. Le LLM ne se contente pas de répondre à une question, il **poursuit un objectif** sur plusieurs étapes.
+Un **agent**, c'est fondamentalement ce qu'on vient de faire, mais dans une **boucle** plus large. Le LLM ne se contente pas de répondre à une question, il poursuit un **objectif** sur plusieurs étapes, en décidant à chaque tour s'il a besoin d'un outil ou s'il peut répondre.
 
-## La boucle agent classique
+## La boucle agent
 
-```
-┌─────────────────────────────────────────┐
-│                                         │
-│  1. THINK   →  Le LLM réfléchit         │
-│       ↓                                 │
-│  2. ACT     →  Le LLM choisit un outil  │
-│       ↓                                 │
-│  3. OBSERVE →  L'outil est exécuté      │
-│       ↓                                 │
-│  4. LOOP    →  On recommence jusqu'à    │
-│               atteindre l'objectif      │
-│                                         │
-└─────────────────────────────────────────┘
-```
+::mermaid-diagram
+---
+code: |
+  flowchart TD
+      A[🎯 Objectif utilisateur] --> B[🤖 Le LLM réfléchit]
+      B --> C{Outil nécessaire ?}
+      C -->|Oui| D[📞 Émission d'un tool_call]
+      D --> E[⚙️ Exécution de l'outil]
+      E --> F[📥 Résultat injecté dans le contexte]
+      F --> B
+      C -->|Non| G[💬 Réponse finale à l'utilisateur]
+---
+::
 
-Concrètement, voici une boucle agent minimale :
+## Implémentation barebone d'une boucle agent
+
+Reprenons notre code d'inférence brute et emballons-le dans une boucle :
 
 ```python
-def agent_loop(user_query: str, max_steps: int = 10) -> str:
+def agent_loop(user_query: str, tools: list, max_steps: int = 10) -> str:
     """
-    Boucle agent : le LLM peut appeler des outils en boucle
-    jusqu'à ce qu'il décide de répondre à l'utilisateur.
+    Boucle agent barebone.
+    Le LLM peut appeler des outils en boucle jusqu'à ce qu'il
+    décide de répondre directement à l'utilisateur.
     """
-    messages = [
-        {"role": "system", "content": 
-         "Tu es un agent autonome. Utilise les outils disponibles "
-         "pour accomplir la tâche demandée. Quand tu as terminé, "
-         "réponds directement à l'utilisateur sans appeler d'outil."},
-        {"role": "user", "content": user_query}
-    ]
     
-    for step in range(max_steps):
-        print(f"\n--- Step {step + 1} ---")
+    system_prompt = f"""Tu es un agent autonome. Tu as accès aux outils suivants.
+Pour appeler un outil, réponds UNIQUEMENT avec :
+{{"tool_call": {{"name": "<nom>", "arguments": {{...}} }} }}
+Quand tu as terminé ta mission, réponds directement à l'utilisateur SANS JSON.
+
+Outils disponibles :
+{json.dumps(tools, indent=2, ensure_ascii=False)}"""
+    
+    # Initialisation du prompt avec le template Qwen
+    prompt = f"<|im_start|>system\n{system_prompt}<|im_end|>\n"
+    prompt += f"<|im_start|>user\n{user_query}<|im_end|>\n"
+    prompt += "<|im_start|>assistant\n"
+    
+    step_count = 0
+    
+    while step_count < max_steps:
+        step_count += 1
         
-        response = llm.create_chat_completion(
-            messages=messages,
-            tools=tools,
-            tool_choice="auto",
+        # Inférence
+        output = llm(
+            prompt,
+            max_tokens=512,
+            temperature=0.1,
+            stop=["<|im_end|>", "<|im_start|>"],
         )
         
-        msg = response["choices"][0]["message"]
+        response_text = output["choices"][0]["text"].strip()
         
-        # Si pas de tool_call, l'agent a fini
-        if not msg.get("tool_calls"):
-            return msg.get("content", "")
+        # On essaie de parser un tool_call
+        tool_call = parse_tool_call(response_text)
         
-        # Sinon, on exécute les outils
-        messages.append(msg)
-        for tool_call in msg["tool_calls"]:
-            name = tool_call["function"]["name"]
-            args = json.loads(tool_call["function"]["arguments"])
-            
-            print(f"  → {name}({args})")
-            result = execute_tool(name, args)
-            
-            messages.append({
-                "role": "tool",
-                "tool_call_id": tool_call["id"],
-                "content": result
-            })
+        if tool_call is None:
+            # Pas d'outil demandé, l'agent a fini sa mission
+            print(f"[Agent] Mission accomplie en {step_count} étape(s).")
+            return response_text
+        
+        # Exécution de l'outil
+        tool_name = tool_call["name"]
+        tool_args = tool_call["arguments"]
+        
+        print(f"[Step {step_count}] Appel de {tool_name}({tool_args})")
+        tool_result = execute_tool(tool_name, tool_args)
+        
+        # On ajoute à l'historique et on continue
+        prompt += response_text + "<|im_end|>\n"
+        prompt += f"<|im_start|>tool\n{tool_result}<|im_end|>\n"
+        prompt += "<|im_start|>assistant\n"
     
-    return "Agent bloqué (max steps atteint)."
+    return "[Erreur] Agent bloqué, max steps atteint."
 ```
 
 ## Exemple d'exécution
 
-Imaginons qu'on donne à l'agent des outils comme `search_web`, `read_file`, `execute_python`, et la tâche :
+Imaginons qu'on donne à l'agent des outils comme `search_web`, `read_page`, `execute_python`, et la tâche :
 
-> *"Trouve les 3 derniers articles sur les avancées en IA cette semaine, résume-les, et écris un petit paragraphe de synthèse."*
+> *"Trouve les 3 dernières news sur Qwen, résume-les en une phrase chacune, et écris une mini synthèse."*
 
-La boucle agent pourrait faire :
+La boucle pourrait faire :
 
-| Step | Action | Résultat |
-|------|--------|----------|
-| 1 | `search_web("avancées IA juillet 2026")` | 5 URLs trouvées |
-| 2 | `read_file(url_1)` | Contenu de l'article 1 |
-| 3 | `read_file(url_2)` | Contenu de l'article 2 |
-| 4 | `read_file(url_3)` | Contenu de l'article 3 |
+| Step | Action du LLM | Résultat |
+|------|--------------|----------|
+| 1 | `search_web("Qwen latest news 2026")` | 5 URLs trouvées |
+| 2 | `read_page(url_1)` | Contenu de l'article 1 |
+| 3 | `read_page(url_2)` | Contenu de l'article 2 |
+| 4 | `read_page(url_3)` | Contenu de l'article 3 |
 | 5 | *(pas de tool_call)* → réponse finale | Synthèse des 3 articles |
 
-> L'agent a pris 5 étapes pour accomplir sa mission. À chaque étape, il a observé le résultat avant de décider de la suite.
+> L'agent a pris 5 étapes pour accomplir sa mission. À chaque tour, il observe le résultat avant de décider de la suite. C'est ça la magie de la boucle agent. Et c'est juste une boucle `while` avec des appels d'inférence.
 
 # Les différents types d'agents
 
-À partir de cette boucle de base, on peut construire des architectures plus sophistiquées :
+À partir de cette boucle de base, on peut construire des trucs plus élaborés :
 
 ## Agent simple (ReAct)
 
-C'est ce qu'on vient de faire. **Reasoning + Acting**. Le modèle alterne entre pensée et action. Simple, efficace, mais peut partir en vrille sur des tâches complexes.
+C'est ce qu'on vient de faire. **Reasoning + Acting**. Le modèle alterne entre penser et agir. Simple, direct, efficace. Mais ça peut partir en vrille sur des tâches complexes où il faut planifier à l'avance.
 
 ## Agent planificateur (Plan-and-Execute)
 
-Le LLM commence par établir un **plan** complet, puis l'exécute étape par étape.
+Le LLM commence par établir un **plan complet**, puis l'exécute étape par étape. C'est plus structuré.
 
 ```
 User: "Fais une analyse du marché des GPU en 2026"
@@ -382,67 +445,94 @@ Plan:
   4. Synthétiser les informations
   5. Rédiger l'analyse
 
-Exécution: étape 1 → 2 → 3 → 4 → 5
+Exécution: 1 -> 2 -> 3 -> 4 -> 5
 ```
 
-> Ça évite que l'agent ne parte dans tous les sens, mais c'est moins flexible si le plan se révèle mauvais en cours de route.
+> C'est plus robuste, mais moins flexible si le plan se révèle mauvais en cours de route. L'agent peut pas vraiment improviser.
 
 ## Multi-agent
 
-Plusieurs agents spécialisés qui collaborent. Un agent "chef d'orchestre" distribue le travail.
+Plusieurs agents spécialisés qui collaborent, orchestrés par un agent "chef". Chacun a ses propres outils et sa propre "personnalité".
 
 ```
 Agent Orchestrateur
-    ├── Agent Recherche → search_web, scrape_page
-    ├── Agent Code     → execute_python, read_file
-    └── Agent Rédaction → format_output, save_file
+  ├── Agent Recherche -> search_web, scrape_page
+  ├── Agent Code      -> execute_python, read_file
+  └── Agent Rédaction -> format_output, save_file
 ```
 
-> C'est le délire complet, mais c'est aussi là que ça devient vraiment puissant. Chaque agent a ses propres outils et sa propre "personnalité".
+> C'est là que ça devient vraiment puissant, mais aussi plus complexe à debugger. Chaque agent fait tourner sa propre boucle, et ils communiquent entre eux via le chef d'orchestre.
 
-# Ce qui peut mal tourner (et ça tourne souvent mal)
+# Ce qui peut foirer (et ça foire souvent)
 
-Quelques pièges classiques du tool calling et des agents :
+Le tool calling et les agents, c'est puissant mais c'est loin d'être infaillible. Quelques pièges classiques :
 
-**Boucle infinie** : l'agent appelle des outils en boucle sans jamais s'arrêter. D'où le `max_steps` dans le code plus haut — toujours mettre une limite.
+**Boucle infinie.** L'agent appelle des outils en boucle sans jamais s'arrêter. D'où le `max_steps` dans le code plus haut. Mets toujours une limite, crois-moi.
 
-**Hallucination d'outils** : le modèle invente une fonction qui n'existe pas. Ou il appelle `get_weather` avec des paramètres inventés.
+**Hallucination d'outils.** Le modèle invente une fonction qui n'existe pas, ou appelle `get_weather` avec des paramètres qui n'ont aucun sens. Sur Qwen3-4B, ça arrive, surtout si le tool schema est complexe.
 
-**Mauvais parsing des arguments** : le modèle sort un JSON mal formé. Sur les petits modèles (coucou Qwen3-4B), c'est pas rare. Une astuce : utiliser le *grammar sampling* de llama.cpp pour forcer un format JSON valide.
-
-**Accumulation de contexte** : chaque appel d'outil ajoute du texte dans l'historique. Sur 20 étapes, le contexte peut exploser et dépasser la taille max. Il faut parfois élaguer (*trimming*) ou résumer les étapes passées.
+**JSON mal formé.** Le modèle sort un JSON invalide ou tronqué. C'est LE problème numéro 1 avec les petits modèles. Solutions :
 
 ```python
-# Exemple : limiter l'historique en ne gardant
-# que les N derniers messages
-MAX_HISTORY = 20
-if len(messages) > MAX_HISTORY:
-    # Garder le système + les derniers messages
-    messages = [messages[0]] + messages[-(MAX_HISTORY - 1):]
+# Option 1 : Grammar sampling avec llama.cpp
+# Force le modèle à ne générer que du JSON valide
+grammar = llama_cpp.LlamaGrammar.from_json_schema(
+    json.dumps({
+        "type": "object",
+        "properties": {
+            "tool_call": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "arguments": {"type": "object"}
+                },
+                "required": ["name", "arguments"]
+            }
+        },
+        "required": ["tool_call"]
+    })
+)
+
+output = llm(prompt, max_tokens=256, grammar=grammar)
+# Là, t'es GARANTI d'avoir du JSON valide.
+```
+
+> Le grammar sampling, c'est un cheat code. Tu restreins les tokens que le modèle a le droit de générer pour qu'ils respectent un schéma. Zéro parsing, zéro regex, zéro erreur. C'est utilisable avec n'importe quel modèle GGUF.
+
+**Explosion du contexte.** Chaque appel d'outil ajoute du texte dans l'historique. Sur 20 étapes, le contexte peut facilement dépasser la taille max du modèle. Il faut parfois élaguer l'historique :
+
+```python
+MAX_HISTORY = 15
+
+if step_count > MAX_HISTORY:
+    # On garde le système + les derniers messages
+    # Attention, c'est simplifié, dans la vraie vie faut
+    # gérer les paires tool_call / tool_result ensemble
+    messages = messages[:2] + messages[-(MAX_HISTORY - 2):]
 ```
 
 # Pourquoi Qwen est particulièrement bon pour ça
 
-Qwen3 (et Qwen2.5 avant lui) a été spécifiquement entraîné pour le tool calling. Dans les benchmarks, même le petit 4B s'en sort honorablement sur des tâches d'appel d'outils simples.
+Qwen3 (et Qwen2.5 avant lui) a été spécifiquement entraîné pour le tool calling. Dans les benchmarks, même le petit 4B s'en sort honorablement sur des tâches d'appel d'outils simples, surtout si on utilise le grammar sampling pour éviter les erreurs de parsing.
 
-La famille Qwen expose un format de tool calling qui suit de près le standard OpenAI, ce qui le rend compatible avec la plupart des frameworks (LangChain, CrewAI, llama-cpp-python, Ollama...).
+La famille Qwen suit le format de tool calling standard (proche d'OpenAI), ce qui le rend compatible avec à peu près tous les frameworks du marché. Mais encore une fois, t'as pas besoin de framework pour faire du tool calling avec Qwen. Le template `<|im_start|>` est simple et prévisible.
 
-Et en local, avec un Qwen3-4B quantifié en Q4_K_M, ça tient dans ~3 Go de RAM et ça tourne à ~30-40 tokens/seconde sur une RTX 5060 — largement assez pour prototyper des agents sans payer d'API.
+Et en local, avec un Qwen3-4B quantifié en Q4_K_M, ça tient dans environ 3 Go de RAM et ça tourne à 30-40 tokens/seconde sur une RTX 5060. Largement assez pour prototyper des agents sans débourser un centime en API.
 
-> Pour du prototypage d'agent, t'as pas besoin d'un modèle à 70B. Un petit 4B bien entraîné fait largement le taf, et t'apprends 10x plus en le faisant tourner toi-même qu'en appelant une API magique.
+> Pour du prototypage d'agent, t'as pas besoin d'un modèle à 70B. Un petit 4B bien entraîné fait le taf, et tu comprends 10x mieux ce qui se passe en le faisant tourner toi-même qu'en appelant une API magique.
 
 # Conclusion
 
-Le tool calling, c'est le mécanisme fondamental qui transforme un LLM de "perroquet stochastique" en un vrai **agent autonome** capable d'interagir avec le monde. C'est pas sorcier : le modèle émet une demande structurée, ton code l'exécute, et le modèle synthétise le résultat.
+Le tool calling, c'est le mécanisme fondamental qui transforme un LLM de simple générateur de texte en un vrai **agent autonome** capable d'interagir avec le monde. Y'a rien de magique : le modèle émet une demande structurée, ton code l'exécute, et le modèle synthétise le résultat. C'est juste une boucle.
 
-À partir de là, les possibilités sont énormes :
+Et une fois que t'as pigé ça, les possibilités sont énormes :
 
 - Un agent qui lit tes mails et rédige des brouillons de réponse
 - Un agent qui explore une codebase et suggère des refactors
 - Un agent qui fait de la revue de code automatique
 - Un agent qui navigue sur le web pour faire de la recherche
+- Un agent qui contrôle ton PC avec des commandes shell
 
-Et tout ça, ça tourne **en local**, sur ton PC, sans rien envoyer à un cloud. Franchement, c'est cool.
+Et tout ça, ça tourne **en local**, sur ta machine, sans rien envoyer à personne. Franchement, c'est le pied.
 
-> Prochaine étape : construire un vrai agent multi-outils avec du RAG et de la mémoire persistante. Mais ça, c'est pour une prochaine note :)</tool>
-
+> Prochaine étape : construire un vrai agent multi-outils avec du RAG, de la mémoire persistante, et du grammar sampling pour des appels d'outils fiables à 100%. Stay tuned.
