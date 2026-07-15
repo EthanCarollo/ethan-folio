@@ -511,15 +511,17 @@ if step_count > MAX_HISTORY:
     messages = messages[:2] + messages[-(MAX_HISTORY - 2):]
 ```
 
-# Pourquoi Qwen est particulièrement bon pour ça
+# Pourquoi j'utilise Qwen pour tester ça
 
-Qwen3 (et Qwen2.5 avant lui) a été spécifiquement entraîné pour le tool calling. Dans les benchmarks, même le petit 4B s'en sort honorablement sur des tâches d'appel d'outils simples, surtout si on utilise le grammar sampling pour éviter les erreurs de parsing.
+Alors honnêtement, Qwen3-4B est pas le meilleur modèle du monde pour le tool calling. Sur des tâches complexes, il galère, le JSON est souvent mal formé, et il peut partir en vrille rapidement. Les gros modèles (GPT-4, Claude, DeepSeek-V3) sont bien meilleurs sur ce terrain.
 
-La famille Qwen suit le format de tool calling standard (proche d'OpenAI), ce qui le rend compatible avec à peu près tous les frameworks du marché. Mais encore une fois, t'as pas besoin de framework pour faire du tool calling avec Qwen. Le template `<|im_start|>` est simple et prévisible.
+Mais le truc, c'est que Qwen3-4B a un énorme avantage : **il est petit et il tourne sur ma machine**. En Q4_K_M, c'est environ 3 Go de RAM, et ça tourne à 30-40 tokens/seconde sur une RTX 5060. Donc je peux prototyper, itérer, casser des trucs, recommencer, sans payer un centime d'API et sans latence réseau.
 
-Et en local, avec un Qwen3-4B quantifié en Q4_K_M, ça tient dans environ 3 Go de RAM et ça tourne à 30-40 tokens/seconde sur une RTX 5060. Largement assez pour prototyper des agents sans débourser un centime en API.
+Et franchement, pour apprendre comment le tool calling fonctionne, c'est parfait. Les erreurs de parsing, les hallucinations, le JSON mal formé... tu les vois en vrai, tu dois les gérer toi-même, et c'est comme ça que tu comprends vraiment le mécanisme. Si tout marchait du premier coup avec un modèle parfait, t'apprendrais rien.
 
-> Pour du prototypage d'agent, t'as pas besoin d'un modèle à 70B. Un petit 4B bien entraîné fait le taf, et tu comprends 10x mieux ce qui se passe en le faisant tourner toi-même qu'en appelant une API magique.
+Le template de chat de Qwen (`<|im_start|>` / `<|im_end|>`) est simple et prévisible, ce qui rend le prompt engineering facile à debugger. Et le grammar sampling de llama.cpp compense une bonne partie des lacunes du modèle sur la génération de JSON structuré.
+
+> Bref, Qwen3-4B c'est pas le plus fort en tool calling, mais c'est le plus accessible pour tester et apprendre. Et pour du prototypage, c'est largement suffisant.
 
 # Conclusion
 
