@@ -16,6 +16,9 @@
     "role2": "INTERACTIVE DEV MASTER STUDENT",
     "role3": "GAME DEV ADDICT"
   },
+  "locale": {
+    "switch": "Switch language"
+  },
   "about": {
     "backgroundText": "I'm Ethan Carollo, a {word} developer and a Master's student in Interactive Dev at Annecy Gobelins. I work with a variety of languages, including Kotlin for Android and Python for machine learning. I also love Nuxt and spend my free time developing games with Unity.",
     "interests": [
