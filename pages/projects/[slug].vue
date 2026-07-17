@@ -5,7 +5,7 @@
 
         <!-- Adjusted main content with left margin to account for TOC -->
         <div class="flex-1 px-4 py-8 md:py-12 lg:ml-64 ml-0">
-            <div v-if="project" class="max-w-3xl mx-auto">
+            <div v-if="project" class="max-w-3xl xl:max-w-5xl mx-auto">
 
                 <!-- Project Info -->
                 <div class="space-y-4 mb-8">

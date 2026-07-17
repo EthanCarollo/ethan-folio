@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen pt-24 px-4 sm:px-8 pb-12">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-3xl xl:max-w-5xl mx-auto">
             <div class="mb-8">
                 <NuxtLink :to="localePath('/')"
                     class="inline-flex items-center gap-2 text-sm text-foreground/60 hover:text-foreground transition-colors font-mono">
