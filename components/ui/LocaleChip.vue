@@ -150,23 +150,23 @@ onUnmounted(() => {
   @apply text-white bg-white/5;
 }
 
-/* Theme White (Scrolled - Content) */
-.locale-toggle.theme-white {
-  @apply bg-white hover:bg-gray-50 text-black border border-black/10;
-  @apply hover:border-black/30;
-}
+	/* Theme White → Theme Auto (browser-aware when scrolled past hero) */
+	.locale-toggle.theme-white {
+	  @apply bg-background hover:bg-muted text-foreground border border-border;
+	  @apply hover:border-foreground/30;
+	}
 
-.locale-menu.theme-white {
-  @apply bg-white border border-black/10 shadow-xl shadow-black/10;
-}
+	.locale-menu.theme-white {
+	  @apply bg-background border border-border shadow-xl shadow-black/10;
+	}
 
-.locale-menu.theme-white .locale-option {
-  @apply text-black/70 hover:bg-black/5 hover:text-black;
-}
+	.locale-menu.theme-white .locale-option {
+	  @apply text-foreground/70 hover:bg-muted hover:text-foreground;
+	}
 
-.locale-menu.theme-white .locale-option.active {
-  @apply text-black bg-black/5;
-}
+	.locale-menu.theme-white .locale-option.active {
+	  @apply text-foreground bg-muted;
+	}
 
 /* Dropdown menu */
 .locale-menu {
@@ -185,7 +185,7 @@ onUnmounted(() => {
 }
 
 .theme-white .locale-option:not(:last-child) {
-  @apply border-b border-black/5;
+  @apply border-b border-border;
 }
 
 .locale-code {

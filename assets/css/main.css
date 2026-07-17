@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---- Theme: light (default) ---- */
+:root {
+    --color-background: 255 255 255;
+    --color-foreground: 0 0 0;
+    --color-border: 229 229 229;
+    --color-muted: 245 245 245;
+    --color-muted-foreground: 115 115 115;
+}
+
+/* ---- Theme: dark (follows browser preference) ---- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: 0 0 0;
+        --color-foreground: 255 255 255;
+        --color-border: 51 51 51;
+        --color-muted: 26 26 26;
+        --color-muted-foreground: 163 163 163;
+    }
+
+    /* Code blocks: darker background in dark mode */
+    .prose pre {
+        background-color: #111111 !important;
+    }
+    .prose code {
+        background-color: #1a1a1a !important;
+        border-color: #333333 !important;
+    }
+    .prose pre code {
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+    .prose.project-content pre {
+        background-color: #111111 !important;
+    }
+    .prose.project-content code {
+        background-color: #1a1a1a !important;
+        border-color: #333333 !important;
+    }
+}
+
 * {
     box-sizing: border-box;
 }
@@ -13,8 +53,8 @@ html, body {
 }
 
 body {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
     font-family: 'Space Mono', monospace;
     margin: 0;
     padding: 0;
@@ -101,11 +141,11 @@ main {
 /* Styles spécifiques pour les blocs de code dans les projets */
 .prose.project-content {
     pre {
-        @apply bg-[#f8f9fa] border border-border rounded-lg;
+        @apply bg-muted border border-border rounded-lg;
     }
     
     code {
-        @apply bg-[#f8f9fa] text-foreground border border-border;
+        @apply bg-muted text-foreground border border-border;
     }
     
     pre code {
@@ -142,6 +182,30 @@ main {
         &::before {
             content: "";
             @apply absolute inset-0 border border-border rounded-lg pointer-events-none;
+        }
+    }
+}
+
+/* Dark mode: syntax highlighting */
+@media (prefers-color-scheme: dark) {
+    .prose.project-content {
+        .token-keyword {
+            @apply text-indigo-400 font-bold;
+        }
+        .token-string {
+            @apply text-green-400;
+        }
+        .token-number {
+            @apply text-orange-400;
+        }
+        .token-comment {
+            @apply text-gray-400 italic;
+        }
+        .token-function {
+            @apply text-blue-400;
+        }
+        .token-operator {
+            @apply text-gray-300;
         }
     }
 }

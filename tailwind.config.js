@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: 'media',
     content: [
         "./components/**/*.{js,vue,ts}",
         "./layouts/**/*.vue",
@@ -11,11 +12,11 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                background: '#ffffff',
-                foreground: '#000000',
-                border: '#e5e5e5',
-                muted: '#f5f5f5',
-                'muted-foreground': '#737373',
+                background: 'rgb(var(--color-background) / <alpha-value>)',
+                foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+                border: 'rgb(var(--color-border) / <alpha-value>)',
+                muted: 'rgb(var(--color-muted) / <alpha-value>)',
+                'muted-foreground': 'rgb(var(--color-muted-foreground) / <alpha-value>)',
             },
             fontFamily: {
                 mono: ["Space Mono", "monospace"],
