@@ -23,6 +23,7 @@
                             <div class="relative group">
                                 <div class="aspect-[3/4] w-full relative overflow-hidden bg-foreground/5 rounded-lg">
                                     <img src="/images/photome.png" alt="Ethan Carollo"
+                                        width="825" height="1024" loading="lazy" decoding="async"
                                         class="w-full h-full object-cover filter rounded-lg" />
                                     <!-- Border frame effect -->
                                     <div class="absolute inset-0 border-2 border-foreground/10 pointer-events-none rounded-lg"></div>

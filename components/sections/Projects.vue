@@ -12,7 +12,7 @@
                             <div v-if="project.image" class="w-full h-32 sm:h-36 overflow-hidden bg-foreground/5">
                                 <img :src="project.image" :alt="`${project.title} preview`"
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                    loading="lazy" />
+                                    loading="lazy" decoding="async" />
                             </div>
                             <div class="p-3 flex flex-col gap-2 flex-1">
                                 <h3 class="text-base sm:text-lg font-semibold text-foreground line-clamp-1">{{
