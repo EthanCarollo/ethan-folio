@@ -196,7 +196,7 @@ La Jam est terminée, le jeu est envoyé !
 
 Voici le lien itch.io où le jeu est disponible. N'hésitez pas à laisser
 un commentaire si le jeu vous plaît :
-https://ethanzxv.itch.io/virusmania
+https://methil-group.itch.io/virusmania
 
 > Merci d'avoir lu ^^'
 
