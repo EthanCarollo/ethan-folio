@@ -335,24 +335,6 @@ const rotateBar = () => {
     transform: rotateX(180deg) translateZ(calc(var(--depth) / 2));
 }
 
-.face.right {
-    right: 0;
-    transform: rotateY(90deg) translateZ(calc(var(--depth) / 2));
-    /* Right face needs to be shifted by (width - depth)/2? No, standard box mapping */
-    /* Wait, for non-cube, right face is at right edge. */
-    right: calc((var(--depth) - 100%) / 2);
-    /* Actually center it then push? */
-    /* Easier way: transform-origin center. */
-    /* The side faces are tricky with variable width. */
-    /* Let's stick to standard box model: right face is at X = Width/2, rotated 90degY. */
-    transform: rotateY(90deg) translateZ(calc(150px));
-    /* This depends on Width! */
-    /* CSS Cuboid with percentages is hard. */
-}
-
-/* Alternative: Use specific pixel widths in component? Or rely on calculated properties? */
-/* Let's try CSS variables for width too OR use a fixed width container centered via flex */
-
 /* Better Layout for faces */
 .face.front {
     transform: rotateY(0deg) translateZ(calc(var(--depth) / 2));

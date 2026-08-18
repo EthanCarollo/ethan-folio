@@ -60,8 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
-const { t, tm, rt, locale } = useI18n();
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+const { tm, rt, locale } = useI18n();
 
 // Utiliser des refs réactives pour les mots et items
 const rotatingWords = ref<string[]>([]);
@@ -77,8 +77,6 @@ const updateTranslations = () => {
     const rawInterests = tm('about.interests');
     items.value = Object.values(rawInterests).map(v => typeof v === 'string' ? v : rt(v));
 };
-
-const longestWord = computed(() => rotatingWords.value.reduce((a, b) => a.length > b.length ? a : b));
 
 let wordInterval: ReturnType<typeof setInterval>;
 

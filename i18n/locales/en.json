@@ -1,16 +1,9 @@
 {
   "hero": {
-    "whoami": "$ whoami",
     "name": "ETHAN CAROLLO",
-    "title": "Polymorphic Developer & Interactive Dev Master Student",
-    "pwd": "$ pwd",
-    "path": "~/portfolio",
-    "ls": "$ ls -la",
     "about": "About",
     "projects": "Projects",
     "notes": "Notes",
-    "blog": "Blog",
-    "navigation": "Navigation",
     "home": "Home",
     "contact": "Contact",
     "role1": "POLYMORPHIC DEV",
@@ -52,14 +45,7 @@
     "noMatch": "No notes match the selected tags.",
     "clearFilters": "clear filters"
   },
-  "blog": {
-    "date": "Date",
-    "author": "Author",
-    "category": "Category"
-  },
   "common": {
-    "loading": "Loading...",
-    "error": "An error occurred",
     "back": "Back"
   },
   "toc": {

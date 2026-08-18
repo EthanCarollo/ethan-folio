@@ -3,7 +3,6 @@
         <slot />
     </div>
     <!-- Conteneur pour le LocaleChip avec z-index élevé et promotion GPU -->
-    <!-- Conteneur pour le LocaleChip avec z-index élevé et promotion GPU -->
     <div class="fixed z-[100] pointer-events-none transition-all duration-500 ease-in-out"
         :class="(hasScrolled || shouldDisableAnimation) ? 'top-4 right-4 md:top-4 md:right-4' : 'top-4 right-4 md:top-12 md:right-12'"
         style="transform: translateZ(1000px);">
@@ -20,14 +19,6 @@ const route = useRoute()
 
 const shouldDisableAnimation = computed(() => {
     return route.path.includes('/projects/') || route.path.includes('/notes/')
-})
-
-const showMouseTrail = computed(() => {
-    return !shouldDisableAnimation.value
-})
-
-const isIndexPage = computed(() => {
-    return route.path === '/'
 })
 
 // Scroll detection logic

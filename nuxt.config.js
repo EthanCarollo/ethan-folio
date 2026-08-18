@@ -7,7 +7,6 @@ export default defineNuxtConfig({
         { path: '~/components/sections', pathPrefix: false },
         { path: '~/components/ui', pathPrefix: false },
         { path: '~/components/content', pathPrefix: false },
-        { path: '~/components/features', pathPrefix: false },
         '~/components'
     ],
 
