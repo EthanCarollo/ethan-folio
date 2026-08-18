@@ -43,7 +43,7 @@ export default defineNuxtConfig({
         "nuxt-umami",
         '@nuxt/content',
         '@nuxtjs/i18n',
-        // '@nuxtjs/seo'
+        '@nuxtjs/seo'
     ],
 
     mdc: {

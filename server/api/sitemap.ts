@@ -1,29 +1,47 @@
 export default defineEventHandler(async (event) => {
     // 1. Fetch data including 'stem' to identify locale
     const projects = await queryCollection(event, 'projects').select('slug', 'date', 'stem').all()
-    const blogs = await queryCollection(event, 'blog').select('slug', 'date', 'stem').all()
-    
-    // 2. Helper to generate localized URLs
+    const notes = await queryCollection(event, 'notes').select('slug', 'date', 'stem').all()
+
+    // 2. Convert stored dates to ISO (YYYY-MM-DD) for <lastmod>.
+    // Notes use ISO dates directly, projects use DD-MM-YYYY.
+    const toIsoDate = (value: unknown) => {
+        if (!value) return undefined
+        const s = String(value)
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s
+        const dmy = s.match(/^(\d{2})-(\d{2})-(\d{4})$/)
+        if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`
+        return undefined
+    }
+
+    // 3. Helper to generate localized URLs
     const generateLocalizedUrls = (items, type) => {
         return items.map(item => {
             // Determine locale from stem (e.g., "projects/virusmania.en" -> "en")
-            // Assuming stem format is "collection/slug.locale" or similar
             const isEnglish = item.stem.endsWith('.en')
-            
-            // Construct URL based on locale
+
             // Default locale (fr) uses root path, English uses /en prefix
             const urlPrefix = isEnglish ? `/en/${type}` : `/${type}`
-            
-            return {
+
+            const url = {
                 loc: `${urlPrefix}/${item.slug}`,
-                // lastmod: item.date
             }
+            const lastmod = toIsoDate(item.date)
+            if (lastmod) url.lastmod = lastmod
+            return url
         })
     }
 
     const projectUrls = generateLocalizedUrls(projects, 'projects')
-    const blogUrls = generateLocalizedUrls(blogs, 'blog')
+    const noteUrls = generateLocalizedUrls(notes, 'notes')
 
-    // 3. Return combined list
-    return [...projectUrls, ...blogUrls]
+    // 4. Return combined list (landing pages first, then content)
+    return [
+        { loc: '/' },
+        { loc: '/notes' },
+        { loc: '/en' },
+        { loc: '/en/notes' },
+        ...projectUrls,
+        ...noteUrls
+    ]
 })
