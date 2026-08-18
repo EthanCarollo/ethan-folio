@@ -34,22 +34,23 @@
     "nuxt-og-image": "^6.7.8",
     "nuxt-umami": "^3.2.1",
     "postcss": "^8.5.18",
+    "rolldown": "~1.2.1",
     "shiki": "^4.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3",
-    "unhead": "^2.1.15"
+    "unhead": "^3.3.2"
   },
   "overrides": {
     "esbuild": "0.28.1",
-    "brace-expansion": "2.0.3",
+    "brace-expansion": "2.1.4",
     "flatted": "3.4.2",
-    "js-yaml": "4.2.0",
+    "js-yaml": "4.3.1",
     "lodash": "4.18.1",
     "minimatch": "10.2.5",
     "picomatch": "4.0.4",
-    "shell-quote": "1.8.4",
+    "shell-quote": "1.10.0",
     "simple-git": "3.36.0",
-    "socket.io-parser": "4.2.6",
+    "socket.io-parser": "4.2.7",
     "svgo": "4.0.2",
     "ws": "8.21.0",
     "yaml": "2.9.0",
@@ -59,6 +60,6 @@
     "koa": "2.16.4",
     "engine.io-client": "6.6.5",
     "@babel/core": "7.29.7",
-    "vite": "7.3.6"
+    "vite": "8.2.1"
   }
 }
