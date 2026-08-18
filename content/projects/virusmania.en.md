@@ -1,6 +1,6 @@
 ---
 title: VirusMania
-date: 01-12-2025
+date: "2025-12-01"
 image: /virusmania_media/virusmania_banner.png
 role: Lead Developer
 category: Game Dev
@@ -194,7 +194,7 @@ That was a long month of intense work. I didn't mention everyone earlier because
 The Jam is over and the game is submitted!
 
 Here's the itch.io link where you can download it—feel free to leave a comment if you enjoyed it:
-https://ethanzxv.itch.io/virusmania
+https://methil-group.itch.io/virusmania
 
 > Thanks for reading ^^'
 

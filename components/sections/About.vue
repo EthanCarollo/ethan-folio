@@ -8,7 +8,7 @@
                         <!-- Intro Text container: takes remaining width on mobile, 2 columns on desktop -->
                         <div class="flex-1 md:col-start-1 md:col-span-2 md:row-start-1">
                             <div class="space-y-1 text-sm">
-                                <div class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('about.title') }}</div>
+                                <h2 class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('about.title') }}</h2>
                                 <div class="text-foreground/70 mt-2">
                                     <p v-if="rotatingWords[currentWordIndex]">
                                         {{ $t('about.backgroundText', { word: rotatingWords[currentWordIndex].toLowerCase() })
@@ -22,7 +22,8 @@
                         <div class="w-1/3 md:w-full md:col-start-3 md:row-start-1 shrink-0">
                             <div class="relative group">
                                 <div class="aspect-[3/4] w-full relative overflow-hidden bg-foreground/5 rounded-lg">
-                                    <img src="/images/photome.png" alt="Ethan Carollo"
+                                    <img src="/images/photome.webp" alt="Ethan Carollo"
+                                        width="825" height="1024" loading="lazy" decoding="async"
                                         class="w-full h-full object-cover filter rounded-lg" />
                                     <!-- Border frame effect -->
                                     <div class="absolute inset-0 border-2 border-foreground/10 pointer-events-none rounded-lg"></div>
@@ -35,7 +36,7 @@
                     <div class="md:grid md:grid-cols-3 md:gap-12">
                         <div class="md:col-span-2 space-y-8">
                             <div class="space-y-1 text-sm">
-                                <div class="text-foreground/60 mb-2">{{ $t('about.interestsTitle') }}</div>
+                                <h3 class="text-foreground/60 mb-2">{{ $t('about.interestsTitle') }}</h3>
                                 <div class="text-foreground/70 mt-2 space-y-1">
                                     <div v-for="(item, index) in items" :key="index" class="pl-4">
                                         - {{ item }}
@@ -59,8 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
-const { t, tm, rt, locale } = useI18n();
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+const { tm, rt, locale } = useI18n();
 
 // Utiliser des refs réactives pour les mots et items
 const rotatingWords = ref<string[]>([]);
@@ -76,8 +77,6 @@ const updateTranslations = () => {
     const rawInterests = tm('about.interests');
     items.value = Object.values(rawInterests).map(v => typeof v === 'string' ? v : rt(v));
 };
-
-const longestWord = computed(() => rotatingWords.value.reduce((a, b) => a.length > b.length ? a : b));
 
 let wordInterval: ReturnType<typeof setInterval>;
 

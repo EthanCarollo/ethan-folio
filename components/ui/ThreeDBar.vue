@@ -1,5 +1,6 @@
 <template>
-    <div class="scene" @click="rotateBar">
+    <!-- Decorative animation: the hero name is exposed via the sr-only h1 in Hero -->
+    <div class="scene" ref="sceneEl" aria-hidden="true" @click="rotateBar">
         <div class="floater">
             <div class="bar" :class="{ 'is-rotating': isRotating }" :style="barStyle">
                 <div class="face front">
@@ -84,6 +85,9 @@ const handleScroll = () => {
 };
 
 let autoRotateInterval: ReturnType<typeof setInterval> | null = null;
+let sectionObserver: IntersectionObserver | null = null;
+const sceneEl = ref<HTMLElement | null>(null);
+const isOnScreen = ref(true);
 
 const startAutoRotate = () => {
     if (autoRotateInterval) clearInterval(autoRotateInterval);
@@ -99,12 +103,17 @@ const stopAutoRotate = () => {
     }
 };
 
-const handleVisibilityChange = () => {
-    if (document.hidden) {
-        stopAutoRotate();
-    } else {
+// Only animate while the bar is visible (on screen and page focused)
+const updateAutoRotate = () => {
+    if (isOnScreen.value && !document.hidden) {
         startAutoRotate();
+    } else {
+        stopAutoRotate();
     }
+};
+
+const handleVisibilityChange = () => {
+    updateAutoRotate();
 };
 
 onMounted(() => {
@@ -113,8 +122,19 @@ onMounted(() => {
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
+    // Pause the rotation once the bar is scrolled out of view
+    if (sceneEl.value) {
+        sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                isOnScreen.value = entry.isIntersecting;
+            });
+            updateAutoRotate();
+        }, { threshold: 0.05 });
+        sectionObserver.observe(sceneEl.value);
+    }
+
     // Auto swap every 10 seconds
-    startAutoRotate();
+    updateAutoRotate();
 });
 
 onUnmounted(() => {
@@ -122,6 +142,7 @@ onUnmounted(() => {
     window.removeEventListener('touchmove', handleTouchMove);
     window.removeEventListener('scroll', handleScroll);
     document.removeEventListener('visibilitychange', handleVisibilityChange);
+    if (sectionObserver) sectionObserver.disconnect();
     stopAutoRotate();
 });
 
@@ -313,24 +334,6 @@ const rotateBar = () => {
 .face.back {
     transform: rotateX(180deg) translateZ(calc(var(--depth) / 2));
 }
-
-.face.right {
-    right: 0;
-    transform: rotateY(90deg) translateZ(calc(var(--depth) / 2));
-    /* Right face needs to be shifted by (width - depth)/2? No, standard box mapping */
-    /* Wait, for non-cube, right face is at right edge. */
-    right: calc((var(--depth) - 100%) / 2);
-    /* Actually center it then push? */
-    /* Easier way: transform-origin center. */
-    /* The side faces are tricky with variable width. */
-    /* Let's stick to standard box model: right face is at X = Width/2, rotated 90degY. */
-    transform: rotateY(90deg) translateZ(calc(150px));
-    /* This depends on Width! */
-    /* CSS Cuboid with percentages is hard. */
-}
-
-/* Alternative: Use specific pixel widths in component? Or rely on calculated properties? */
-/* Let's try CSS variables for width too OR use a fixed width container centered via flex */
 
 /* Better Layout for faces */
 .face.front {

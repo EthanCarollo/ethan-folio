@@ -1,13 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
-    devtools: { enabled: true },
+    devtools: { enabled: process.env.NODE_ENV === 'development' },
 
     components: [
         { path: '~/components/sections', pathPrefix: false },
         { path: '~/components/ui', pathPrefix: false },
         { path: '~/components/content', pathPrefix: false },
-        { path: '~/components/features', pathPrefix: false },
         '~/components'
     ],
 
@@ -43,7 +42,12 @@ export default defineNuxtConfig({
         "nuxt-umami",
         '@nuxt/content',
         '@nuxtjs/i18n',
-        // '@nuxtjs/seo'
+        '@nuxtjs/sitemap',
+        '@nuxtjs/robots',
+        'nuxt-site-config',
+        'nuxt-schema-org',
+        'nuxt-seo-utils',
+        'nuxt-link-checker'
     ],
 
     mdc: {

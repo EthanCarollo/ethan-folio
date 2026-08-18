@@ -16,7 +16,7 @@
                         <div class="text-foreground/70 space-y-2 text-sm">
                             <div v-if="project.date">
                                 <span class="text-foreground/60">Date: </span>
-                                <span class="text-foreground">{{ project.date }}</span>
+                                <span class="text-foreground">{{ formatDate(project.date) }}</span>
                             </div>
                             <div v-if="project.role">
                                 <span class="text-foreground/60">Role: </span>
@@ -56,6 +56,13 @@
 const route = useRoute()
 const { locale } = useI18n()
 
+// Frontmatter dates are ISO (YYYY-MM-DD); display them as DD/MM/YYYY
+const formatDate = (date: unknown) => {
+    const [y, m, d] = String(date ?? '').split('-')
+    if (!y || !m || !d) return String(date ?? '')
+    return `${d}/${m}/${y}`
+}
+
 // Force le rechargement quand la langue change
 const { data: project, refresh } = await useAsyncData(
     `projects-${route.params.slug}-${locale.value}`,
@@ -73,6 +80,20 @@ watch(locale, async (newLocale, oldLocale) => {
     if (newLocale !== oldLocale) {
         await refresh()
     }
+})
+
+const site = useSiteConfig()
+
+useSeoMeta({
+    // Prevent the site module from appending "| Site Name" (already in the title)
+    titleTemplate: '%s',
+    title: () => (project.value ? `${project.value.title} — ${site.name}` : undefined),
+    description: () => project.value?.description,
+    ogTitle: () => project.value?.title,
+    ogDescription: () => project.value?.description,
+    ogImage: () => project.value?.image ? `${site.url}${project.value.image}` : undefined,
+    twitterCard: 'summary_large_image',
+    twitterImage: () => project.value?.image ? `${site.url}${project.value.image}` : undefined,
 })
 </script>
 

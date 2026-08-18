@@ -2,10 +2,6 @@
     <div class="fixed top-4 left-4 z-40 flex flex-col items-start justify-start gap-2
         md:top-8 md:left-12 md:gap-3 text-sm font-mono mix-blend-exclusion nav-blend-fallback transition-opacity duration-500"
         :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
-        <!-- 
-        <div class="text-white/60 mb-1 hidden md:block">{{ $t('hero.navigation') }}</div>
-        -->
-
         <a href="#home" class="white block transition-all duration-300"
             :class="activeSection === 'home' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             {{ $t('hero.home') }}
@@ -26,7 +22,7 @@
 
         <a href="#notes" class="block transition-all duration-300"
             :class="activeSection === 'notes' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            Notes
+            {{ $t('hero.notes') }}
         </a>
         <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
 
@@ -38,18 +34,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
-const { t, locale } = useI18n();
 const activeSection = ref('home');
-
-// Texts for the 3D Bar
-const heroTexts = computed(() => [
-    t('hero.name'), // Front: "ETHAN CAROLLO"
-    t('hero.role1'), // Bottom
-    t('hero.role2'), // Back
-    t('hero.role3') // Top
-]);
 
 let observer: IntersectionObserver | null = null;
 

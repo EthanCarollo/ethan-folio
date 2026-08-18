@@ -1,6 +1,6 @@
 ---
 title: "Rituals"
-date: "23-10-2025"
+date: "2025-10-23"
 image: "/images/rituals.png"
 category: "Game Dev"
 tags: ["Unity", "C#", "PyTorch", "AI"]

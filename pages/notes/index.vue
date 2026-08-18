@@ -86,8 +86,18 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const site = useSiteConfig()
+
+useSeoMeta({
+    // Prevent the site module from appending "| Site Name" (already in the title)
+    titleTemplate: '%s',
+    title: () => `${t('notes.title')} — ${site.name}`,
+    description: () => t('notes.description'),
+    ogTitle: () => `${t('notes.title')} — ${site.name}`,
+    ogDescription: () => t('notes.description'),
+})
 
 const notes = ref<any[]>([])
 const selectedTags = ref<Set<string>>(new Set())

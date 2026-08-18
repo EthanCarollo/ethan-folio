@@ -22,6 +22,7 @@
             </ClientOnly>
 
             <div class="max-w-4xl mx-auto w-full relative z-10">
+                <h1 class="sr-only">{{ t('hero.name') }}</h1>
                 <div class="space-y-1 text-sm">
                     <!-- Profile label removed -->
                     <div class="text-foreground mt-2 relative z-10">
@@ -34,10 +35,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
-const { t, locale } = useI18n();
-const activeSection = ref('home');
+const { t } = useI18n();
 const loaderEl = ref<HTMLElement | null>(null);
 
 // ---- ASCII loader grid (server-rendered, visible from first paint) ----
@@ -78,7 +78,6 @@ const heroTexts = computed(() => [
     t('hero.role3') // Top
 ]);
 
-let observer: IntersectionObserver | null = null;
 const hasScrolled = ref(false);
 
 const handleScroll = () => {
@@ -88,24 +87,9 @@ const handleScroll = () => {
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll);
-
-    observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                activeSection.value = entry.target.id;
-            }
-        });
-    }, {
-        threshold: 0.2,
-        rootMargin: "-20% 0px -20% 0px"
-    });
-
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((section) => observer?.observe(section));
 });
 
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
-    if (observer) observer.disconnect();
 });
 </script>
