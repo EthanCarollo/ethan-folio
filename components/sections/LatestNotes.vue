@@ -3,6 +3,7 @@
         <div class="max-w-3xl mx-auto">
             <div class="space-y-1 text-sm mb-4">
                 <h2 class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('notes.title') }}</h2>
+                <p class="text-foreground/70 mt-2">{{ $t('notes.description') }}</p>
 
                 <div class="pt-6">
                     <div v-if="notes && notes.length > 0" class="flex flex-col space-y-0 mb-8">
