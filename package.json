@@ -31,14 +31,12 @@
     "@types/node": "^22.10.5",
     "@types/p5": "^1.7.7",
     "nuxt-lucide-icons": "^2.0.0",
-    "nuxt-og-image": "^6.7.8",
     "nuxt-umami": "^3.2.1",
     "postcss": "^8.5.18",
     "rolldown": "~1.2.1",
     "shiki": "^4.0.1",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3",
-    "unhead": "^3.3.2"
+    "typescript": "^5.7.3"
   },
   "overrides": {
     "esbuild": "0.28.1",
@@ -48,6 +46,7 @@
     "lodash": "4.18.1",
     "minimatch": "10.2.5",
     "picomatch": "4.0.4",
+    "sharp": "0.35.3",
     "shell-quote": "1.10.0",
     "simple-git": "3.36.0",
     "socket.io-parser": "4.2.7",
