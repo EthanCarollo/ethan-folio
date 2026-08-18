@@ -22,6 +22,7 @@
             </ClientOnly>
 
             <div class="max-w-4xl mx-auto w-full relative z-10">
+                <h1 class="sr-only">{{ t('hero.name') }}</h1>
                 <div class="space-y-1 text-sm">
                     <!-- Profile label removed -->
                     <div class="text-foreground mt-2 relative z-10">
