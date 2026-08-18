@@ -4,7 +4,7 @@
             <div class="space-y-1 text-sm mb-8">
                 <h2 class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('projects.title') }}</h2>
                 <div class="text-foreground/70 pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <NuxtLink v-for="(project, index) in allProjects" :key="index" :to="'/projects/' + project.slug"
+                    <NuxtLink v-for="(project, index) in allProjects" :key="index" :to="localePath('/projects/' + project.slug)"
                         class="block hover:text-foreground transition-colors">
                         <article
                             class="group border border-foreground/20 rounded-lg overflow-hidden hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-200 h-full flex flex-col">
@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
 const { locale } = useI18n()
+const localePath = useLocalePath()
 
 // Forcer le re-render quand la locale change
 const allProjects = ref([]);
@@ -48,10 +49,14 @@ const loadProjects = async () => {
         .all();
 };
 
-// Charger les projets au montage et quand la locale change
+// SSR: awaited in setup so the project links exist in the initial HTML.
+// Without this, the static crawler never discovers the /projects/[slug]
+// pages and `nuxt generate` does not build them (404 in production).
+await loadProjects()
+
 watch(locale, () => {
     loadProjects();
-}, { immediate: true });
+})
 </script>
 
 <style scoped>
