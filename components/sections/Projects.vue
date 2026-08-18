@@ -18,7 +18,7 @@
                                 <h3 class="text-base sm:text-lg font-semibold text-foreground line-clamp-1">{{
                                     project.title }}</h3>
                                 <p class="text-xs sm:text-sm text-foreground/70 line-clamp-1">
-                                    {{ project.category }} <span class="mx-1 opacity-50">•</span> {{ project.date }}
+                                    {{ project.category }} <span class="mx-1 opacity-50">•</span> {{ formatDate(project.date) }}
                                 </p>
                                 <div class="flex flex-wrap gap-1 sm:gap-2 mt-auto pt-2">
                                     <span v-for="tag in project.tags?.slice(0, 3)" :key="tag"
@@ -38,6 +38,13 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const localePath = useLocalePath()
+
+// Frontmatter dates are ISO (YYYY-MM-DD); display them as DD/MM/YYYY
+const formatDate = (date: unknown) => {
+    const [y, m, d] = String(date ?? '').split('-')
+    if (!y || !m || !d) return String(date ?? '')
+    return `${d}/${m}/${y}`
+}
 
 // Forcer le re-render quand la locale change
 const allProjects = ref([]);

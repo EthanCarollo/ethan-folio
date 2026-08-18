@@ -1,6 +1,6 @@
 ---
 title: "Composite"
-date: "11-04-2025"
+date: "2025-04-11"
 image: "/composite_media/06.png"
 category: "Visual Arts"
 tags: ["TouchDesigner", "MadMapper"]

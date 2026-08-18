@@ -1,6 +1,6 @@
 ---
 title: VirusMania
-date: 01-12-2025
+date: "2025-12-01"
 image: /virusmania_media/virusmania_banner.png
 role: Lead Developer
 category: Game Dev

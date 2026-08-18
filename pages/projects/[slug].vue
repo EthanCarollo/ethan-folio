@@ -16,7 +16,7 @@
                         <div class="text-foreground/70 space-y-2 text-sm">
                             <div v-if="project.date">
                                 <span class="text-foreground/60">Date: </span>
-                                <span class="text-foreground">{{ project.date }}</span>
+                                <span class="text-foreground">{{ formatDate(project.date) }}</span>
                             </div>
                             <div v-if="project.role">
                                 <span class="text-foreground/60">Role: </span>
@@ -55,6 +55,13 @@
 <script setup lang="ts">
 const route = useRoute()
 const { locale } = useI18n()
+
+// Frontmatter dates are ISO (YYYY-MM-DD); display them as DD/MM/YYYY
+const formatDate = (date: unknown) => {
+    const [y, m, d] = String(date ?? '').split('-')
+    if (!y || !m || !d) return String(date ?? '')
+    return `${d}/${m}/${y}`
+}
 
 // Force le rechargement quand la langue change
 const { data: project, refresh } = await useAsyncData(
