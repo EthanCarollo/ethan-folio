@@ -81,6 +81,20 @@ watch(locale, async (newLocale, oldLocale) => {
         await refresh()
     }
 })
+
+const site = useSiteConfig()
+
+useSeoMeta({
+    // Prevent the site module from appending "| Site Name" (already in the title)
+    titleTemplate: '%s',
+    title: () => (project.value ? `${project.value.title} — ${site.name}` : undefined),
+    description: () => project.value?.description,
+    ogTitle: () => project.value?.title,
+    ogDescription: () => project.value?.description,
+    ogImage: () => project.value?.image ? `${site.url}${project.value.image}` : undefined,
+    twitterCard: 'summary_large_image',
+    twitterImage: () => project.value?.image ? `${site.url}${project.value.image}` : undefined,
+})
 </script>
 
 <style>
