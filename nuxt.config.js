@@ -42,14 +42,13 @@ export default defineNuxtConfig({
         "nuxt-umami",
         '@nuxt/content',
         '@nuxtjs/i18n',
-        '@nuxtjs/seo'
+        '@nuxtjs/sitemap',
+        '@nuxtjs/robots',
+        'nuxt-site-config',
+        'nuxt-schema-org',
+        'nuxt-seo-utils',
+        'nuxt-link-checker'
     ],
-
-    // OG images are static (public/images/ethan-carollo-open-graph.png),
-    // disable the dynamic OG image renderer module
-    ogImage: {
-        enabled: false
-    },
 
     mdc: {
         highlight: {
