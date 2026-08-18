@@ -26,7 +26,7 @@
 
         <a href="#notes" class="block transition-all duration-300"
             :class="activeSection === 'notes' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            Notes
+            {{ $t('hero.notes') }}
         </a>
         <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
 
