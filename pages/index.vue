@@ -23,8 +23,11 @@ useHead({
 useSeoMeta({
     title: () => t('seo.title'),
     description: () => t('seo.description'),
+    ogType: 'website',
     ogTitle: () => t('seo.title'),
     ogDescription: () => t('seo.description'),
+    ogImage: 'https://ethan-folio.fr/images/ethan-carollo-open-graph.png',
     twitterCard: 'summary_large_image',
+    twitterImage: 'https://ethan-folio.fr/images/ethan-carollo-open-graph.png',
 })
 </script>

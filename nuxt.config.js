@@ -46,6 +46,12 @@ export default defineNuxtConfig({
         '@nuxtjs/seo'
     ],
 
+    // OG images are static (public/images/ethan-carollo-open-graph.png),
+    // disable the dynamic OG image renderer module
+    ogImage: {
+        enabled: false
+    },
+
     mdc: {
         highlight: {
             theme: 'github-dark',
