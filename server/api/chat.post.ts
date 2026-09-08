@@ -34,6 +34,10 @@ Style obligatoire :
 - Style technique d'ingénieur créatif / changelog.
 - Maximum 3 à 5 lignes par réponse.
 - Intègre systématiquement les liens cliquables [Nom](/projects/slug) ou [Note](/notes/slug) quand tu mentionnes un projet ou article.
+- CONTRÔLE DU VIEWER : Si la question de l'utilisateur porte sur un projet ou que tu présentes un projet précis, ajoute TOUT EN BAS de ta réponse la commande invisible sur sa propre ligne :
+<<<INSPECT:slug_du_projet>>>
+Exemples valides : <<<INSPECT:composite>>>, <<<INSPECT:virusmania>>>, <<<INSPECT:rituals>>>.
+Si aucun projet spécifique n'est analysé, ne mets pas cette balise.
 - Réponds dans la langue de l'utilisateur.
 
 === DONNÉES DU PROFIL D'ETHAN CAROLLO ===
@@ -99,41 +103,66 @@ ${notesSummary || `
         }
 
         const data = await response.json()
-        const reply = data.choices?.[0]?.message?.content || "Désolé, aucune réponse générée."
+        let reply = data.choices?.[0]?.message?.content || "Désolé, aucune réponse générée."
+        let inspectSlug: string | null = null
+
+        const inspectMatch = reply.match(/<<<INSPECT:([a-zA-Z0-9_-]+)>>>/)
+        if (inspectMatch) {
+            inspectSlug = inspectMatch[1]
+            reply = reply.replace(/<<<INSPECT:([a-zA-Z0-9_-]+)>>>/, '').trim()
+        }
 
         return {
             role: 'assistant',
-            content: reply
+            content: reply,
+            inspect: inspectSlug
         }
     } catch (err: any) {
         console.error('Server chat error:', err)
         // Graceful fallback to avoid breaking user experience
         const lastUserMessage = messages.length > 0 ? messages[messages.length - 1].content : query
+        const fallback = getLocalFallbackResponse(lastUserMessage, { projects, notes })
         return {
             role: 'assistant',
-            content: getLocalFallbackResponse(lastUserMessage, { projects, notes })
+            content: fallback.content,
+            inspect: fallback.inspect
         }
     }
 })
 
-function getLocalFallbackResponse(userInput: string, data: { projects: any[], notes: any[] }): string {
+function getLocalFallbackResponse(userInput: string, data: { projects: any[], notes: any[] }): { content: string, inspect: string | null } {
     const input = (userInput || '').toLowerCase()
 
     if (input.includes('composite') || input.includes('touchdesigner') || input.includes('kinect')) {
-        return `**[Composite](/projects/composite)** — Installation interactive (TouchDesigner, MadMapper, Kinect). Modules \`.tox\` versionnés Git. Repo: [github.com/EthanCarollo/composite](https://github.com/EthanCarollo/composite)`
+        return {
+            content: `**[Composite](/projects/composite)** — Installation interactive (TouchDesigner, MadMapper, Kinect). Modules \`.tox\` versionnés Git. Repo: [github.com/EthanCarollo/composite](https://github.com/EthanCarollo/composite)`,
+            inspect: 'composite'
+        }
     }
 
     if (input.includes('virusmania') || input.includes('jam') || input.includes('jeu') || input.includes('game') || input.includes('unity')) {
-        return `**Game Dev (Unity / C#)** :\n- **[VirusMania](/projects/virusmania)** : Coop cartoon (Lead Dev).\n- **[Rituals](/projects/rituals)** : Escape game horreur cosmique avec CNN PyTorch.`
+        return {
+            content: `**Game Dev (Unity / C#)** :\n- **[VirusMania](/projects/virusmania)** : Coop cartoon (Lead Dev).\n- **[Rituals](/projects/rituals)** : Escape game horreur cosmique avec CNN PyTorch.`,
+            inspect: input.includes('rituals') ? 'rituals' : 'virusmania'
+        }
     }
 
     if (input.includes('contact') || input.includes('email') || input.includes('stage') || input.includes('alternance') || input.includes('job')) {
-        return `Contact direct : **etcarollo@gmail.com** | GitHub : [github.com/EthanCarollo](https://github.com/EthanCarollo) (Master Dev Interactif — Gobelins Annecy).`
+        return {
+            content: `Contact direct : **etcarollo@gmail.com** | GitHub : [github.com/EthanCarollo](https://github.com/EthanCarollo) (Master Dev Interactif — Gobelins Annecy).`,
+            inspect: null
+        }
     }
 
     if (input.includes('note') || input.includes('article') || input.includes('llm') || input.includes('unsloth') || input.includes('gleam') || input.includes('agent')) {
-        return `**Lab Notes** :\n- **[Tool Calling & Agents](/notes/tool-calling-agents)**\n- **[Fine-tuning Qwen Unsloth](/notes/finetuning-qwen-unsloth)**\n- **[Gleam](/notes/iwouldlikegleam)**`
+        return {
+            content: `**Lab Notes** :\n- **[Tool Calling & Agents](/notes/tool-calling-agents)**\n- **[Fine-tuning Qwen Unsloth](/notes/finetuning-qwen-unsloth)**\n- **[Gleam](/notes/iwouldlikegleam)**`,
+            inspect: null
+        }
     }
 
-    return `Terminal Ethan Carollo — Master Dev Interactif Gobelins Annecy.\nProjets : **[Composite](/projects/composite)**, **[VirusMania](/projects/virusmania)**, **[Rituals](/projects/rituals)**.\nStack : Unity, PyTorch, TouchDesigner, Kotlin, Nuxt.`
+    return {
+        content: `Terminal Ethan Carollo — Master Dev Interactif Gobelins Annecy.\nProjets : **[Composite](/projects/composite)**, **[VirusMania](/projects/virusmania)**, **[Rituals](/projects/rituals)**.\nStack : Unity, PyTorch, TouchDesigner, Kotlin, Nuxt.`,
+        inspect: null
+    }
 }

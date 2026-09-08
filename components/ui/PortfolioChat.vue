@@ -70,40 +70,42 @@
           </div>
         </div>
 
-        <!-- Input terminal en bas avec les actions rapides juste au-dessus -->
-        <div class="p-3 sm:p-4 border-t border-white/10 bg-black/40 space-y-2.5">
-          <!-- Actions rapides positionnées au-dessus de l'input -->
-          <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
-            <button
-              v-for="chip in quickActions"
-              :key="chip.label"
-              @click="inspectOrAsk(chip)"
-              class="text-[11px] px-2 py-1 rounded bg-white/5 border border-white/15 hover:border-white/40 text-white/70 hover:text-white transition-colors cursor-pointer shrink-0 flex items-center gap-1"
-            >
-              <span>›</span>
-              <span>{{ chip.label }}</span>
-            </button>
-          </div>
+        <!-- Input terminal en bas avec les actions rapides juste au-dessus (apparaît une fois l'intro prête) -->
+        <Transition name="fade-in">
+          <div v-if="isReady" class="p-3 sm:p-4 border-t border-white/10 bg-black/40 space-y-2.5 transition-all">
+            <!-- Actions rapides positionnées au-dessus de l'input -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+              <button
+                v-for="chip in quickActions"
+                :key="chip.label"
+                @click="inspectOrAsk(chip)"
+                class="text-[11px] px-2 py-1 rounded bg-white/5 border border-white/15 hover:border-white/40 text-white/70 hover:text-white transition-colors cursor-pointer shrink-0 flex items-center gap-1"
+              >
+                <span>›</span>
+                <span>{{ chip.label }}</span>
+              </button>
+            </div>
 
-          <form @submit.prevent="handleSubmit" class="relative flex items-center">
-            <span class="absolute left-3 text-white/40 text-xs select-none">›</span>
-            <input
-              ref="inputRef"
-              v-model="inputQuery"
-              type="text"
-              placeholder="Question sur un projet (composite, virusmania, rituals) ou contact..."
-              class="w-full pl-7 pr-20 py-2.5 bg-white/5 border border-white/15 rounded text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/50 transition-colors font-mono"
-              :disabled="isLoading"
-            />
-            <button
-              type="submit"
-              :disabled="!inputQuery.trim() || isLoading"
-              class="absolute right-1.5 px-3 py-1 rounded bg-white text-black text-[11px] font-bold hover:bg-white/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            >
-              EXEC ↵
-            </button>
-          </form>
-        </div>
+            <form @submit.prevent="handleSubmit" class="relative flex items-center">
+              <span class="absolute left-3 text-white/40 text-xs select-none">›</span>
+              <input
+                ref="inputRef"
+                v-model="inputQuery"
+                type="text"
+                placeholder="Question sur un projet (composite, virusmania, rituals) ou contact..."
+                class="w-full pl-7 pr-20 py-2.5 bg-white/5 border border-white/15 rounded text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/50 transition-colors font-mono"
+                :disabled="isLoading"
+              />
+              <button
+                type="submit"
+                :disabled="!inputQuery.trim() || isLoading"
+                class="absolute right-1.5 px-3 py-1 rounded bg-white text-black text-[11px] font-bold hover:bg-white/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              >
+                EXEC ↵
+              </button>
+            </form>
+          </div>
+        </Transition>
       </div>
 
       <!-- Panneau Droit : Viewport Immersif Shader & Live Inspector (Masqué par défaut avec transition fluide) -->
@@ -273,9 +275,15 @@ const quickActions = [
 
 const inputQuery = ref('')
 const isLoading = ref(false)
+const isReady = ref(false)
 const messages = ref<{ role: 'user' | 'assistant'; content: string }[]>([])
 const messagesContainer = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
+
+// Message d'accueil initial par défaut
+const defaultWelcomeMessage = `Bonjour. Je suis l'interface interactive d'**Ethan Carollo**, Creative Developer & Tech Artist (Gobelins Paris).
+
+Vous pouvez me questionner sur ses projets (**Composite**, **VirusMania**, **Rituals**), son stack technique ou ses disponibilités.`
 
 const setInspectorProject = (p: ProjectInfo) => {
   activeInspector.value = p
@@ -366,8 +374,27 @@ const renderMarkdown = (text: string) => {
     .replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>')
 }
 
-onMounted(() => {
-  inputRef.value?.focus()
+onMounted(async () => {
+  // Animation de frappe fluide du message d'accueil initial
+  const targetText = defaultWelcomeMessage
+  messages.value.push({ role: 'assistant', content: '' })
+  
+  const step = 4 // caractères par tick
+  let currentIdx = 0
+  
+  const interval = setInterval(async () => {
+    currentIdx += step
+    if (currentIdx >= targetText.length) {
+      messages.value[0].content = targetText
+      clearInterval(interval)
+      isReady.value = true
+      await nextTick()
+      inputRef.value?.focus()
+    } else {
+      messages.value[0].content = targetText.slice(0, currentIdx) + '▍'
+    }
+    scrollToBottom()
+  }, 16)
 })
 </script>
 
@@ -382,6 +409,15 @@ onMounted(() => {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Fade-in transition pour l'input */
+.fade-in-enter-active {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-in-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
 }
 
 /* Viewer fluid slide-in animation */
