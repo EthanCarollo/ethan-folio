@@ -3,7 +3,7 @@ import { defineEventHandler, readBody, createError } from 'h3'
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const apiKey = config.openrouterApiKey || process.env.OPENROUTER_API_KEY
-    const model = config.openrouterModel || process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct:free'
+    const model = config.openrouterModel || process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct'
 
     const body = await readBody(event)
     const { messages = [], query = '' } = body || {}
