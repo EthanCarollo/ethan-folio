@@ -3,7 +3,9 @@
         <slot />
     </div>
     <!-- Conteneur pour le LocaleChip avec z-index élevé et promotion GPU -->
-    <div class="fixed z-[100] pointer-events-none transition-all duration-500 ease-in-out"
+    <div
+        v-if="shouldShowLocaleChip"
+        class="fixed z-[100] pointer-events-none transition-all duration-500 ease-in-out"
         :class="(hasScrolled || shouldDisableAnimation) ? 'top-4 right-4 md:top-4 md:right-4' : 'top-4 right-4 md:top-12 md:right-12'"
         style="transform: translateZ(1000px);">
         <div class="pointer-events-auto">
@@ -19,6 +21,13 @@ const route = useRoute()
 
 const shouldDisableAnimation = computed(() => {
     return route.path.includes('/projects/') || route.path.includes('/notes/')
+})
+
+// Hide floating layout LocaleChip on index page when chat view is active
+const shouldShowLocaleChip = computed(() => {
+    const isHome = route.path === '/' || route.path === '/en' || route.path === '/fr'
+    if (!isHome) return true
+    return route.query.view === 'standard'
 })
 
 // Scroll detection logic
