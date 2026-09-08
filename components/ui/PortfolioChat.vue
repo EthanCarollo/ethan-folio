@@ -106,11 +106,12 @@
         </div>
       </div>
 
-      <!-- Panneau Droit : Viewport Immersif Shader & Live Inspector (Masqué par défaut) -->
-      <div
-        v-if="showViewer"
-        class="hidden lg:flex lg:col-span-5 flex-col h-full bg-black relative overflow-hidden"
-      >
+      <!-- Panneau Droit : Viewport Immersif Shader & Live Inspector (Masqué par défaut avec transition fluide) -->
+      <Transition name="viewer-slide">
+        <div
+          v-if="showViewer"
+          class="hidden lg:flex lg:col-span-5 flex-col h-full bg-black relative overflow-hidden transition-all duration-500 ease-out border-l border-white/10 shadow-2xl"
+        >
         <!-- Arrière-plan Shader WebGL ASCII Wave interactif -->
         <div class="absolute inset-0 opacity-40 pointer-events-none">
           <ClientOnly>
@@ -209,8 +210,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -327,6 +329,15 @@ const handleSubmit = async () => {
       }
     })
 
+    // Si le LLM a renvoyé un projet à inspecter, afficher et synchroniser le viewer
+    if (res?.inspect) {
+      const target = presetProjects.find(p => p.slug === res.inspect)
+      if (target) {
+        activeInspector.value = target
+        showViewer.value = true
+      }
+    }
+
     messages.value.push({
       role: 'assistant',
       content: res?.content || 'Donnée indisponible.'
@@ -371,5 +382,17 @@ onMounted(() => {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Viewer fluid slide-in animation */
+.viewer-slide-enter-active,
+.viewer-slide-leave-active {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.viewer-slide-enter-from,
+.viewer-slide-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

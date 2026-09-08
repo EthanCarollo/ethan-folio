@@ -8,19 +8,7 @@
 
         <!-- Mode 2: Standard Original Portfolio Website -->
         <main v-else class="min-h-screen relative">
-            <!-- Top bar sticky to switch back to Chat mode anytime -->
-            <div class="fixed top-4 left-4 z-50">
-                <button
-                    @click="setMode('chat')"
-                    class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/80 hover:bg-black text-white text-xs font-mono border border-white/20 backdrop-blur-md shadow-lg transition-all cursor-pointer group"
-                    :title="$t('viewMode.switchToChat')"
-                >
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="font-bold">← {{ $t('viewMode.chat') }}</span>
-                </button>
-            </div>
-
-            <HomeNavigation />
+            <HomeNavigation @switch-to-chat="setMode('chat')" />
             <Hero />
             <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
             <About />
