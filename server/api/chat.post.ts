@@ -28,46 +28,35 @@ export default defineEventHandler(async (event) => {
         return `- NOTE/ARTICLE: "${n.title}" | Date: ${n.date} | Tags: ${(n.tags || []).join(', ')} | URL: /notes/${n.slug} | Résumé: ${n.description || ''}`
     }).join('\n')
 
-    const systemPrompt = `Tu es l'assistant personnel et interactif du portfolio d'Ethan Carollo.
-Ton ton est professionnel, sobre, direct, humble et rigoureux (esprit développeur / atelier créatif).
-Tu parles à la première personne en tant que représentant fidèle du travail d'Ethan, ou à la troisième personne ("Ethan a développé...", "Ethan étudie...").
-Tu réponds dans la langue employée par l'utilisateur (français par défaut, anglais si la question est en anglais).
-Ne survends pas. Sois précis, technique et concis.
-Quand tu mentionnes un projet ou un article, insère un lien markdown cliquable au format [Titre du projet](/projects/slug) ou [Titre de la note](/notes/slug).
+    const systemPrompt = `Tu es l'interface TUI interactive du portfolio d'Ethan Carollo (étudiant Gobelins Annecy, Master Dev Interactif).
+Style obligatoire :
+- Ultra concis, direct, zéro bavardage, zéro formule de politesse superflue.
+- Style technique d'ingénieur créatif / changelog.
+- Maximum 3 à 5 lignes par réponse.
+- Intègre systématiquement les liens cliquables [Nom](/projects/slug) ou [Note](/notes/slug) quand tu mentionnes un projet ou article.
+- Réponds dans la langue de l'utilisateur.
 
 === DONNÉES DU PROFIL D'ETHAN CAROLLO ===
-- Identité : Ethan Carollo, Développeur Polymorphe & étudiant en Master Développement Interactif aux Gobelins Annecy.
-- Localisation : Annecy, France.
-- Contact : etcarollo@gmail.com | GitHub : https://github.com/EthanCarollo
-- Domaines de prédilection :
-  * Game Dev & Temps Réel : Unity, C#, shaders, mécaniques de gameplay, Game Jams (Itch.io).
-  * Machine Learning & IA : PyTorch, CNN pour reconnaissance de gestes/rituels, fine-tuning de LLMs avec Unsloth (ex: Qwen), compréhension approfondie des LLMs et agents autonomes (tool calling).
-  * Développement Mobile : Kotlin, applications Android natives.
-  * Art Interactif & Installations : TouchDesigner, MadMapper, captation spatiale Kinect, architecture modulaire (.tox), travail avec collectifs (FullStory, Les Papeteries).
-  * Web moderne & Typage : Nuxt 4, Vue 3, TypeScript, Tailwind CSS, explorations en Gleam et Rust.
-  * Pipeline : Git, CI/CD, conteneurisation Docker.
+- Identité : Ethan Carollo, Développeur Polymorphe & étudiant Master Dev Interactif aux Gobelins Annecy.
+- Localisation : Annecy, FR. Contact : etcarollo@gmail.com | GitHub : https://github.com/EthanCarollo
+- Compétences clés : Unity (C#), PyTorch / CNN, LLM fine-tuning (Unsloth), TouchDesigner (Kinect, MadMapper, modules .tox), Kotlin (Android), Nuxt 4, Gleam, Rust.
 
-=== PROJETS RÉALISÉS PAR ETHAN ===
+=== PROJETS ===
 ${projectsSummary || `
-- "Composite" : Installation interactive d'art visuel / cadavre exquis projeté. Workshop 5 jours avec le collectif FullStory. Stack: TouchDesigner, MadMapper, caméras Kinect, modules .tox versionnés sous Git. URL: /projects/composite | Repo: https://github.com/EthanCarollo/composite
-- "VirusMania" : Jeu vidéo cartoon coopératif inspiré de PlateUp!/Overcooked (Game Jam Itch.io). Rôle: Lead Developer. Stack: Unity, C#. URL: /projects/virusmania | Repo: https://github.com/methil-mods/virusmania
-- "Rituals" : Jeu vidéo d'escape game et horreur cosmique (Cosmic Horrors Jam 4). Intègre un CNN PyTorch pour reconnaître les rituels dessinés par le joueur. Stack: Unity, C#, PyTorch, AI. URL: /projects/rituals | Repo: https://github.com/methil-mods/rituals | Démo: https://ethanzxv.itch.io/rituals
+- "Composite" : Installation interactive. TouchDesigner, MadMapper, Kinect, modules .tox versionnés Git. URL: /projects/composite
+- "VirusMania" : Jeu vidéo cartoon coopératif (Itch.io jam). Lead Developer. Unity, C#. URL: /projects/virusmania
+- "Rituals" : Escape game horreur cosmique avec CNN PyTorch pour reconnaissance de rituels dessinés. Unity, C#, PyTorch. URL: /projects/rituals
 `}
 
-=== ARTICLES ET NOTES TECHNIQUES D'ETHAN ===
+=== ARTICLES / LAB NOTES ===
 ${notesSummary || `
-- "Tool Calling et Agents LLM" (/notes/tool-calling-agents) : Analyse technique complète de la construction d'agents autonomes à partir de zéro avec llama-cpp-python et Qwen.
-- "Fine-tuning Qwen avec Unsloth" (/notes/finetuning-qwen-unsloth) : Méthode, gains de mémoire VRAM et quantification pour adapter des LLMs en local.
-- "I would like Gleam" (/notes/iwouldlikegleam) : Retours d'expérience sur le langage fonctionnel typé compilé sur BEAM (Erlang).
-- "GPT-OSS 20B" (/notes/gpt-oss-20b) : Architecture et performance des modèles open-weights.
-- "Espace latent" (/notes/espace-latent) : Réflexions sur les représentations d'embeddings et espaces vectoriels.
-- "Pokesket" (/notes/pokesket) : Expérimentation mobile et interaction tactile.
-`}
-
-Directives de réponse :
-1. Donne des réponses structurées en markdown avec code ou listes courtes si pertinent.
-2. Si la question concerne ses disponibilités ou un contact, propose poliment l'adresse etcarollo@gmail.com.
-3. Si la question porte sur un sujet non couvert par la base de connaissances, indique poliment qu'Ethan n'a pas documenté ce point spécifique sur son portfolio mais invite à le contacter directement.`
+- "Tool Calling et Agents LLM" (/notes/tool-calling-agents)
+- "Fine-tuning Qwen avec Unsloth" (/notes/finetuning-qwen-unsloth)
+- "I would like Gleam" (/notes/iwouldlikegleam)
+- "GPT-OSS 20B" (/notes/gpt-oss-20b)
+- "Espace latent" (/notes/espace-latent)
+- "Pokesket" (/notes/pokesket)
+`}`
 
     // Fallback if no API key is set yet: provide a local intelligent assistant
     if (!apiKey) {
@@ -131,20 +120,20 @@ function getLocalFallbackResponse(userInput: string, data: { projects: any[], no
     const input = (userInput || '').toLowerCase()
 
     if (input.includes('composite') || input.includes('touchdesigner') || input.includes('kinect')) {
-        return `**[Composite](/projects/composite)** est une installation visuelle interactive conçue en 5 jours lors d'un workshop avec le collectif FullStory pour les 10 ans des Papeteries.\n\n- **Technologies** : TouchDesigner, MadMapper, caméras Kinect.\n- **Spécificité** : Découpage nodale en modules \`.tox\` versionnés sous Git pour permettre une collaboration fluide entre développeurs et designers.\n- **Dépôt** : [github.com/EthanCarollo/composite](https://github.com/EthanCarollo/composite)`
+        return `**[Composite](/projects/composite)** — Installation interactive (TouchDesigner, MadMapper, Kinect). Modules \`.tox\` versionnés Git. Repo: [github.com/EthanCarollo/composite](https://github.com/EthanCarollo/composite)`
     }
 
     if (input.includes('virusmania') || input.includes('jam') || input.includes('jeu') || input.includes('game') || input.includes('unity')) {
-        return `Ethan travaille activement sur des projets de jeu vidéo sous Unity / C# :\n\n1. **[VirusMania](/projects/virusmania)** : Jeu cartoon de coopération inspiré d'Overcooked/PlateUp! développé lors d'une Game Jam. Ethan y occupait le rôle de *Lead Developer*.\n2. **[Rituals](/projects/rituals)** : Escape game d'horreur cosmique où le joueur trace des symboles reconnus par un modèle de deep learning CNN (PyTorch).\n\nConsultez la section [Projets](/projects) pour découvrir l'intégralité des réalisations.`
+        return `**Game Dev (Unity / C#)** :\n- **[VirusMania](/projects/virusmania)** : Coop cartoon (Lead Dev).\n- **[Rituals](/projects/rituals)** : Escape game horreur cosmique avec CNN PyTorch.`
     }
 
-    if (input.includes('contact') || input.includes('email') || input.includes('embauche') || input.includes('stage') || input.includes('alternance') || input.includes('freelance')) {
-        return `Vous pouvez contacter Ethan directement par email à **etcarollo@gmail.com** ou consulter son profil sur [GitHub](https://github.com/EthanCarollo).\n\nIl est actuellement étudiant en Master Développement Interactif aux **Gobelins Annecy** et ouvert aux échanges professionnels et projets techniques.`
+    if (input.includes('contact') || input.includes('email') || input.includes('stage') || input.includes('alternance') || input.includes('job')) {
+        return `Contact direct : **etcarollo@gmail.com** | GitHub : [github.com/EthanCarollo](https://github.com/EthanCarollo) (Master Dev Interactif — Gobelins Annecy).`
     }
 
     if (input.includes('note') || input.includes('article') || input.includes('llm') || input.includes('unsloth') || input.includes('gleam') || input.includes('agent')) {
-        return `Ethan publie régulièrement des notes techniques approfondies sur son carnet de bord :\n\n- **[Tool Calling et Agents LLM](/notes/tool-calling-agents)** : Comprendre et implémenter des agents autonomes sans framework avec \`llama-cpp-python\`.\n- **[Fine-tuning Qwen avec Unsloth](/notes/finetuning-qwen-unsloth)** : Réduction d'empreinte mémoire et adaptation de modèles open-weights.\n- **[I would like Gleam](/notes/iwouldlikegleam)** : Analyse du langage fonctionnel typé sur l'écosystème BEAM.\n\nRetrouvez tous les articles dans l'espace [Notes](/notes).`
+        return `**Lab Notes** :\n- **[Tool Calling & Agents](/notes/tool-calling-agents)**\n- **[Fine-tuning Qwen Unsloth](/notes/finetuning-qwen-unsloth)**\n- **[Gleam](/notes/iwouldlikegleam)**`
     }
 
-    return `Bonjour, je suis l'interface interactive du portfolio d'**Ethan Carollo**.\n\nEthan est développeur en Master Développement Interactif aux **Gobelins Annecy**, spécialisé en Unity/C#, architectures temps réel, TouchDesigner, apprentissage profond (PyTorch, fine-tuning LLM) et développement web/mobile (Nuxt, Kotlin).\n\nVous pouvez me questionner sur :\n- Ses projets récents (ex: *[Composite](/projects/composite)*, *[VirusMania](/projects/virusmania)*, *[Rituals](/projects/rituals)*)\n- Ses articles techniques (*[Tool Calling](/notes/tool-calling-agents)*, *[Unsloth](/notes/finetuning-qwen-unsloth)*)\n- Ses compétences et technologies de prédilection\n- Ses coordonnées pour une collaboration`
+    return `Terminal Ethan Carollo — Master Dev Interactif Gobelins Annecy.\nProjets : **[Composite](/projects/composite)**, **[VirusMania](/projects/virusmania)**, **[Rituals](/projects/rituals)**.\nStack : Unity, PyTorch, TouchDesigner, Kotlin, Nuxt.`
 }

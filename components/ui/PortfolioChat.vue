@@ -1,141 +1,208 @@
 <template>
-  <div class="h-screen w-full flex flex-col font-mono bg-background text-foreground overflow-hidden selection:bg-foreground selection:text-background">
-    <!-- Top Bar: Minimalist workspace header -->
-    <header class="h-14 shrink-0 border-b border-foreground/15 px-4 sm:px-6 flex items-center justify-between text-xs bg-background/80 backdrop-blur-md z-20">
+  <div class="h-screen w-full flex flex-col font-mono bg-[#09090b] text-[#f4f4f5] overflow-hidden selection:bg-white selection:text-black">
+    <!-- Header minimaliste -->
+    <header class="h-12 shrink-0 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between text-xs bg-black/40 backdrop-blur-md z-30">
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span class="font-bold tracking-wider">ETHAN CAROLLO</span>
-        </div>
-        <span class="text-foreground/30 hidden sm:inline">•</span>
-        <span class="text-foreground/60 hidden sm:inline tracking-wide">GOBELINS LAB // INTERACTIVE DEV</span>
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-bold tracking-widest text-white/90">ETHAN_CAROLLO // WORKSPACE</span>
+        <span class="text-white/20 hidden md:inline">|</span>
+        <span class="text-white/50 hidden md:inline text-[11px]">GOBELINS INTERACTIVE LAB</span>
       </div>
 
-      <div class="flex items-center gap-3">
-        <!-- Switch to standard portfolio button -->
+      <div class="flex items-center gap-4">
+        <!-- Live status telemetry -->
+        <div class="hidden sm:flex items-center gap-2 text-[10px] text-white/40 tracking-wider">
+          <span>SYS: ONLINE</span>
+          <span>•</span>
+          <span class="font-mono text-emerald-400/80">LATENCY: 12ms</span>
+        </div>
+
+        <!-- Bouton de bascule vers le site classique -->
         <button
           @click="$emit('switch-to-standard')"
-          class="flex items-center gap-1.5 px-3 py-1.5 rounded border border-foreground/25 hover:border-foreground/60 hover:bg-foreground/5 transition-all text-xs text-foreground cursor-pointer group"
-          :title="$t('viewMode.switchToStandard')"
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/20 hover:border-white/50 hover:bg-white/10 transition-all text-xs text-white/80 cursor-pointer"
         >
-          <span class="opacity-70 group-hover:opacity-100">⌂</span>
+          <span>⌂</span>
           <span class="font-semibold">{{ $t('viewMode.standard') }}</span>
-          <span class="text-foreground/40 group-hover:translate-x-0.5 transition-transform">→</span>
+          <span class="text-white/40">→</span>
         </button>
       </div>
     </header>
 
-    <!-- Main Chat Workspace -->
-    <div class="flex-1 flex flex-col min-h-0 relative max-w-4xl w-full mx-auto px-4 sm:px-6">
-      <!-- Conversation History -->
-      <div
-        ref="messagesContainer"
-        class="flex-1 overflow-y-auto py-6 space-y-6 pr-1 sm:pr-2 scroll-smooth"
-      >
-        <!-- Initial Welcome Message -->
-        <div class="space-y-4">
-          <div class="flex items-start gap-3">
-            <div class="w-6 h-6 rounded bg-foreground text-background flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 select-none">
-              EC
-            </div>
-            <div class="space-y-3 flex-1">
-              <div class="text-xs text-foreground/40 uppercase tracking-wider flex items-center gap-2">
-                <span>SYSTEM PROMPT // ETHAN-LAB</span>
-                <span>•</span>
-                <span>READY</span>
-              </div>
-              <div class="text-sm leading-relaxed text-foreground/90 bg-foreground/[0.03] border border-foreground/10 rounded-lg p-4 space-y-3">
-                <p>
-                  Bienvenue dans l'interface interactive du portfolio d'<strong>Ethan Carollo</strong> (étudiant en Master Développement Interactif à Gobelins Annecy).
-                </p>
-                <p class="text-foreground/75 text-xs">
-                  Tout le contenu du site (projets Unity/TouchDesigner, notes techniques, stack et démarches) est indexé ici. Posez directement vos questions ou sélectionnez une requête rapide ci-dessous :
-                </p>
-              </div>
-
-              <!-- Quick Queries Shortcuts -->
-              <div class="flex flex-wrap gap-2 pt-1">
-                <button
-                  v-for="prompt in suggestedPrompts"
-                  :key="prompt"
-                  @click="sendSuggestedPrompt(prompt)"
-                  class="text-xs px-2.5 py-1.5 rounded border border-foreground/15 hover:border-foreground/40 hover:bg-foreground/5 text-foreground/80 text-left transition-colors cursor-pointer"
-                >
-                  › {{ prompt }}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Dynamic Message History -->
+    <!-- Split-Screen Immersif : Console TUI à gauche / Viewport de rendu interactif à droite -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-0 relative">
+      <!-- Panneau Gauche : Console / Dialogue (7 cols) -->
+      <div class="lg:col-span-7 flex flex-col h-full border-r border-white/10 relative z-10 bg-[#09090b]/90 backdrop-blur-md">
+        <!-- Zone de messages scrollable -->
         <div
-          v-for="(msg, index) in messages"
-          :key="index"
-          class="space-y-2"
+          ref="messagesContainer"
+          class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs sm:text-sm scroll-smooth"
         >
-          <!-- User message -->
-          <div v-if="msg.role === 'user'" class="flex items-start gap-3 justify-end pl-8">
-            <div class="bg-foreground text-background rounded-lg px-4 py-2.5 text-sm max-w-xl break-words">
-              {{ msg.content }}
+          <!-- Message initial brut -->
+          <div class="border-l-2 border-white/20 pl-3 py-1 space-y-2">
+            <div class="text-[10px] text-white/40 uppercase tracking-widest">
+              BOOT // SESSION_INIT // KNOWLEDGE_BASE_READY
+            </div>
+            <p class="text-white/80 leading-relaxed text-xs">
+              Interface d'expérimentation d'<strong>Ethan Carollo</strong>. Posez une question technique ou inspectez un projet ci-dessous :
+            </p>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button
+                v-for="chip in quickActions"
+                :key="chip.label"
+                @click="inspectOrAsk(chip)"
+                class="text-[11px] px-2 py-1 rounded bg-white/5 border border-white/15 hover:border-white/40 text-white/70 hover:text-white transition-colors cursor-pointer flex items-center gap-1"
+              >
+                <span>›</span>
+                <span>{{ chip.label }}</span>
+              </button>
             </div>
           </div>
 
-          <!-- Assistant message -->
-          <div v-else class="flex items-start gap-3 pr-4">
-            <div class="w-6 h-6 rounded bg-foreground text-background flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 select-none">
-              EC
+          <!-- Historique des messages -->
+          <div
+            v-for="(msg, i) in messages"
+            :key="i"
+            class="space-y-1.5"
+          >
+            <!-- Message Utilisateur -->
+            <div v-if="msg.role === 'user'" class="flex items-start gap-2 text-white/90">
+              <span class="text-white/40 select-none">usr@work:~$</span>
+              <span class="font-bold text-white">{{ msg.content }}</span>
             </div>
-            <div class="space-y-1.5 flex-1 max-w-2xl">
-              <div class="text-xs text-foreground/40 font-mono flex items-center gap-2">
-                <span>ETHAN // LAB</span>
-              </div>
+
+            <!-- Message Assistant -->
+            <div v-else class="border-l-2 border-emerald-500/40 pl-3 py-1.5 space-y-1 bg-white/[0.01]">
+              <div class="text-[10px] text-white/30 tracking-widest select-none">SYS_REPLY</div>
               <div
-                class="chat-markdown text-sm leading-relaxed text-foreground/90 bg-foreground/[0.02] border border-foreground/10 rounded-lg p-4 overflow-x-auto"
+                class="chat-markdown text-xs sm:text-sm leading-relaxed text-white/80"
                 v-html="renderMarkdown(msg.content)"
               />
             </div>
           </div>
-        </div>
 
-        <!-- Loading State -->
-        <div v-if="isLoading" class="flex items-start gap-3">
-          <div class="w-6 h-6 rounded bg-foreground text-background flex items-center justify-center font-bold text-xs shrink-0 select-none animate-pulse">
-            ..
-          </div>
-          <div class="flex items-center gap-2 text-xs text-foreground/60 py-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-foreground/40 animate-ping"></span>
-            <span>Recherche dans la base de connaissances...</span>
+          <!-- Loading Indicator -->
+          <div v-if="isLoading" class="flex items-center gap-2 text-xs text-white/40 py-2">
+            <span class="inline-block w-1.5 h-1.5 bg-emerald-500 animate-ping"></span>
+            <span class="animate-pulse font-mono">[PROCESSING_QUERY...]</span>
           </div>
         </div>
-      </div>
 
-      <!-- Input Bar -->
-      <div class="py-4 border-t border-foreground/15 bg-background shrink-0">
-        <form @submit.prevent="handleSubmit" class="relative flex items-center">
-          <span class="absolute left-3.5 text-foreground/40 text-sm select-none">›</span>
-          <input
-            ref="inputRef"
-            v-model="inputQuery"
-            type="text"
-            placeholder="Posez une question sur mes projets, Unity, TouchDesigner, stack..."
-            class="w-full pl-8 pr-24 py-3 bg-foreground/[0.03] border border-foreground/20 rounded-lg text-sm text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-foreground/60 transition-colors font-mono"
-            :disabled="isLoading"
-          />
-          <div class="absolute right-2 flex items-center gap-1.5">
+        <!-- Input terminal en bas -->
+        <div class="p-3 sm:p-4 border-t border-white/10 bg-black/40">
+          <form @submit.prevent="handleSubmit" class="relative flex items-center">
+            <span class="absolute left-3 text-emerald-400 text-xs select-none">›</span>
+            <input
+              ref="inputRef"
+              v-model="inputQuery"
+              type="text"
+              placeholder="Query project (composite, virusmania, rituals) or ask anything..."
+              class="w-full pl-7 pr-20 py-2.5 bg-white/5 border border-white/15 rounded text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/50 transition-colors font-mono"
+              :disabled="isLoading"
+            />
             <button
               type="submit"
               :disabled="!inputQuery.trim() || isLoading"
-              class="px-3 py-1.5 rounded bg-foreground text-background text-xs font-semibold hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1"
+              class="absolute right-1.5 px-3 py-1 rounded bg-white text-black text-[11px] font-bold hover:bg-white/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
-              <span>Envoyer</span>
-              <span>↵</span>
+              EXEC ↵
             </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Panneau Droit : Viewport Immersif Shader & Live Inspector (5 cols) -->
+      <div class="hidden lg:flex lg:col-span-5 flex-col h-full bg-black relative overflow-hidden">
+        <!-- Arrière-plan Shader WebGL ASCII Wave interactif -->
+        <div class="absolute inset-0 opacity-40 pointer-events-none">
+          <ClientOnly>
+            <AsciiWave />
+          </ClientOnly>
+        </div>
+
+        <!-- Overlay scanlines subtil pour l'ambiance CRT/Studio -->
+        <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.6)_100%)]"></div>
+
+        <!-- Contenu du Viewport : Inspection temps réel du projet actif -->
+        <div class="relative z-10 flex-1 flex flex-col p-6 justify-between">
+          <!-- Header viewport -->
+          <div class="flex items-center justify-between border-b border-white/10 pb-3">
+            <div class="text-[10px] uppercase tracking-widest text-white/50 flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span>LIVE_VIEWPORT // {{ activeInspector.slug.toUpperCase() }}</span>
+            </div>
+            <div class="text-[10px] font-mono text-white/30">
+              FRAME: 60FPS
+            </div>
           </div>
-        </form>
-        <div class="flex items-center justify-between text-[11px] text-foreground/40 mt-2 px-1">
-          <span>Propulsé par OpenRouter & base de connaissances vectorisée</span>
-          <span class="hidden sm:inline">Touche Entrée ↵ pour envoyer</span>
+
+          <!-- Aperçu Visuel du Projet actif -->
+          <div class="my-auto space-y-4">
+            <div class="relative rounded-lg overflow-hidden border border-white/20 bg-black/60 aspect-video group">
+              <img
+                :src="activeInspector.image"
+                :alt="activeInspector.title"
+                class="w-full h-full object-cover filter contrast-125 brightness-90 group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] text-white/80 border border-white/10 font-mono">
+                {{ activeInspector.category }}
+              </div>
+            </div>
+
+            <!-- Fiche technique / télémétrie du projet -->
+            <div class="space-y-2 bg-black/70 backdrop-blur-md p-4 rounded-lg border border-white/15">
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <span>{{ activeInspector.title }}</span>
+                </h3>
+                <NuxtLink
+                  :to="`/projects/${activeInspector.slug}`"
+                  class="text-[11px] text-cyan-400 hover:underline flex items-center gap-1"
+                >
+                  <span>Doc complète</span>
+                  <span>↗</span>
+                </NuxtLink>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+                <div>
+                  <span class="text-white/40 block text-[9px] uppercase">Rôle</span>
+                  <span class="text-white/80 font-mono">{{ activeInspector.role }}</span>
+                </div>
+                <div>
+                  <span class="text-white/40 block text-[9px] uppercase">Période</span>
+                  <span class="text-white/80 font-mono">{{ activeInspector.date }}</span>
+                </div>
+              </div>
+
+              <!-- Tags / Tech -->
+              <div class="pt-2 flex flex-wrap gap-1 border-t border-white/10">
+                <span
+                  v-for="t in activeInspector.tags"
+                  :key="t"
+                  class="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-white/70 font-mono"
+                >
+                  {{ t }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer viewport : Navigation directe -->
+          <div class="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-white/50">
+            <span>SÉLECTEUR D'EXPÉRIMENTATIONS</span>
+            <div class="flex gap-2">
+              <button
+                v-for="p in presetProjects"
+                :key="p.slug"
+                @click="setInspectorProject(p)"
+                class="px-2 py-0.5 rounded border transition-colors cursor-pointer"
+                :class="activeInspector.slug === p.slug ? 'border-cyan-400 text-cyan-400 bg-cyan-400/10' : 'border-white/15 hover:border-white/40 text-white/60'"
+              >
+                {{ p.slug }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -147,23 +214,73 @@ import { ref, onMounted, nextTick } from 'vue'
 
 defineEmits(['switch-to-standard'])
 
-interface Message {
-  role: 'user' | 'assistant'
-  content: string
+interface ProjectInfo {
+  slug: string
+  title: string
+  category: string
+  role: string
+  date: string
+  image: string
+  tags: string[]
 }
+
+const presetProjects: ProjectInfo[] = [
+  {
+    slug: 'composite',
+    title: 'Composite',
+    category: 'Visual Arts / Interactive Installation',
+    role: 'Co-creator & TouchDesigner dev',
+    date: '2025-04',
+    image: '/composite_media/06.png',
+    tags: ['TouchDesigner', 'MadMapper', 'Kinect', 'Modules .tox']
+  },
+  {
+    slug: 'virusmania',
+    title: 'VirusMania',
+    category: 'Game Dev (Game Jam)',
+    role: 'Lead Developer',
+    date: '2025-12',
+    image: '/virusmania_media/virusmania_banner.png',
+    tags: ['Unity', 'C#', 'Gameplay', 'Multiplayer']
+  },
+  {
+    slug: 'rituals',
+    title: 'Rituals',
+    category: 'Game Dev & Machine Learning',
+    role: 'Solo Developer',
+    date: '2025-10',
+    image: '/images/rituals.png',
+    tags: ['Unity', 'C#', 'PyTorch', 'CNN AI']
+  }
+]
+
+const activeInspector = ref<ProjectInfo>(presetProjects[0])
+
+const quickActions = [
+  { label: 'Composite (TouchDesigner)', slug: 'composite', prompt: 'Détaille l\'installation interactive Composite' },
+  { label: 'VirusMania (Unity C#)', slug: 'virusmania', prompt: 'Parle-moi de VirusMania et de son dev' },
+  { label: 'Rituals (PyTorch CNN)', slug: 'rituals', prompt: 'Comment marche le modèle CNN dans Rituals ?' },
+  { label: 'Contact & Profil', slug: null, prompt: 'Comment contacter Ethan ?' }
+]
 
 const inputQuery = ref('')
 const isLoading = ref(false)
-const messages = ref<Message[]>([])
+const messages = ref<{ role: 'user' | 'assistant'; content: string }[]>([])
 const messagesContainer = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
 
-const suggestedPrompts = [
-  "Quels sont tes projets récents en Game Dev ?",
-  "Parle-moi du projet Composite avec TouchDesigner",
-  "Comment abordes-tu le fine-tuning LLM et les agents ?",
-  "Comment contacter Ethan pour un stage ou projet ?"
-]
+const setInspectorProject = (p: ProjectInfo) => {
+  activeInspector.value = p
+}
+
+const inspectOrAsk = (action: { label: string; slug: string | null; prompt: string }) => {
+  if (action.slug) {
+    const found = presetProjects.find(p => p.slug === action.slug)
+    if (found) activeInspector.value = found
+  }
+  inputQuery.value = action.prompt
+  handleSubmit()
+}
 
 const scrollToBottom = async () => {
   await nextTick()
@@ -172,83 +289,59 @@ const scrollToBottom = async () => {
   }
 }
 
-const sendSuggestedPrompt = (prompt: string) => {
-  inputQuery.value = prompt
-  handleSubmit()
-}
-
 const handleSubmit = async () => {
   const query = inputQuery.value.trim()
   if (!query || isLoading.value) return
 
-  messages.value.push({
-    role: 'user',
-    content: query
-  })
+  // Auto-switch inspector if project is mentioned
+  const lower = query.toLowerCase()
+  for (const p of presetProjects) {
+    if (lower.includes(p.slug)) {
+      activeInspector.value = p
+      break
+    }
+  }
 
+  messages.value.push({ role: 'user', content: query })
   inputQuery.value = ''
   isLoading.value = true
   await scrollToBottom()
 
   try {
-    const payloadMessages = messages.value.map(m => ({
-      role: m.role,
-      content: m.content
-    }))
-
     const res: any = await $fetch('/api/chat', {
       method: 'POST',
       body: {
-        messages: payloadMessages,
+        messages: messages.value.map(m => ({ role: m.role, content: m.content })),
         query
       }
     })
 
     messages.value.push({
       role: 'assistant',
-      content: res?.content || "Désolé, aucune réponse n'a pu être formulée."
+      content: res?.content || 'Donnée indisponible.'
     })
   } catch (err) {
-    console.error('Erreur chat:', err)
+    console.error('Chat error:', err)
     messages.value.push({
       role: 'assistant',
-      content: "Une erreur est survenue lors de la communication avec le serveur. N'hésitez pas à me contacter par email à **etcarollo@gmail.com**."
+      content: 'Erreur réseau. Écrivez directement à **etcarollo@gmail.com**.'
     })
   } finally {
     isLoading.value = false
     await scrollToBottom()
-    nextTick(() => {
-      inputRef.value?.focus()
-    })
+    nextTick(() => inputRef.value?.focus())
   }
 }
 
-// Minimalist safe markdown renderer for links, bold, code and line breaks
 const renderMarkdown = (text: string) => {
   if (!text) return ''
-
-  // Escape HTML tags to prevent XSS
-  let escaped = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-
-  // Code blocks ```code```
-  escaped = escaped.replace(/```([\s\S]*?)```/g, '<pre class="bg-foreground/5 border border-foreground/15 p-3 rounded my-2 text-xs overflow-x-auto"><code>$1</code></pre>')
-
-  // Inline code `code`
-  escaped = escaped.replace(/`([^`]+)`/g, '<code class="bg-foreground/10 px-1 py-0.5 rounded text-xs">$1</code>')
-
-  // Bold **text**
-  escaped = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-foreground">$1</strong>')
-
-  // Markdown links [text](url) -> formatted anchor
-  escaped = escaped.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline underline-offset-2 text-foreground font-semibold hover:opacity-75 transition-opacity">$1 ↗</a>')
-
-  // Line breaks to <br> or paragraphs
-  escaped = escaped.replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>')
-
-  return escaped
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/```([\s\S]*?)```/g, '<pre class="bg-white/5 border border-white/10 p-2 rounded my-1 text-[11px] overflow-x-auto"><code>$1</code></pre>')
+    .replace(/`([^`]+)`/g, '<code class="bg-white/10 px-1 py-0.5 rounded text-[11px]">$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-white">$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline text-cyan-400 hover:text-cyan-300 font-semibold">$1 ↗</a>')
+    .replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>')
 }
 
 onMounted(() => {
@@ -259,10 +352,6 @@ onMounted(() => {
 <style scoped>
 .chat-markdown :deep(a) {
   text-decoration: underline;
-  text-underline-offset: 3px;
-  font-weight: 600;
-}
-.chat-markdown :deep(code) {
-  font-family: inherit;
+  text-underline-offset: 2px;
 }
 </style>
