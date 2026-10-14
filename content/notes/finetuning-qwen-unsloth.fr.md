@@ -131,7 +131,7 @@ Pourquoi ? Ça paraît être un usage bête, mais étant un langage "naissant", 
 
 # On se fait un dataset
 
-Comme on l'a vu précédemment, le modèle réfléchit, donc il va falloir prendre ça en compte pour générer le dataset.
+Comme on l'a vu précédemment, « le modèle réfléchit » ; il faut donc prendre ça en compte pour générer le dataset.
 
 Je vais privilégier le XML pour la génération de mon dataset, parce que je trouve ça plus lisible que le JSON et qu'on peut faire des sauts de lignes facilement, nan le XML j'aime trop ça.
 

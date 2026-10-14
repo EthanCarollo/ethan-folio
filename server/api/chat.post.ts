@@ -58,7 +58,6 @@ ${notesSummary || `
 - "Fine-tuning Qwen avec Unsloth" (/notes/finetuning-qwen-unsloth)
 - "I would like Gleam" (/notes/iwouldlikegleam)
 - "GPT-OSS 20B" (/notes/gpt-oss-20b)
-- "Espace latent" (/notes/espace-latent)
 - "Pokesket" (/notes/pokesket)
 `}`
 
