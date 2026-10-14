@@ -1,39 +1,39 @@
 <template>
-    <div class="min-h-screen">
+    <div class="min-h-screen flex">
         <ContentTableOfContents />
 
-        <main class="px-4 py-10 sm:px-6 sm:py-14 lg:ml-64">
-            <article v-if="note" class="mx-auto max-w-4xl">
-                <header class="border-b border-border pb-6">
-                    <time class="text-sm text-muted-foreground">{{ note.date }}</time>
-                    <h1 class="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                        {{ note.title }}
-                    </h1>
-                    <div v-if="note.tags?.length" class="mt-4 flex flex-wrap gap-2">
-                        <span
-                            v-for="tag in note.tags"
-                            :key="tag"
-                            class="rounded border border-border px-2 py-1 text-sm text-muted-foreground"
-                        >
+        <div class="flex-1 w-full pt-24 pb-20 px-4 sm:px-8 lg:ml-64 ml-0 flex flex-col items-center">
+            <article class="max-w-2xl md:max-w-3xl xl:max-w-4xl w-full" v-if="note">
+                <header class="mb-10 text-center">
+                    <div class="text-xs text-foreground/50 font-mono mb-4">{{ note.date }}</div>
+                    <h1 class="text-3xl sm:text-4xl font-bold text-foreground mb-6">{{ note.title }}</h1>
+                    <div class="flex flex-wrap justify-center gap-2 mb-8">
+                        <span v-for="tag in note.tags" :key="tag"
+                            class="text-xs px-2 py-1 bg-foreground/5 text-foreground/60 rounded-full font-mono">
                             {{ tag }}
                         </span>
                     </div>
+                    <hr class="border-foreground/10 w-24 mx-auto" />
                 </header>
 
-                <ContentRenderer :value="note" class="prose mx-auto mt-8 max-w-3xl" />
+                <ContentRenderer :value="note" class="prose prose-invert max-w-none w-full" />
 
-                <nav class="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-border pt-6 text-sm">
-                    <NuxtLink :to="localePath('/')" class="text-link underline underline-offset-2">
+                <div class="mt-16 pt-8 border-t border-foreground/10 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+                    <NuxtLink :to="localePath('/')"
+                        class="text-sm font-mono text-foreground/60 hover:text-foreground transition-colors">
                         {{ t('notes.backToHome') }}
                     </NuxtLink>
-                    <NuxtLink :to="localePath('/notes')" class="text-link underline underline-offset-2">
+                    <NuxtLink :to="localePath('/notes')"
+                        class="text-sm font-mono text-foreground/60 hover:text-foreground transition-colors">
                         {{ t('notes.backToNotes') }}
                     </NuxtLink>
-                </nav>
+                </div>
             </article>
 
-            <p v-else class="mx-auto max-w-4xl py-14 text-muted-foreground">Note not found.</p>
-        </main>
+        <div v-else class="py-20 text-center text-foreground/60 font-mono">
+            Note not found.
+        </div>
+        </div>
     </div>
 </template>
 
@@ -49,7 +49,9 @@ const { data: note, refresh } = await useAsyncData(`note-${route.params.slug}-${
 })
 
 watch(locale, async (newLocale, oldLocale) => {
-    if (newLocale !== oldLocale) await refresh()
+    if (newLocale !== oldLocale) {
+        await refresh()
+    }
 })
 
 useSeoMeta({

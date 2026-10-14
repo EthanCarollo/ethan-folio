@@ -1,9 +1,14 @@
 <template>
-    <main>
+    <main class="min-h-screen relative">
+        <HomeNavigation />
         <Hero />
+        <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
         <About />
+        <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
         <Projects />
+        <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
         <LatestNotes />
+        <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
         <Contact />
     </main>
 </template>

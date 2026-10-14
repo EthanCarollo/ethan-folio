@@ -1,14 +1,14 @@
 {
   "hero": {
-    "name": "Ethan Carollo",
+    "name": "ETHAN CAROLLO",
     "about": "About",
     "projects": "Projects",
     "notes": "Notes",
     "home": "Home",
     "contact": "Contact",
-    "role1": "Polymorphic developer",
-    "role2": "Master's student in Interactive Development",
-    "role3": "Video game developer"
+    "role1": "POLYMORPHIC DEV",
+    "role2": "INTERACTIVE DEV MASTER STUDENT",
+    "role3": "GAME DEV ADDICT"
   },
   "viewMode": {
     "chat": "Terminal Chat",
@@ -20,7 +20,7 @@
     "switch": "Switch language"
   },
   "about": {
-    "backgroundText": "I'm Ethan Carollo, a versatile developer and a Master's student in Interactive Development at Gobelins Annecy. I work with a range of languages, including Kotlin for Android and Python for machine learning. I also enjoy Nuxt and develop games with Unity.",
+    "backgroundText": "I'm Ethan Carollo, a {word} developer and a Master's student in Interactive Dev at Annecy Gobelins. I work with a variety of languages, including Kotlin for Android and Python for machine learning. I also love Nuxt and spend my free time developing games with Unity.",
     "interests": [
       "Develop web applications",
       "Create mobile applications",

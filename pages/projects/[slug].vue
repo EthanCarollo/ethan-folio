@@ -1,80 +1,91 @@
 <template>
-    <div class="min-h-screen">
+    <div class="min-h-screen flex">
+        <!-- Added TableOfContents component fixed on the left -->
         <ContentTableOfContents />
 
-        <main class="px-4 py-10 sm:px-6 sm:py-14 lg:ml-64">
-            <article v-if="project" class="mx-auto max-w-5xl">
-                <header class="border-b border-border pb-7">
-                    <p class="text-sm font-medium text-muted-foreground">{{ project.category }}</p>
-                    <h1 class="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                        {{ project.title }}
-                    </h1>
+        <!-- Adjusted main content with left margin to account for TOC -->
+        <div class="flex-1 px-4 py-8 md:py-12 lg:ml-64 ml-0">
+            <div v-if="project" class="max-w-3xl xl:max-w-5xl mx-auto">
 
-                    <dl class="mt-5 flex flex-wrap gap-x-8 gap-y-3 text-sm">
-                        <div v-if="project.date">
-                            <dt class="font-semibold text-foreground">Date</dt>
-                            <dd class="text-muted-foreground">{{ formatDate(project.date) }}</dd>
+                <!-- Project Info -->
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="text-foreground/60 text-sm mb-2">Project</div>
+                        <h1 class="text-foreground text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{{ project.title }}
+                        </h1>
+                        <div class="text-foreground/70 space-y-2 text-sm">
+                            <div v-if="project.date">
+                                <span class="text-foreground/60">Date: </span>
+                                <span class="text-foreground">{{ formatDate(project.date) }}</span>
+                            </div>
+                            <div v-if="project.role">
+                                <span class="text-foreground/60">Role: </span>
+                                <span class="text-foreground">{{ project.role }}</span>
+                            </div>
+                            <div v-if="project.repo">
+                                <span class="text-foreground/60">Repo: </span>
+                                <a :href="project.repo" target="_blank" rel="noopener noreferrer"
+                                    class="text-foreground/80 hover:text-foreground">{{ project.repo }}</a>
+                            </div>
                         </div>
-                        <div v-if="project.role">
-                            <dt class="font-semibold text-foreground">Role</dt>
-                            <dd class="text-muted-foreground">{{ project.role }}</dd>
+                        <div class="mb-8 mt-6 border-2 border-foreground/20 overflow-hidden rounded-lg">
+                            <img :src="project.image" :alt="`${project.title} preview`"
+                                class="w-full h-auto object-cover" loading="eager" />
                         </div>
-                        <div v-if="project.repo">
-                            <dt class="font-semibold text-foreground">Repository</dt>
-                            <dd><a :href="project.repo" target="_blank" rel="noopener noreferrer">{{ project.repo }}</a></dd>
-                        </div>
-                    </dl>
+                    </div>
+                </div>
 
-                    <img
-                        v-if="project.image"
-                        :src="project.image"
-                        :alt="`${project.title} preview`"
-                        class="mt-7 w-full rounded border border-border object-cover"
-                        loading="eager"
-                    />
-                </header>
-
-                <ContentRenderer :value="project" class="prose mx-auto mt-8 max-w-4xl" />
-
-                <NuxtLink :to="localePath('/#projects')" class="mt-12 inline-block text-link underline underline-offset-2">
-                    ← Back to Projects
-                </NuxtLink>
-            </article>
-
-            <div v-else class="mx-auto max-w-5xl py-14">
-                <h1 class="text-2xl font-bold">Project not found</h1>
-                <NuxtLink :to="localePath('/#projects')" class="mt-4 inline-block text-link underline underline-offset-2">
-                    ← Back to Projects
-                </NuxtLink>
+                <ContentRenderer :value="project" class="prose prose-invert max-w-none" />
             </div>
-        </main>
+            <div v-else class="space-y-1 text-sm">
+                <div class="text-foreground/60">Project Not Found</div>
+                <div class="text-foreground/70 mt-2">
+                    <div class="text-foreground/60">This project doesn't exist</div>
+                    <div class="mt-4">
+                        <NuxtLink to="/#projects" class="text-foreground/60 hover:text-foreground transition-colors">
+                            ← Back to Projects
+                        </NuxtLink>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
 const { locale } = useI18n()
-const localePath = useLocalePath()
 
+// Frontmatter dates are ISO (YYYY-MM-DD); display them as DD/MM/YYYY
 const formatDate = (date: unknown) => {
-    const [year, month, day] = String(date ?? '').split('-')
-    if (!year || !month || !day) return String(date ?? '')
-    return `${day}/${month}/${year}`
+    const [y, m, d] = String(date ?? '').split('-')
+    if (!y || !m || !d) return String(date ?? '')
+    return `${d}/${m}/${y}`
 }
 
+// Force le rechargement quand la langue change
 const { data: project, refresh } = await useAsyncData(
     `projects-${route.params.slug}-${locale.value}`,
-    () => queryCollection('projects').path(`/projects/${route.params.slug}.${locale.value}`).first(),
-    { watch: [locale] }
+    () => {
+        return queryCollection('projects').path(`/projects/${route.params.slug}.${locale.value}`).first()
+    },
+    {
+        watch: [locale], // Recharger quand la locale change
+        immediate: true
+    }
 )
 
+// Refresh when locale changes
 watch(locale, async (newLocale, oldLocale) => {
-    if (newLocale !== oldLocale) await refresh()
+    if (newLocale !== oldLocale) {
+        await refresh()
+    }
 })
 
 const site = useSiteConfig()
 
 useSeoMeta({
+    // Prevent the site module from appending "| Site Name" (already in the title)
     titleTemplate: '%s',
     title: () => (project.value ? `${project.value.title} — ${site.name}` : undefined),
     description: () => project.value?.description,
@@ -85,3 +96,58 @@ useSeoMeta({
     twitterImage: () => project.value?.image ? `${site.url}${project.value.image}` : undefined,
 })
 </script>
+
+<style>
+.image-modal-enter-active,
+.image-modal-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.image-modal-enter-from,
+.image-modal-leave-to {
+    opacity: 0;
+}
+
+/* Responsive styles for project pages */
+@media (max-width: 1024px) {
+
+    /* Remise à zéro de la marge quand le sidebar disparaît */
+    div[class*="ml-64"] {
+        @apply ml-0;
+    }
+}
+
+/* TOC visibility is now handled by ContentTableOfContents.vue */
+
+@media (max-width: 768px) {
+    .flex-1 {
+        @apply px-4 py-6;
+    }
+
+    .prose {
+        @apply text-base;
+    }
+
+    .prose img {
+        @apply rounded-lg;
+    }
+}
+
+@media (max-width: 640px) {
+    .flex-1 {
+        @apply px-3 py-4;
+    }
+
+    .prose {
+        @apply text-sm;
+    }
+
+    .prose h2 {
+        @apply text-lg;
+    }
+
+    .prose h3 {
+        @apply text-base;
+    }
+}
+</style>

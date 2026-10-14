@@ -2,229 +2,267 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Original portfolio palette, kept dark on every device. */
 :root {
     color-scheme: dark;
-    --color-background: 24 24 27;
-    --color-foreground: 228 228 231;
-    --color-border: 63 63 70;
-    --color-muted: 39 39 42;
-    --color-muted-foreground: 161 161 170;
-    --color-link: 96 165 250;
+    --color-background: 28 27 24;
+    --color-foreground: 232 224 208;
+    --color-border: 58 53 48;
+    --color-muted: 37 35 32;
+    --color-muted-foreground: 160 152 136;
+}
+
+/* Code blocks follow the portfolio's dark palette. */
+.prose pre,
+.prose.project-content pre,
+.prose pre.shiki {
+    background-color: #1c1b18 !important;
+}
+
+.prose code,
+.prose.project-content code {
+    background-color: #252320 !important;
+    border-color: #3a3530 !important;
+}
+
+.prose pre code {
+    background-color: transparent !important;
+    border-color: transparent !important;
 }
 
 * {
     box-sizing: border-box;
 }
 
-html,
-body {
-    width: 100%;
+html, body {
+    overflow-x: hidden;
     max-width: 100vw;
+    width: 100%;
+}
+
+body {
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    font-family: 'Space Mono', monospace;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-    font-family: Arial, Helvetica, system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
+/* Prevent horizontal overflow on main structural elements only */
+main {
+    max-width: 100%;
 }
 
-button,
-input,
-textarea,
-select {
-    font: inherit;
+/* Terminal-style page transitions */
+.terminal-enter-active,
+.terminal-leave-active {
+    transition: opacity 0.2s ease;
 }
 
-a {
-    color: rgb(var(--color-link));
+.terminal-enter-from,
+.terminal-leave-to {
+    opacity: 0;
 }
 
-a:hover {
-    color: rgb(var(--color-link) / 0.82);
+/* Terminal cursor blink */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
 }
 
-:focus-visible {
-    outline: 2px solid rgb(var(--color-link));
-    outline-offset: 3px;
+.cursor-blink {
+    animation: blink 1s infinite;
 }
 
-.section-title {
-    @apply text-2xl font-bold tracking-tight text-foreground;
-}
-
+/* Nuxt Content Terminal Styles */
 .prose {
-    max-width: none;
-    color: rgb(var(--color-foreground));
-    font-family: Arial, Helvetica, system-ui, sans-serif;
-    font-size: 1rem;
-    line-height: 1.75;
+    @apply text-foreground font-mono;
     overflow-wrap: break-word;
-}
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4 {
-    color: rgb(var(--color-foreground));
-    font-weight: 700;
-    line-height: 1.25;
+    word-wrap: break-word;
 }
 
 .prose h1 {
-    margin: 2rem 0 1rem;
-    font-size: 2rem;
+    @apply text-2xl font-bold mb-4 text-foreground;
 }
 
 .prose h2 {
-    margin: 2rem 0 0.75rem;
-    font-size: 1.5rem;
+    @apply text-xl font-bold mb-3 mt-6 text-foreground;
 }
 
 .prose h3 {
-    margin: 1.5rem 0 0.5rem;
-    font-size: 1.2rem;
+    @apply text-lg font-bold mb-2 mt-4 text-foreground;
 }
 
 .prose p {
-    margin: 0 0 1rem;
-    color: rgb(var(--color-foreground));
+    @apply mb-4 text-foreground/90 leading-relaxed;
 }
 
 .prose a {
-    color: rgb(var(--color-link));
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    @apply text-foreground underline hover:text-foreground/80 transition-colors;
 }
 
 .prose strong {
-    font-weight: 700;
+    @apply text-foreground font-bold;
 }
 
-.prose code,
-.prose pre {
-    font-family: 'Space Mono', Consolas, monospace;
+.prose em {
+    @apply text-foreground/80 italic;
 }
 
+/* Styles améliorés pour le code avec meilleur contraste */
 .prose code {
-    padding: 0.1rem 0.3rem;
-    border: 1px solid rgb(var(--color-border));
-    border-radius: 3px;
-    background: rgb(var(--color-muted));
-    font-size: 0.9em;
+    @apply bg-muted text-foreground px-1 py-0.5 rounded text-sm font-mono;
+    @apply border border-border;
 }
 
 .prose pre {
-    max-width: 100%;
-    margin: 1.25rem 0;
-    padding: 1rem;
-    overflow-x: auto;
-    border: 1px solid rgb(var(--color-border));
-    border-radius: 4px;
-    background: #27272a;
-    line-height: 1.55;
+    @apply bg-muted border border-border rounded-lg p-4 my-4 overflow-x-auto;
+    @apply shadow-sm;
 }
 
 .prose pre code {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    font-size: 0.875rem;
+    @apply bg-transparent p-0 text-foreground;
+    @apply border-0 shadow-none;
 }
 
-.prose pre.shiki,
-.prose .shiki {
-    color: #c9d1d9 !important;
-    background-color: #0d1117 !important;
+/* Styles spécifiques pour les blocs de code dans les projets */
+.prose.project-content {
+    pre {
+        @apply bg-muted border border-border rounded-lg;
+    }
+
+    code {
+        @apply bg-muted text-foreground border border-border;
+    }
+
+    pre code {
+        @apply text-foreground font-mono text-sm leading-relaxed;
+    }
+
+    /* Syntax highlighting for the dark portfolio palette */
+    .token-keyword {
+        @apply text-indigo-400 font-bold;
+    }
+
+    .token-string {
+        @apply text-green-400;
+    }
+
+    .token-number {
+        @apply text-orange-400;
+    }
+
+    .token-comment {
+        @apply text-gray-400 italic;
+    }
+
+    .token-function {
+        @apply text-blue-400;
+    }
+
+    .token-operator {
+        @apply text-gray-300;
+    }
+
+    pre {
+        @apply relative;
+        &::before {
+            content: "";
+            @apply absolute inset-0 border border-border rounded-lg pointer-events-none;
+        }
+    }
+}
+
+/* Style pour les blocs de code avec titre */
+.prose .code-block {
+    @apply relative;
+
+    .code-header {
+        @apply bg-foreground/20 text-foreground/80 px-4 py-2 rounded-t-lg;
+        @apply text-sm font-mono border-b border-foreground/40;
+    }
+
+    pre {
+        @apply rounded-t-none rounded-b-lg mt-0;
+    }
+}
+
+/* Amélioration du contraste pour les lignes de code longues */
+.prose pre {
+    @apply leading-relaxed;
+    code {
+        @apply leading-relaxed;
+    }
+}
+
+/* Style pour les erreurs de syntaxe ou warnings */
+.prose .code-error {
+    @apply border-l-4 border-red-500 bg-red-900/20;
+}
+
+.prose .code-warning {
+    @apply border-l-4 border-yellow-500 bg-yellow-900/20;
+}
+
+/* Mode haute visibilité pour les projets */
+.prose.high-contrast {
+    pre {
+        @apply bg-white border-black;
+        code {
+            @apply text-black bg-gray-100;
+        }
+    }
 }
 
 .prose blockquote {
-    margin: 1.5rem 0;
-    padding: 0.25rem 0 0.25rem 1rem;
-    border-left: 3px solid rgb(var(--color-border));
-    color: rgb(var(--color-muted-foreground));
+    @apply border-l-4 border-foreground/40 pl-4 my-4 text-foreground/70 italic;
 }
 
-.prose ul,
-.prose ol {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
+.prose blockquote::before {
+    content: "$ grep ";
+    @apply text-foreground/60;
 }
 
 .prose ul {
-    list-style: disc;
-}
-
-.prose ol {
-    list-style: decimal;
+    @apply list-none my-4 ml-4;
 }
 
 .prose li {
-    margin: 0.35rem 0;
+    @apply mb-2 text-foreground/90 relative pl-6;
+}
+
+.prose li::before {
+    content: "-";
+    @apply absolute left-0 text-foreground/60;
+}
+
+.prose ol {
+    @apply list-none my-4 ml-4;
+}
+
+.prose ol li {
+    @apply mb-2 text-foreground/90 relative pl-6;
+}
+
+.prose ol li::before {
+    content: counter(list-item) ".";
+    @apply absolute left-0 text-foreground/60;
 }
 
 .prose hr {
-    margin: 2rem 0;
-    border-color: rgb(var(--color-border));
+    @apply border-foreground/20 my-8;
 }
 
-.prose img,
-.prose video {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: 1.5rem auto;
-    border: 1px solid rgb(var(--color-border));
-    border-radius: 4px;
+.prose img {
+    @apply rounded border border-foreground/20 my-4;
 }
 
 .prose table {
-    width: 100%;
-    margin: 1.5rem 0;
-    border-collapse: collapse;
+    @apply w-full border-collapse border border-foreground/20 my-4;
 }
 
-.prose th,
-.prose td {
-    padding: 0.6rem 0.75rem;
-    border: 1px solid rgb(var(--color-border));
-    text-align: left;
-}
-
-.prose th {
-    background: rgb(var(--color-muted));
-    font-weight: 700;
-}
-
-.content-terminal {
-    font-family: inherit;
-}
-
-.command-prompt::before,
-.output-prompt::before,
-.comment::before {
-    content: none;
-}
-
-.comment {
-    color: rgb(var(--color-muted-foreground));
-    font-style: italic;
-}
-
-.terminal-video-container {
-    margin: 1.5rem 0;
-}
-
-.video-caption {
-    margin-top: 0.5rem;
-    color: rgb(var(--color-muted-foreground));
-    font-size: 0.9rem;
-}
-
+/* Scroll horizontal pour les tableaux sur mobile */
 @media (max-width: 640px) {
     .prose table {
         display: block;
@@ -232,4 +270,82 @@ a:hover {
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
     }
+}
+
+.prose th {
+    @apply border border-foreground/20 px-4 py-2 bg-foreground/10 text-foreground font-bold;
+}
+
+.prose td {
+    @apply border border-foreground/20 px-4 py-2 text-foreground/90;
+}
+
+/* Terminal-style content wrapper */
+.content-terminal {
+    @apply font-mono;
+}
+
+.content-terminal::before {
+    content: "$ cat content.md";
+    @apply block text-foreground/60 mb-4;
+}
+
+/* Command prompt style for different sections */
+.prose .command-prompt::before {
+    content: "$ ";
+    @apply text-foreground/60;
+}
+
+.prose .output-prompt::before {
+    content: "> ";
+    @apply text-foreground/60;
+}
+
+.prose .comment {
+    @apply text-foreground/50 italic;
+}
+
+.prose .comment::before {
+    content: "# ";
+    @apply text-foreground/40;
+}
+
+/* Video player styling for Nuxt Content */
+.prose video {
+    @apply w-full h-auto rounded border border-foreground/20 my-0;
+    max-height: 70vh;
+}
+
+/* Custom video player container */
+.prose .terminal-video-container {
+    @apply my-6;
+}
+
+.prose .video-caption {
+    @apply text-foreground/60 text-sm mt-2 italic;
+}
+
+.prose .video-caption::before {
+    content: "# Video: ";
+    @apply text-foreground/40;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }

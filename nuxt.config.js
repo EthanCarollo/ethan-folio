@@ -84,6 +84,13 @@ export default defineNuxtConfig({
 
     css: ["~/assets/css/main.css"],
 
+    app: {
+        pageTransition: {
+            name: 'terminal',
+            mode: 'out-in'
+        }
+    },
+
     runtimeConfig: {
         openrouterApiKey: process.env.OPENROUTER_API_KEY || '',
         openrouterModel: process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct',

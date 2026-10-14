@@ -1,26 +1,46 @@
-<script setup lang="ts">
+<script setup>
 const appConfig = useAppConfig()
 const contactEmail = appConfig.contactEmail
 </script>
-
 <template>
-    <section id="contact" class="px-4 py-14 sm:px-6 sm:py-16">
-        <div class="mx-auto max-w-6xl">
-            <h2 class="section-title">{{ $t('hero.contact') }}</h2>
-            <p class="mt-2 max-w-2xl text-muted-foreground">{{ $t('contactSection.description') }}</p>
+    <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="contact">
+        <div class="max-w-3xl mx-auto">
+            <div class="space-y-1 text-sm mb-8">
+                <h2 class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('hero.contact') }}</h2>
+                <div class="text-foreground/70 mt-2">
+                    {{ $t('contactSection.description') }}
+                </div>
+            </div>
 
-            <div class="mt-7 flex flex-col gap-6 sm:flex-row sm:gap-16">
-                <div>
-                    <h3 class="text-sm font-semibold text-foreground">{{ $t('contactSection.email') }}</h3>
-                    <a :href="`mailto:${contactEmail}`" class="mt-1 inline-block text-link underline underline-offset-2">
+            <div class="space-y-6 mb-12">
+                <div class="border-l-2 border-foreground/20 pl-4">
+                    <div class="text-sm text-foreground/60 mb-1 uppercase tracking-wider">{{ $t('contactSection.email') }}</div>
+                    <a :href="`mailto:${contactEmail}`"
+                        class="text-foreground hover:text-foreground/70 transition-colors">
                         {{ contactEmail }}
                     </a>
                 </div>
-                <div>
-                    <h3 class="text-sm font-semibold text-foreground">{{ $t('contactSection.location') }}</h3>
-                    <p class="mt-1 text-muted-foreground">{{ $t('contactSection.city') }}</p>
+
+                <!-- Phone number removed -->
+
+                <div class="border-l-2 border-foreground/20 pl-4">
+                    <div class="text-sm text-foreground/60 mb-1 uppercase tracking-wider">{{ $t('contactSection.location') }}</div>
+                    <span class="text-foreground/70">{{ $t('contactSection.city') }}</span>
                 </div>
             </div>
+
+            <div class="text-center">
+                <a :href="`mailto:${contactEmail}`"
+                    class="inline-block px-8 py-3 border rounded-md border-foreground hover:bg-foreground hover:text-background transition-all text-sm">
+                    {{ $t('contactSection.sendMessage') }}
+                </a>
+            </div>
+
+            <!-- Footer removed -->
         </div>
     </section>
 </template>
+
+<style scoped>
+/* Component styles */
+</style>
