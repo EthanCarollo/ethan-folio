@@ -1,13 +1,7 @@
 <template>
     <div>
-        <!-- Mode 1: Interactive Chat Atelier Interface (Default) -->
-        <PortfolioChat
-            v-if="currentMode === 'chat'"
-            @switch-to-standard="setMode('standard')"
-        />
-
-        <!-- Mode 2: Standard Original Portfolio Website -->
-        <main v-else class="min-h-screen relative">
+        <!-- Mode 1: Standard portfolio (default) -->
+        <main v-if="currentMode === 'standard'" class="min-h-screen relative">
             <HomeNavigation @switch-to-chat="setMode('chat')" />
             <Hero />
             <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
@@ -19,6 +13,12 @@
             <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />
             <Contact />
         </main>
+
+        <!-- Mode 2: Interactive chat atelier -->
+        <PortfolioChat
+            v-else
+            @switch-to-standard="setMode('standard')"
+        />
     </div>
 </template>
 
@@ -29,8 +29,8 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 
-// Mode can be 'chat' (default) or 'standard'
-const currentMode = ref<'chat' | 'standard'>('chat')
+// The standard portfolio is the default; explicit visitor preferences are restored below.
+const currentMode = ref<'chat' | 'standard'>('standard')
 
 const setMode = (mode: 'chat' | 'standard') => {
     currentMode.value = mode
@@ -52,10 +52,9 @@ onMounted(() => {
     if (route.query.view === 'standard') {
         currentMode.value = 'standard'
     } else if (process.client) {
-        // Fallback to localStorage preference
         const saved = localStorage.getItem('portfolio_view_mode')
-        if (saved === 'standard') {
-            currentMode.value = 'standard'
+        if (saved === 'standard' || saved === 'chat') {
+            currentMode.value = saved
         }
     }
 })
