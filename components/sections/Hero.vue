@@ -14,7 +14,7 @@
                 <div class="mt-8 flex flex-wrap gap-3">
                     <NuxtLink
                         :to="localePath('/#projects')"
-                        class="rounded bg-link px-4 py-2.5 text-sm font-semibold text-white no-underline hover:bg-link/90"
+                        class="rounded bg-link px-4 py-2.5 text-sm font-semibold text-background no-underline hover:bg-link/90"
                     >
                         {{ $t('hero.projects') }}
                     </NuxtLink>

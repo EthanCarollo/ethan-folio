@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 
     mdc: {
         highlight: {
-            theme: 'github-light',
+            theme: 'github-dark',
             langs: ['python', 'gleam', 'xml', 'bash', 'json', 'vue', 'md']
         }
     },

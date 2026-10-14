@@ -18,27 +18,16 @@ onMounted(async () => {
   try {
     const mermaid = (await import('mermaid')).default
 
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
     mermaid.initialize({
       startOnLoad: false,
-      theme: isDark ? 'dark' : 'default',
-      themeVariables: isDark ? {
+      theme: 'dark',
+      themeVariables: {
         primaryColor: '#6366f1',
         primaryTextColor: '#e2e8f0',
         primaryBorderColor: '#818cf8',
         lineColor: '#94a3b8',
         secondaryColor: '#1e293b',
         tertiaryColor: '#0f172a',
-        fontSize: '14px',
-        fontFamily: 'JetBrains Mono, monospace',
-      } : {
-        primaryColor: '#4f46e5',
-        primaryTextColor: '#1e293b',
-        primaryBorderColor: '#6366f1',
-        lineColor: '#64748b',
-        secondaryColor: '#f1f5f9',
-        tertiaryColor: '#e2e8f0',
         fontSize: '14px',
         fontFamily: 'JetBrains Mono, monospace',
       },

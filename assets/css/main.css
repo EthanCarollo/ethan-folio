@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-    color-scheme: light;
-    --color-background: 255 255 255;
-    --color-foreground: 31 41 55;
-    --color-border: 220 224 229;
-    --color-muted: 247 248 250;
-    --color-muted-foreground: 75 85 99;
-    --color-link: 29 78 216;
+    color-scheme: dark;
+    --color-background: 24 24 27;
+    --color-foreground: 228 228 231;
+    --color-border: 63 63 70;
+    --color-muted: 39 39 42;
+    --color-muted-foreground: 161 161 170;
+    --color-link: 96 165 250;
 }
 
 * {
@@ -125,7 +125,7 @@ a:hover {
     overflow-x: auto;
     border: 1px solid rgb(var(--color-border));
     border-radius: 4px;
-    background: #f6f8fa;
+    background: #27272a;
     line-height: 1.55;
 }
 
@@ -138,8 +138,8 @@ a:hover {
 
 .prose pre.shiki,
 .prose .shiki {
-    color: #24292e !important;
-    background-color: #f6f8fa !important;
+    color: #c9d1d9 !important;
+    background-color: #0d1117 !important;
 }
 
 .prose blockquote {
