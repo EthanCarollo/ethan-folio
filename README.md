@@ -1,14 +1,15 @@
 # Ethan Carollo - Portfolio
 
-A minimalist terminal-style portfolio website built with Nuxt 4.
+A straightforward portfolio website built with Nuxt 4, with a separate chat interface at `/chat`.
 
 ## Tech Stack
 
 - **Framework:** Nuxt 4
 - **Styling:** Tailwind CSS
 - **Language:** TypeScript
-- **Canvas:** P5.js for animations
-- **Deployment:** Static hosting
+- **Content:** Nuxt Content
+- **Chat:** Server-side endpoint backed by OpenRouter
+- **Deployment:** Static site generation; the chat API needs a server or serverless runtime
 
 ## Development
 
@@ -28,9 +29,9 @@ npm run preview
 
 ## Deployment
 
-The site is optimized for static hosting and can be deployed to:
+The portfolio pages are generated as static files. The chat interface calls `server/api/chat.post.ts`, which builds a prompt from the portfolio content and sends it to OpenRouter. Configure `OPENROUTER_API_KEY` on the server and optionally set `OPENROUTER_MODEL` (default: `meta-llama/llama-3.3-70b-instruct`). The key stays on the server.
 
-- Any static host (we don't really care in fact)
+Deploy the API route to a Nuxt-compatible server or serverless runtime for chat responses. A static-only host can serve the `/chat` page, but cannot execute that API route.
 
 ---
 

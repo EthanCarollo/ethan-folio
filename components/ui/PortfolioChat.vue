@@ -13,21 +13,21 @@
         <!-- Toggle manuel pour afficher / masquer le viewer à droite -->
         <button
           @click="showViewer = !showViewer"
-          class="flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/20 hover:border-white/50 hover:bg-white/10 transition-all text-xs text-white/80 cursor-pointer"
+          class="flex items-center gap-1.5 rounded border border-white/20 px-2.5 py-1 text-xs text-white/80 no-underline transition-colors hover:border-white/50 hover:bg-white/10"
           :class="showViewer ? 'bg-white/10 border-white/40' : ''"
         >
           <span>{{ showViewer ? 'Masquer viewer' : 'Projets' }}</span>
         </button>
 
-        <!-- Bouton de bascule vers le site classique -->
-        <button
-          @click="$emit('switch-to-standard')"
+        <!-- Retour au portfolio classique -->
+        <NuxtLink
+          :to="localePath('/')"
           class="flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/20 hover:border-white/50 hover:bg-white/10 transition-all text-xs text-white/80 cursor-pointer"
         >
           <span>⌂</span>
           <span class="font-semibold">{{ $t('viewMode.standard') }}</span>
           <span class="text-white/40">→</span>
-        </button>
+        </NuxtLink>
       </div>
     </header>
 
@@ -220,7 +220,7 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
 
-defineEmits(['switch-to-standard'])
+const localePath = useLocalePath()
 
 interface ProjectInfo {
   slug: string
@@ -281,7 +281,7 @@ const messagesContainer = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
 
 // Message d'accueil initial par défaut
-const defaultWelcomeMessage = `Bonjour. Je suis l'interface interactive d'**Ethan Carollo**, Creative Developer & Tech Artist (Gobelins Paris).
+const defaultWelcomeMessage = `Bonjour. Je suis l'interface interactive d'**Ethan Carollo**, Creative Developer & Tech Artist (Gobelins Annecy).
 
 Vous pouvez me questionner sur ses projets (**Composite**, **VirusMania**, **Rituals**), son stack technique ou ses disponibilités.`
 

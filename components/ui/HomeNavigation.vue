@@ -1,100 +1,30 @@
 <template>
-    <div class="fixed top-4 left-4 z-40 flex flex-col items-start justify-start gap-2
-        md:top-8 md:left-12 md:gap-3 text-sm font-mono mix-blend-exclusion nav-blend-fallback transition-opacity duration-500"
-        :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
-        <a href="#home" class="white block transition-all duration-300"
-            :class="activeSection === 'home' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            {{ $t('hero.home') }}
-        </a>
-        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
+    <header class="border-b border-border bg-background">
+        <div class="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-5 px-4 py-2 sm:px-6">
+            <NuxtLink :to="localePath('/')" class="order-1 shrink-0 text-base font-bold text-foreground no-underline">
+                Ethan Carollo
+            </NuxtLink>
 
-        <a href="#about" class="block transition-all duration-300"
-            :class="activeSection === 'about' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            {{ $t('hero.about') }}
-        </a>
-        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
+            <nav aria-label="Main navigation" class="order-3 flex w-full gap-5 overflow-x-auto pb-1 text-sm text-foreground/80 md:order-2 md:w-auto md:pb-0">
+                <NuxtLink :to="localePath('/#about')" class="hover:text-link">{{ $t('hero.about') }}</NuxtLink>
+                <NuxtLink :to="localePath('/#projects')" class="hover:text-link">{{ $t('hero.projects') }}</NuxtLink>
+                <NuxtLink :to="localePath('/#notes')" class="hover:text-link">{{ $t('hero.notes') }}</NuxtLink>
+                <NuxtLink :to="localePath('/#contact')" class="hover:text-link">{{ $t('hero.contact') }}</NuxtLink>
+            </nav>
 
-        <a href="#projects" class="block transition-all duration-300"
-            :class="activeSection === 'projects' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            {{ $t('hero.projects') }}
-        </a>
-        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
-
-        <a href="#notes" class="block transition-all duration-300"
-            :class="activeSection === 'notes' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            {{ $t('hero.notes') }}
-        </a>
-        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
-
-        <a href="#contact" class="block transition-all duration-300"
-            :class="activeSection === 'contact' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
-            {{ $t('hero.contact') }}
-        </a>
-        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
-
-        <!-- Discreet link to switch back to Chat / Workshop mode -->
-        <button
-            @click="$emit('switch-to-chat')"
-            class="block text-left text-white/50 hover:text-white transition-colors cursor-pointer text-xs pt-1"
-        >
-            [chat]
-        </button>
-    </div>
+            <div class="order-2 ml-auto flex shrink-0 items-center gap-3 md:order-3">
+                <NuxtLink
+                    :to="localePath('/chat')"
+                    class="rounded border border-border px-3 py-2 text-sm font-medium text-link no-underline hover:bg-muted"
+                >
+                    /chat
+                </NuxtLink>
+                <LocaleChip :is-scrolled="true" />
+            </div>
+        </div>
+    </header>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-
-defineEmits(['switch-to-chat']);
-
-const activeSection = ref('home');
-
-let observer: IntersectionObserver | null = null;
-
-onMounted(() => {
-    observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                activeSection.value = entry.target.id;
-            }
-        });
-    }, {
-        threshold: 0.2,
-        rootMargin: "-20% 0px -20% 0px"
-    });
-
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((section) => observer?.observe(section));
-});
-
-onUnmounted(() => {
-    if (observer) observer.disconnect();
-});
-
-
-const hasScrolled = ref(false)
-
-const handleScroll = () => {
-    hasScrolled.value = window.scrollY > 50
-}
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
+const localePath = useLocalePath()
 </script>
-
-<style scoped>
-/* Désactiver mix-blend-mode sur mobile (coûteux en GPU, illisible) */
-@media (max-width: 767px) {
-  .nav-blend-fallback {
-    mix-blend-mode: normal;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 0 8px 8px 0;
-    padding: 8px 6px;
-  }
-}
-</style>

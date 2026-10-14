@@ -1,36 +1,34 @@
 <template>
-    <section class="py-12 sm:py-16 md:py-20 px-4 font-mono" id="projects">
-        <div class="max-w-3xl mx-auto">
-            <div class="space-y-1 text-sm mb-8">
-                <h2 class="text-foreground/60 mb-2 uppercase tracking-widest">{{ $t('projects.title') }}</h2>
-                <p class="text-foreground/70 mt-2">{{ $t('projects.description') }}</p>
-                <div class="text-foreground/70 pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <NuxtLink v-for="(project, index) in allProjects" :key="index" :to="localePath('/projects/' + project.slug)"
-                        class="block hover:text-foreground transition-colors">
-                        <article
-                            class="group border border-foreground/20 rounded-lg overflow-hidden hover:border-foreground/40 hover:bg-foreground/5 transition-all duration-200 h-full flex flex-col">
-                            <!-- Project Image Banner -->
-                            <div v-if="project.image" class="w-full h-32 sm:h-36 overflow-hidden bg-foreground/5">
-                                <img :src="project.image" :alt="`${project.title} preview`"
-                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                    loading="lazy" decoding="async" />
-                            </div>
-                            <div class="p-3 flex flex-col gap-2 flex-1">
-                                <h3 class="text-base sm:text-lg font-semibold text-foreground line-clamp-1">{{
-                                    project.title }}</h3>
-                                <p class="text-xs sm:text-sm text-foreground/70 line-clamp-1">
-                                    {{ project.category }} <span class="mx-1 opacity-50">•</span> {{ formatDate(project.date) }}
-                                </p>
-                                <div class="flex flex-wrap gap-1 sm:gap-2 mt-auto pt-2">
-                                    <span v-for="tag in project.tags?.slice(0, 3)" :key="tag"
-                                        class="text-xs bg-foreground/10 text-foreground/80 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded truncate max-w-[80px] sm:max-w-none">
-                                        {{ tag }}
-                                    </span>
-                                </div>
-                            </div>
-                        </article>
-                    </NuxtLink>
-                </div>
+    <section id="projects" class="border-b border-border px-4 py-14 sm:px-6 sm:py-16">
+        <div class="mx-auto max-w-6xl">
+            <h2 class="section-title">{{ $t('projects.title') }}</h2>
+            <p class="mt-2 max-w-2xl text-muted-foreground">{{ $t('projects.description') }}</p>
+
+            <div class="mt-7 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <NuxtLink
+                    v-for="project in allProjects"
+                    :key="project.slug"
+                    :to="localePath('/projects/' + project.slug)"
+                    class="group overflow-hidden rounded border border-border bg-background text-foreground no-underline hover:border-link"
+                >
+                    <img
+                        v-if="project.image"
+                        :src="project.image"
+                        :alt="`${project.title} preview`"
+                        class="aspect-video w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <div class="p-5">
+                        <h3 class="text-lg font-semibold group-hover:text-link">{{ project.title }}</h3>
+                        <p class="mt-1 text-sm text-muted-foreground">
+                            {{ project.category }}<span class="mx-2">·</span>{{ formatDate(project.date) }}
+                        </p>
+                        <p v-if="project.tags?.length" class="mt-3 text-sm text-muted-foreground">
+                            {{ project.tags.slice(0, 4).join(' · ') }}
+                        </p>
+                    </div>
+                </NuxtLink>
             </div>
         </div>
     </section>
@@ -40,38 +38,22 @@
 const { locale } = useI18n()
 const localePath = useLocalePath()
 
-// Frontmatter dates are ISO (YYYY-MM-DD); display them as DD/MM/YYYY
 const formatDate = (date: unknown) => {
-    const [y, m, d] = String(date ?? '').split('-')
-    if (!y || !m || !d) return String(date ?? '')
-    return `${d}/${m}/${y}`
+    const [year, month, day] = String(date ?? '').split('-')
+    if (!year || !month || !day) return String(date ?? '')
+    return `${day}/${month}/${year}`
 }
 
-// Forcer le re-render quand la locale change
-const allProjects = ref([]);
+const allProjects = ref<any[]>([])
 
 const loadProjects = async () => {
     allProjects.value = await queryCollection('projects')
         .order('date', 'DESC')
         .where('stem', 'LIKE', '%.' + locale.value)
-        .all();
-};
+        .all()
+}
 
-// SSR: awaited in setup so the project links exist in the initial HTML.
-// Without this, the static crawler never discovers the /projects/[slug]
-// pages and `nuxt generate` does not build them (404 in production).
 await loadProjects()
 
-watch(locale, () => {
-    loadProjects();
-})
+watch(locale, loadProjects)
 </script>
-
-<style scoped>
-.line-clamp-1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-</style>

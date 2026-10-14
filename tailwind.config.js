@@ -17,10 +17,11 @@ module.exports = {
                 border: 'rgb(var(--color-border) / <alpha-value>)',
                 muted: 'rgb(var(--color-muted) / <alpha-value>)',
                 'muted-foreground': 'rgb(var(--color-muted-foreground) / <alpha-value>)',
+                link: 'rgb(var(--color-link) / <alpha-value>)',
             },
             fontFamily: {
                 mono: ["Space Mono", "monospace"],
-                sans: ["Space Mono", "monospace"],
+                sans: ["Arial", "Helvetica", "system-ui", "sans-serif"],
             },
             fontSize: {
                 'xs': ['0.75rem', { lineHeight: '1.5' }],

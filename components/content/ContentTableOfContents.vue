@@ -1,10 +1,11 @@
 <template>
     <div>
         <!-- Desktop Sidebar -->
-        <div class="toc-desktop hidden lg:block" :class="{ 'toc-visible': hasHeadings }">
+        <div v-if="hasHeadings" class="toc-desktop hidden lg:block">
             <div class="toc-header flex flex-col">
-                <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{
-                    $t('toc.backToHome') }}</NuxtLink>
+                <NuxtLink :to="localePath('/')" class="text-sm text-link underline underline-offset-2">
+                    {{ t('toc.backToHome') }}
+                </NuxtLink>
                 <span class="toc-title">{{ t('toc.title') }}</span>
             </div>
 
@@ -13,31 +14,25 @@
                     <li v-for="heading in headings" :key="heading.id" class="toc-item"
                         :class="[`toc-level-${heading.level}`, { 'toc-active': heading.id === activeHeading }]">
                         <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" class="toc-link">
-                            <span class="toc-prefix">{{ getPrefix(heading.level) }}</span>
                             {{ heading.text }}
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <div class="toc-indicator" :style="{ top: `${indicatorPosition}px` }"></div>
         </div>
 
         <!-- Mobile Accordion -->
-        <div v-if="hasHeadings" class="lg:hidden mb-8 border border-foreground/20 rounded-lg overflow-hidden">
+        <div v-if="hasHeadings" class="mb-8 overflow-hidden rounded border border-border lg:hidden">
             <details class="group">
-                <summary class="flex justify-between items-center p-4 bg-foreground/5 cursor-pointer font-mono text-sm text-foreground/80 hover:bg-foreground/10 transition-colors">
-                    <span class="flex items-center gap-2">
-                        <span class="text-base group-open:hidden">▶</span>
-                        <span class="text-base hidden group-open:block">▼</span>
-                        {{ t('toc.title') }}
-                    </span>
+                <summary class="cursor-pointer bg-muted px-4 py-3 text-sm font-semibold text-foreground">
+                    {{ t('toc.title') }}
                 </summary>
-                <div class="p-4 bg-background">
+                <div class="bg-background p-4">
                     <nav class="toc-mobile-nav">
                         <ul class="space-y-3">
                             <li class="mb-4 pb-4 border-b border-foreground/10">
-                                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-sm font-mono hover:text-foreground flex items-center gap-2">
+                                <NuxtLink :to="localePath('/')" class="flex items-center gap-2 text-sm text-link underline underline-offset-2">
                                      {{ t('toc.backToHome') }}
                                 </NuxtLink>
                             </li>
@@ -72,11 +67,7 @@ interface Heading {
 
 const headings = ref<Heading[]>([])
 const activeHeading = ref<string>('')
-const indicatorPosition = ref(0)
 const hasHeadings = ref(false)
-const isMobileMenuOpen = ref(false)
-
-const observer = ref<MutationObserver | null>(null)
 
 const extractHeadings = () => {
     // Utiliser requestAnimationFrame pour éviter le blocage
@@ -107,42 +98,13 @@ const extractHeadings = () => {
     })
 }
 
-const setupContentObserver = () => {
-    if (observer.value) {
-        observer.value.disconnect()
-    }
-
-    const contentElement = document.querySelector('.prose')
-    if (!contentElement) return
-
-    observer.value = new MutationObserver(() => {
-        extractHeadings()
-    })
-
-    observer.value.observe(contentElement, {
-        childList: true,
-        subtree: true,
-        characterData: true
-    })
-}
-
-const getPrefix = (level: number): string => {
-    switch (level) {
-        case 1: return '# '
-        case 2: return '## '
-        case 3: return '### '
-        default: return '- '
-    }
-}
-
 const scrollToHeading = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
         const yOffset = -20
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
-        window.scrollTo({ top: y, behavior: 'smooth' })
+        window.scrollTo({ top: y })
         activeHeading.value = id
-        isMobileMenuOpen.value = false // Close menu on mobile
     }
 }
 
@@ -165,13 +127,7 @@ const updateActiveHeading = () => {
 
   if (foundIndex !== -1) {
     activeHeading.value = headings.value[foundIndex].id
-    updateIndicatorPosition(foundIndex)
   }
-}
-
-const updateIndicatorPosition = (headingIndex: number) => {
-    const itemHeight = 32
-    indicatorPosition.value = headingIndex * itemHeight + 48
 }
 
 const throttle = (func: Function, delay: number) => {
@@ -196,92 +152,40 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('scroll', throttledUpdate)
     window.removeEventListener('resize', throttledUpdate)
-    if (observer.value) {
-        observer.value.disconnect()
-    }
 })
 </script>
 
 <style scoped>
-/* Fixed position for TOC to always stay on the left */
 .toc-desktop {
-    @apply fixed left-0 top-0 w-64 min-h-screen max-h-screen bg-background border-r border-foreground/20 p-4;
-    overflow-y: hidden;
-    z-index: 40;
-}
-
-.toc-visible {
-    @apply block;
+    @apply fixed bottom-0 left-0 top-16 w-64 overflow-y-auto border-r border-border bg-background p-4;
+    z-index: 30;
 }
 
 .toc-header {
-  @apply mb-4 pb-2 border-b border-foreground/20 space-y-2;
-}
-
-.toc-nav-item {
-  @apply mb-2;
+    @apply mb-4 space-y-2 border-b border-border pb-3;
 }
 
 .toc-title {
-    @apply text-foreground/70 text-sm font-mono;
-}
-
-.toc-nav {
-    @apply relative;
+    @apply text-sm font-semibold text-foreground;
 }
 
 .toc-list {
-    @apply list-none m-0 p-0 space-y-1;
-}
-
-.toc-item {
-    @apply relative;
+    @apply m-0 list-none space-y-1 p-0;
 }
 
 .toc-link {
-    @apply block text-foreground/70 hover:text-foreground transition-colors text-sm font-mono no-underline;
-    @apply py-1 px-2 rounded hover:bg-foreground/5;
-}
-
-.toc-prefix {
-    @apply text-foreground/50 mr-1;
-}
-
-.toc-level-1 {
-    @apply font-bold;
+    @apply block rounded px-2 py-1 text-sm text-muted-foreground no-underline hover:bg-muted hover:text-foreground;
 }
 
 .toc-level-2 {
-    @apply ml-4 text-foreground/60;
+    @apply pl-4;
 }
 
 .toc-level-3 {
-    @apply ml-8 text-foreground/50 text-xs;
+    @apply pl-8 text-sm;
 }
 
 .toc-active .toc-link {
-    @apply text-foreground bg-foreground/10;
-}
-
-.toc-indicator {
-    @apply absolute left-0 w-1 h-6 bg-foreground rounded-r-full transition-all duration-300;
-    @apply -ml-4;
-}
-
-/* Scrollbar personnalisée */
-.toc-desktop::-webkit-scrollbar {
-    @apply w-2;
-}
-
-.toc-desktop::-webkit-scrollbar-track {
-    @apply bg-transparent;
-}
-
-.toc-desktop::-webkit-scrollbar-thumb {
-    @apply bg-foreground/20 rounded-full;
-}
-
-.toc-desktop::-webkit-scrollbar-thumb:hover {
-    @apply bg-foreground/30;
+    @apply border-l-2 border-link bg-muted text-link;
 }
 </style>

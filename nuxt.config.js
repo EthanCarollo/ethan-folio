@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 
     mdc: {
         highlight: {
-            theme: 'github-dark',
+            theme: 'github-light',
             langs: ['python', 'gleam', 'xml', 'bash', 'json', 'vue', 'md']
         }
     },
@@ -83,13 +83,6 @@ export default defineNuxtConfig({
     },
 
     css: ["~/assets/css/main.css"],
-
-    app: {
-        pageTransition: {
-            name: 'terminal',
-            mode: 'out-in'
-        }
-    },
 
     runtimeConfig: {
         openrouterApiKey: process.env.OPENROUTER_API_KEY || '',
