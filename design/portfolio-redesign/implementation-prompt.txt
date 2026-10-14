@@ -1,0 +1,31 @@
+Retravaille le portfolio Nuxt 4 d’Ethan Carollo en suivant la maquette 03-gothic-editorial.png.
+
+Objectif : un portfolio sombre et personnel, inspiré de l’atmosphère dark fantasy de Path of Exile, avec une lecture et une navigation de site web classique. Le résultat doit mettre les vrais projets en valeur et rester agréable à consulter sur desktop comme sur mobile.
+
+Référence d’ambiance : https://www.pathofexile.com/game
+La maquette 04-dark-fantasy-archive.png est une variante plus marquée, avec Rituals en projet principal. Les maquettes 01 et 02 montrent les étapes éditoriales initiales. Par défaut, implémente la composition de la maquette 03.
+
+Direction visuelle :
+- Fond charbon chaud #181715, panneaux #211f1b, séparateurs bronze #64553c, accents or patiné #c1a36b, titres ivoire #e5ddcd, texte secondaire #b7b2a8.
+- Thème sombre par défaut sur toutes les pages, indépendamment du réglage de couleur du système.
+- Titres en sérif classique sobre, avec une influence romaine ou gothique légère ; corps, menus et métadonnées en sans-serif très lisible.
+- Filets fins, quelques petits ornements de coin et séparateurs géométriques discrets. Une texture statique de pierre sombre peut apparaître dans les marges et les cadres ; les surfaces derrière le texte restent presque unies.
+- La personnalité vient des proportions, de la typographie, des images réelles et de ces détails graphiques. Pas de fausse 3D, WebGL, texte extrudé, boutons biseautés, néon, animation de texte, curseur personnalisé ou scroll imposé.
+- Crée des ornements originaux. Ne recopie pas le logo, les personnages, les icônes ou l’interface exacte de Path of Exile.
+
+Composition :
+1. En-tête horizontal avec Ethan Carollo à gauche, les liens Projets / À propos / Notes / Contact, le bouton /chat clairement visible en haut à droite et la langue FR/EN. L’accueil affiche toujours le portfolio standard ; le chat reste sur sa route dédiée avec un lien de retour.
+2. Introduction compacte : rôle, nom, résumé du travail, cursus à Gobelins Annecy, bouton Voir les projets et lien de contact. Vrai portrait à droite sur desktop, intégré sans changer son identité. Sur mobile, adapte la taille et l’ordre sans pousser excessivement les projets vers le bas.
+3. Projets immédiatement après l’introduction : VirusMania, Rituals et Composite, avec leurs vrais médias, titres, catégories et technologies. Grille de trois colonnes sur grand écran, deux sur tablette, une sur mobile. Images généreuses, légendes courtes et liens évidents. Les premiers visuels doivent être visibles dès le premier écran desktop courant.
+4. Présentation personnelle concise et dernières notes dans une section lisible. Contact simple et adresse email facile à trouver.
+5. Même palette, typographie, cadres sobres et qualité d’espacement sur les pages de projets, les articles et la liste des notes. Les blocs de code et diagrammes suivent le thème sombre.
+
+Contraintes de contenu et d’implémentation :
+- Utilise le vrai portrait public/images/photome.webp.
+- Utilise les médias réels des projets : public/virusmania_media/virusmania_banner.png, public/images/rituals.png et public/composite_media/06.png. Respecte leur graphisme et leurs couleurs ; ne crée pas de fausses captures.
+- Conserve Nuxt Content, les traductions FR/EN, les routes, le contenu existant et les métadonnées SEO. Respecte les vraies informations ; n’invente pas de clients, de chiffres, de témoignages ou de disponibilités.
+- La maquette est une référence graphique. Reconstruis une vraie interface HTML/CSS responsive avec des composants Vue ; n’utilise pas la capture entière comme image de fond.
+- Les liens et boutons doivent garder leurs états hover et focus, des libellés clairs et un contraste suffisant. Préserve les liens sémantiques, le clavier, les textes alternatifs et les états vides.
+- Le chat et son backend gardent leur fonctionnement existant. Cette refonte visuelle ne suffit pas à résoudre le besoin d’un runtime serveur pour /api/chat sur un hébergement uniquement statique.
+- Vérifie le rendu desktop/mobile et lance les contrôles appropriés aux changements.
+- Travaille sur main. Commit au format Angular/Conventional Commits et push, conformément aux consignes du projet.
