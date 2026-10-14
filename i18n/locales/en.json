@@ -10,6 +10,12 @@
     "role2": "INTERACTIVE DEV MASTER STUDENT",
     "role3": "GAME DEV ADDICT"
   },
+  "viewMode": {
+    "chat": "Terminal Chat",
+    "standard": "Standard Site",
+    "switchToStandard": "Switch to standard website",
+    "switchToChat": "Interactive Chat / Workshop"
+  },
   "locale": {
     "switch": "Switch language"
   },

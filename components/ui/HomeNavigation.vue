@@ -30,11 +30,22 @@
             :class="activeSection === 'contact' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             {{ $t('hero.contact') }}
         </a>
+        <div class="w-4 h-[1px] bg-white/10 ml-1"></div>
+
+        <!-- Discreet link to switch back to Chat / Workshop mode -->
+        <button
+            @click="$emit('switch-to-chat')"
+            class="block text-left text-white/50 hover:text-white transition-colors cursor-pointer text-xs pt-1"
+        >
+            [chat]
+        </button>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+
+defineEmits(['switch-to-chat']);
 
 const activeSection = ref('home');
 
