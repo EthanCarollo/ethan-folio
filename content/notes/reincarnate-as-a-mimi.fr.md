@@ -135,4 +135,8 @@ Ok c'est finit ! Il est 00:00 donc pour cette journée on est bon, demain je vai
 
 Pour les mobs, je vais pas m'embeter, pour l'instant, ce sera simplement les mobs de bases, du genre des versions plus petites des boss, avec un peu plus de variété. Mais pour l'instant, je vais me focus sur 3 mobs.
 
+<div style="display: flex; flex-direction: row; gap: 20px; align-items: center; margin-top: 40px;">
+  <img src="/reincarnate_media/all-mobs-idle.gif" alt="Mimi" style="min-width: 100px; border-radius: 8px;" />
+</div>
+
 ### Combat // Dev
