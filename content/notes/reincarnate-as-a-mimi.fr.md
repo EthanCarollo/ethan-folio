@@ -136,7 +136,15 @@ Ok c'est finit ! Il est 00:00 donc pour cette journée on est bon, demain je vai
 Pour les mobs, je vais pas m'embeter, pour l'instant, ce sera simplement les mobs de bases, du genre des versions plus petites des boss, avec un peu plus de variété. Mais pour l'instant, je vais me focus sur 3 mobs.
 
 <div style="display: flex; flex-direction: row; gap: 20px; align-items: center; margin-top: 40px;">
-  <img src="/reincarnate_media/all-mobs-idle.gif" alt="Mimi" style="min-width: 100px; border-radius: 8px;" />
+  <img src="/reincarnate_media/gif/all-mobs-idle.gif" alt="Mimi" style="min-width: 100px; border-radius: 8px;" />
 </div>
 
 ### Combat // Dev
+
+J'ai écris une TONNE de fichiers de spécifications. Vraiment beaucoup.
+
+## 22/10/2026 - On va executer tout ça.
+
+Maintenant l'idée, c'est de tout faire, on va tester donc le plugin Unity, on va tout faire à coup de GPT 6.1 Sol et voir ce que le plugin Unity propose en le poussant au max de la paresse. Donc là je vais générer avec GPT 6.1 Sol et GPT Image (en gros 6.1 Sol me servira d'interface pour utiliser GPT Image)
+
+### Premier resultat, mitigé.
