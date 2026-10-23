@@ -1,7 +1,5 @@
 <template>
     <div class="min-h-screen flex">
-        <ContentTableOfContents />
-
         <div class="flex-1 w-full pt-24 pb-20 px-4 sm:px-8 lg:ml-64 ml-0 flex flex-col items-center">
             <article class="max-w-2xl md:max-w-3xl xl:max-w-4xl w-full" v-if="note">
                 <header class="mb-10 text-center">
@@ -15,6 +13,8 @@
                     </div>
                     <hr class="border-foreground/10 w-24 mx-auto" />
                 </header>
+
+                <ContentTableOfContents />
 
                 <ContentRenderer :value="note" class="prose prose-invert max-w-none w-full" />
 
@@ -30,9 +30,9 @@
                 </div>
             </article>
 
-        <div v-else class="py-20 text-center text-foreground/60 font-mono">
-            Note not found.
-        </div>
+            <div v-else class="py-20 text-center text-foreground/60 font-mono">
+                Note not found.
+            </div>
         </div>
     </div>
 </template>

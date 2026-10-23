@@ -1,10 +1,11 @@
 <template>
     <div>
         <!-- Desktop Sidebar -->
-        <div class="toc-desktop hidden lg:block" :class="{ 'toc-visible': hasHeadings }">
+        <div v-if="hasHeadings" class="toc-desktop hidden lg:block">
             <div class="toc-header flex flex-col">
-                <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{
-                    $t('toc.backToHome') }}</NuxtLink>
+                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-sm font-mono hover:text-foreground">
+                    {{ t('toc.backToHome') }}
+                </NuxtLink>
                 <span class="toc-title">{{ t('toc.title') }}</span>
             </div>
 
@@ -24,34 +25,45 @@
         </div>
 
         <!-- Mobile Accordion -->
-        <div v-if="hasHeadings" class="lg:hidden mb-8 border border-foreground/20 rounded-lg overflow-hidden">
-            <details class="group">
-                <summary class="flex justify-between items-center p-4 bg-foreground/5 cursor-pointer font-mono text-sm text-foreground/80 hover:bg-foreground/10 transition-colors">
+        <div v-if="hasHeadings" class="lg:hidden w-full mb-8 border border-foreground/20 rounded-lg overflow-hidden bg-background">
+            <details ref="mobileDetailsRef" class="group">
+                <summary class="flex justify-between items-center p-4 bg-foreground/5 cursor-pointer font-mono text-sm text-foreground/80 hover:bg-foreground/10 transition-colors select-none list-none [&::-webkit-details-marker]:hidden">
                     <span class="flex items-center gap-2">
-                        <span class="text-base group-open:hidden">▶</span>
-                        <span class="text-base hidden group-open:block">▼</span>
-                        {{ t('toc.title') }}
+                        <span class="text-xs transition-transform duration-200 group-open:rotate-90">▶</span>
+                        <span class="font-semibold">{{ t('toc.title') }}</span>
+                    </span>
+                    <span class="text-xs text-foreground/50 font-mono group-open:hidden">
+                        {{ headings.length }}
+                    </span>
+                    <span class="text-xs text-foreground/50 font-mono hidden group-open:inline-block">
+                        ✕ {{ t('toc.close') }}
                     </span>
                 </summary>
-                <div class="p-4 bg-background">
+                <div class="p-4 bg-background border-t border-foreground/10">
                     <nav class="toc-mobile-nav">
-                        <ul class="space-y-3">
-                            <li class="mb-4 pb-4 border-b border-foreground/10">
-                                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-sm font-mono hover:text-foreground flex items-center gap-2">
+                        <ul class="space-y-2">
+                            <li class="mb-3 pb-3 border-b border-foreground/10">
+                                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-xs font-mono hover:text-foreground flex items-center gap-2">
                                      {{ t('toc.backToHome') }}
                                 </NuxtLink>
                             </li>
                             <li v-for="heading in headings" :key="heading.id"
-                                class="toc-item-mobile"
-                                :class="[`pl-${(heading.level - 1) * 4}`]">
+                                class="toc-item-mobile text-sm font-mono"
+                                :class="heading.level === 1 ? 'font-semibold' : 'pl-4 text-foreground/70'">
                                 <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" 
-                                   class="block text-foreground/80 hover:text-foreground transition-colors"
-                                   :class="{ 'text-foreground font-bold py-1': heading.id === activeHeading }">
+                                   class="block py-1.5 px-2 rounded hover:bg-foreground/5 transition-colors"
+                                   :class="{ 'text-foreground font-bold bg-foreground/10': heading.id === activeHeading, 'text-foreground/80': heading.id !== activeHeading }">
+                                    <span class="text-foreground/40 mr-1">{{ getPrefix(heading.level) }}</span>
                                     {{ heading.text }}
                                 </a>
                             </li>
                         </ul>
                     </nav>
+                    <div class="mt-4 pt-3 border-t border-foreground/10 flex justify-end">
+                        <button type="button" @click="closeMobileMenu" class="text-xs font-mono text-foreground/60 hover:text-foreground px-3 py-1.5 rounded border border-foreground/20 hover:bg-foreground/5 transition-colors">
+                            ✕ {{ t('toc.close') }}
+                        </button>
+                    </div>
                 </div>
             </details>
         </div>
@@ -59,10 +71,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const route = useRoute()
 
 interface Heading {
     id: string
@@ -74,21 +87,18 @@ const headings = ref<Heading[]>([])
 const activeHeading = ref<string>('')
 const indicatorPosition = ref(0)
 const hasHeadings = ref(false)
-const isMobileMenuOpen = ref(false)
+const mobileDetailsRef = ref<HTMLDetailsElement | null>(null)
 
 const observer = ref<MutationObserver | null>(null)
 
 const extractHeadings = () => {
-    // Utiliser requestAnimationFrame pour éviter le blocage
     requestAnimationFrame(() => {
         const contentElement = document.querySelector('.prose')
         if (!contentElement) return
 
-        // Limiter aux H1 et H2 uniquement pour réduire le nombre d'éléments
         const headingElements = contentElement.querySelectorAll('h1, h2')
         const newHeadings: Heading[] = []
 
-        // Utiliser une boucle for classique pour meilleures performances
         for (let i = 0; i < headingElements.length; i++) {
             const element = headingElements[i] as HTMLElement
             if (!element.id) {
@@ -110,6 +120,7 @@ const extractHeadings = () => {
 const setupContentObserver = () => {
     if (observer.value) {
         observer.value.disconnect()
+        observer.value = null
     }
 
     const contentElement = document.querySelector('.prose')
@@ -135,15 +146,23 @@ const getPrefix = (level: number): string => {
     }
 }
 
-const scrollToHeading = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-        const yOffset = -20
-        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
-        window.scrollTo({ top: y, behavior: 'smooth' })
-        activeHeading.value = id
-        isMobileMenuOpen.value = false // Close menu on mobile
+const closeMobileMenu = () => {
+    if (mobileDetailsRef.value) {
+        mobileDetailsRef.value.open = false
     }
+}
+
+const scrollToHeading = (id: string) => {
+    closeMobileMenu()
+    requestAnimationFrame(() => {
+        const element = document.getElementById(id)
+        if (element) {
+            const yOffset = -80
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' })
+            activeHeading.value = id
+        }
+    })
 }
 
 const updateActiveHeading = () => {
@@ -152,7 +171,6 @@ const updateActiveHeading = () => {
   const scrollPosition = window.scrollY + 100
   let foundIndex = -1
 
-  // Utiliser une boucle for classique pour performance
   for (let i = headings.value.length - 1; i >= 0; i--) {
     const heading = headings.value[i]
     const element = document.getElementById(heading.id)
@@ -185,17 +203,43 @@ const throttle = (func: Function, delay: number) => {
     }
 }
 
-const throttledUpdate = throttle(updateActiveHeading, 200) // Augmenter le délai pour réduire les calculs
+const throttledUpdate = throttle(updateActiveHeading, 200)
+
+const handleOutsideClick = (event: MouseEvent) => {
+    if (!mobileDetailsRef.value || !mobileDetailsRef.value.open) return
+    const target = event.target as Node | null
+    if (target && !mobileDetailsRef.value.contains(target)) {
+        closeMobileMenu()
+    }
+}
+
+const handleKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && mobileDetailsRef.value && mobileDetailsRef.value.open) {
+        closeMobileMenu()
+    }
+}
 
 onMounted(() => {
     extractHeadings()
-    window.addEventListener('scroll', throttledUpdate)
-    window.addEventListener('resize', throttledUpdate)
+    setupContentObserver()
+    window.addEventListener('scroll', throttledUpdate, { passive: true })
+    window.addEventListener('resize', throttledUpdate, { passive: true })
+    window.addEventListener('click', handleOutsideClick)
+    window.addEventListener('keydown', handleKeydown)
+})
+
+watch(() => route.fullPath, () => {
+    nextTick(() => {
+        extractHeadings()
+        setupContentObserver()
+    })
 })
 
 onUnmounted(() => {
     window.removeEventListener('scroll', throttledUpdate)
     window.removeEventListener('resize', throttledUpdate)
+    window.removeEventListener('click', handleOutsideClick)
+    window.removeEventListener('keydown', handleKeydown)
     if (observer.value) {
         observer.value.disconnect()
     }
@@ -206,12 +250,8 @@ onUnmounted(() => {
 /* Fixed position for TOC to always stay on the left */
 .toc-desktop {
     @apply fixed left-0 top-0 w-64 min-h-screen max-h-screen bg-background border-r border-foreground/20 p-4;
-    overflow-y: hidden;
+    overflow-y: auto;
     z-index: 40;
-}
-
-.toc-visible {
-    @apply block;
 }
 
 .toc-header {

@@ -1,8 +1,5 @@
 <template>
     <div class="min-h-screen flex">
-        <!-- Added TableOfContents component fixed on the left -->
-        <ContentTableOfContents />
-
         <!-- Adjusted main content with left margin to account for TOC -->
         <div class="flex-1 px-4 py-8 md:py-12 lg:ml-64 ml-0">
             <div v-if="project" class="max-w-3xl xl:max-w-5xl mx-auto">
@@ -34,6 +31,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Added TableOfContents component fixed on desktop, accordion on mobile -->
+                <ContentTableOfContents />
 
                 <ContentRenderer :value="project" class="prose prose-invert max-w-none" />
             </div>
