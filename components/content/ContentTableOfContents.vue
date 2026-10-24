@@ -1,18 +1,18 @@
 <template>
     <div>
         <!-- Desktop Sidebar -->
-        <div class="toc-desktop hidden lg:block" :class="{ 'toc-visible': hasHeadings }">
+        <div v-if="hasHeadings" class="toc-desktop hidden lg:block">
             <div class="toc-header flex flex-col">
-                <NuxtLink to="/" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{
-                    $t('toc.backToHome') }}</NuxtLink>
+                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-sm font-mono hover:text-foreground">{{
+                    t('toc.backToHome') }}</NuxtLink>
                 <span class="toc-title">{{ t('toc.title') }}</span>
             </div>
 
-            <nav class="toc-nav">
+            <nav class="toc-nav" :aria-label="t('toc.title')">
                 <ul class="toc-list">
                     <li v-for="heading in headings" :key="heading.id" class="toc-item"
                         :class="[`toc-level-${heading.level}`, { 'toc-active': heading.id === activeHeading }]">
-                        <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" class="toc-link">
+                        <a :href="`#${heading.id}`" @click.prevent.stop="scrollToHeading(heading.id)" class="toc-link">
                             <span class="toc-prefix">{{ getPrefix(heading.level) }}</span>
                             {{ heading.text }}
                         </a>
@@ -23,46 +23,55 @@
             <div class="toc-indicator" :style="{ top: `${indicatorPosition}px` }"></div>
         </div>
 
-        <!-- Mobile Accordion -->
-        <div v-if="hasHeadings" class="lg:hidden mb-8 border border-foreground/20 rounded-lg overflow-hidden">
-            <details class="group">
-                <summary class="flex justify-between items-center p-4 bg-foreground/5 cursor-pointer font-mono text-sm text-foreground/80 hover:bg-foreground/10 transition-colors">
-                    <span class="flex items-center gap-2">
-                        <span class="text-base group-open:hidden">▶</span>
-                        <span class="text-base hidden group-open:block">▼</span>
-                        {{ t('toc.title') }}
-                    </span>
-                </summary>
-                <div class="p-4 bg-background">
-                    <nav class="toc-mobile-nav">
-                        <ul class="space-y-3">
-                            <li class="mb-4 pb-4 border-b border-foreground/10">
-                                <NuxtLink :to="localePath('/')" class="text-foreground/70 text-sm font-mono hover:text-foreground flex items-center gap-2">
-                                     {{ t('toc.backToHome') }}
-                                </NuxtLink>
-                            </li>
-                            <li v-for="heading in headings" :key="heading.id"
-                                class="toc-item-mobile"
-                                :class="[`pl-${(heading.level - 1) * 4}`]">
-                                <a :href="`#${heading.id}`" @click.prevent="scrollToHeading(heading.id)" 
-                                   class="block text-foreground/80 hover:text-foreground transition-colors"
-                                   :class="{ 'text-foreground font-bold py-1': heading.id === activeHeading }">
-                                    {{ heading.text }}
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+        <!-- The mobile controls are fixed, so they never take space from the article. -->
+        <button v-if="hasHeadings" type="button" class="toc-mobile-trigger lg:hidden"
+            aria-haspopup="dialog" aria-controls="toc-mobile-dialog" :aria-expanded="isMobileMenuOpen"
+            @click="openMobileMenu">
+            <span aria-hidden="true">☰</span>
+            {{ t('toc.title') }}
+            <span class="text-foreground/50 text-xs">{{ headings.length }}</span>
+        </button>
+
+        <dialog ref="mobileDialogRef" id="toc-mobile-dialog" class="toc-mobile-dialog lg:hidden"
+            aria-labelledby="toc-mobile-title" @click="closeMobileMenu" @close="handleMobileClose">
+            <section class="toc-mobile-panel" @click.stop>
+                <div class="flex items-center justify-between gap-4 p-4 border-b border-foreground/20">
+                    <h2 id="toc-mobile-title" class="text-sm font-bold">{{ t('toc.title') }}</h2>
+                    <button type="button" autofocus @click="closeMobileMenu"
+                        class="min-h-11 px-3 rounded border border-foreground/20 hover:bg-foreground/10 text-sm">
+                        {{ t('toc.close') }} <span aria-hidden="true">✕</span>
+                    </button>
                 </div>
-            </details>
-        </div>
+                <nav class="toc-mobile-nav overflow-y-auto overscroll-contain p-4" data-lenis-prevent
+                    :aria-label="t('toc.title')">
+                    <NuxtLink :to="localePath('/')" @click="closeMobileMenu"
+                        class="block pb-4 mb-3 border-b border-foreground/10 text-sm text-foreground/70 hover:text-foreground">
+                        {{ t('toc.backToHome') }}
+                    </NuxtLink>
+                    <ul class="space-y-1">
+                        <li v-for="heading in headings" :key="heading.id"
+                            :class="heading.level === 1 ? 'font-bold' : 'ml-4'">
+                            <a :href="`#${heading.id}`" @click.prevent.stop="scrollToHeading(heading.id)"
+                                class="toc-link min-h-11 flex items-center break-words"
+                                :class="{ 'text-foreground bg-foreground/10': heading.id === activeHeading }"
+                                :aria-current="heading.id === activeHeading ? 'location' : undefined">
+                                <span class="toc-prefix shrink-0" aria-hidden="true">{{ getPrefix(heading.level) }}</span>
+                                {{ heading.text }}
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </dialog>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const route = useRoute()
 
 interface Heading {
     id: string
@@ -75,6 +84,32 @@ const activeHeading = ref<string>('')
 const indicatorPosition = ref(0)
 const hasHeadings = ref(false)
 const isMobileMenuOpen = ref(false)
+const mobileDialogRef = ref<HTMLDialogElement | null>(null)
+let previousBodyOverflow = ''
+let desktopMedia: MediaQueryList | null = null
+
+const openMobileMenu = () => {
+    if (!mobileDialogRef.value || isMobileMenuOpen.value) return
+    previousBodyOverflow = document.body.style.overflow
+    mobileDialogRef.value.showModal()
+    isMobileMenuOpen.value = true
+    document.body.style.overflow = 'hidden'
+}
+
+const handleMobileClose = () => {
+    if (!isMobileMenuOpen.value) return
+    isMobileMenuOpen.value = false
+    document.body.style.overflow = previousBodyOverflow
+}
+
+const closeMobileMenu = () => {
+    mobileDialogRef.value?.close()
+    handleMobileClose()
+}
+
+const handleBreakpointChange = () => {
+    if (desktopMedia?.matches) closeMobileMenu()
+}
 
 const observer = ref<MutationObserver | null>(null)
 
@@ -104,6 +139,7 @@ const extractHeadings = () => {
 
         headings.value = newHeadings
         hasHeadings.value = newHeadings.length > 0
+        updateActiveHeading()
     })
 }
 
@@ -136,28 +172,28 @@ const getPrefix = (level: number): string => {
 }
 
 const scrollToHeading = (id: string) => {
+    closeMobileMenu()
     const element = document.getElementById(id)
     if (element) {
-        const yOffset = -20
+        const yOffset = -80
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
         window.scrollTo({ top: y, behavior: 'smooth' })
         activeHeading.value = id
-        isMobileMenuOpen.value = false // Close menu on mobile
+        window.history.replaceState(window.history.state, '', `#${encodeURIComponent(id)}`)
     }
 }
 
 const updateActiveHeading = () => {
   if (headings.value.length === 0) return
   
-  const scrollPosition = window.scrollY + 100
-  let foundIndex = -1
+  let foundIndex = 0
 
   // Utiliser une boucle for classique pour performance
   for (let i = headings.value.length - 1; i >= 0; i--) {
     const heading = headings.value[i]
     const element = document.getElementById(heading.id)
 
-    if (element && element.offsetTop <= scrollPosition) {
+    if (element && element.getBoundingClientRect().top <= 100) {
       foundIndex = i
       break
     }
@@ -189,11 +225,23 @@ const throttledUpdate = throttle(updateActiveHeading, 200) // Augmenter le déla
 
 onMounted(() => {
     extractHeadings()
+    setupContentObserver()
+    desktopMedia = window.matchMedia('(min-width: 1024px)')
+    desktopMedia.addEventListener('change', handleBreakpointChange)
     window.addEventListener('scroll', throttledUpdate)
     window.addEventListener('resize', throttledUpdate)
 })
 
+watch(() => route.fullPath, async () => {
+    closeMobileMenu()
+    await nextTick()
+    extractHeadings()
+    setupContentObserver()
+})
+
 onUnmounted(() => {
+    closeMobileMenu()
+    desktopMedia?.removeEventListener('change', handleBreakpointChange)
     window.removeEventListener('scroll', throttledUpdate)
     window.removeEventListener('resize', throttledUpdate)
     if (observer.value) {
@@ -206,12 +254,45 @@ onUnmounted(() => {
 /* Fixed position for TOC to always stay on the left */
 .toc-desktop {
     @apply fixed left-0 top-0 w-64 min-h-screen max-h-screen bg-background border-r border-foreground/20 p-4;
-    overflow-y: hidden;
+    overflow-y: auto;
     z-index: 40;
 }
 
-.toc-visible {
-    @apply block;
+.toc-mobile-trigger {
+    @apply fixed z-40 flex items-center gap-3 rounded-full border border-foreground/20 bg-background px-4 py-3 text-sm font-mono text-foreground shadow-lg;
+    left: max(1rem, env(safe-area-inset-left));
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+.toc-mobile-dialog {
+    @apply fixed inset-0 m-0 h-full w-full max-h-none max-w-none border-0 bg-transparent p-0 text-foreground font-mono;
+    height: 100dvh;
+}
+
+.toc-mobile-dialog[open] {
+    display: flex;
+    align-items: flex-end;
+}
+
+.toc-mobile-dialog::backdrop {
+    background: rgb(0 0 0 / 65%);
+}
+
+.toc-mobile-panel {
+    @apply flex w-full flex-col overflow-hidden rounded-t-2xl border border-foreground/20 bg-background shadow-xl;
+    max-height: 80vh;
+    max-height: 80dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.toc-mobile-nav {
+    min-height: 0;
+}
+
+@media (min-width: 1024px) {
+    .toc-mobile-trigger {
+        display: none;
+    }
 }
 
 .toc-header {

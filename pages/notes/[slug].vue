@@ -2,7 +2,7 @@
     <div class="min-h-screen flex">
         <ContentTableOfContents />
 
-        <div class="flex-1 w-full pt-24 pb-20 px-4 sm:px-8 lg:ml-64 ml-0 flex flex-col items-center">
+        <div class="flex-1 min-w-0 w-full pt-24 pb-24 px-4 sm:px-8 lg:ml-64 ml-0 flex flex-col items-center">
             <article class="max-w-2xl md:max-w-3xl xl:max-w-4xl w-full" v-if="note">
                 <header class="mb-10 text-center">
                     <div class="text-xs text-foreground/50 font-mono mb-4">{{ note.date }}</div>

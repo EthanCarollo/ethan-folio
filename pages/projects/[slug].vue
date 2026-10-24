@@ -4,7 +4,7 @@
         <ContentTableOfContents />
 
         <!-- Adjusted main content with left margin to account for TOC -->
-        <div class="flex-1 px-4 py-8 md:py-12 lg:ml-64 ml-0">
+        <div class="flex-1 min-w-0 px-4 pt-24 pb-24 md:pt-24 lg:py-12 lg:ml-64 ml-0">
             <div v-if="project" class="max-w-3xl xl:max-w-5xl mx-auto">
 
                 <!-- Project Info -->
@@ -97,7 +97,7 @@ useSeoMeta({
 })
 </script>
 
-<style>
+<style scoped>
 .image-modal-enter-active,
 .image-modal-leave-active {
     transition: opacity 0.2s ease;
@@ -108,45 +108,30 @@ useSeoMeta({
     opacity: 0;
 }
 
-/* Responsive styles for project pages */
-@media (max-width: 1024px) {
-
-    /* Remise à zéro de la marge quand le sidebar disparaît */
-    div[class*="ml-64"] {
-        @apply ml-0;
-    }
-}
-
-/* TOC visibility is now handled by ContentTableOfContents.vue */
-
 @media (max-width: 768px) {
-    .flex-1 {
-        @apply px-4 py-6;
-    }
-
     .prose {
         @apply text-base;
     }
 
-    .prose img {
+    .prose :deep(img) {
         @apply rounded-lg;
     }
 }
 
 @media (max-width: 640px) {
     .flex-1 {
-        @apply px-3 py-4;
+        @apply px-3;
     }
 
     .prose {
         @apply text-sm;
     }
 
-    .prose h2 {
+    .prose :deep(h2) {
         @apply text-lg;
     }
 
-    .prose h3 {
+    .prose :deep(h3) {
         @apply text-base;
     }
 }
