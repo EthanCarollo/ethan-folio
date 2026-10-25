@@ -1,22 +1,23 @@
 <template>
-  <div class="h-screen w-full flex flex-col font-mono bg-[#09090b] text-[#f4f4f5] overflow-hidden selection:bg-white selection:text-black">
+  <div class="h-dvh w-full min-w-0 flex flex-col font-mono bg-[#09090b] text-[#f4f4f5] overflow-hidden selection:bg-white selection:text-black">
     <!-- Header minimaliste et sobre -->
-    <header class="h-12 shrink-0 border-b border-white/10 px-4 sm:px-6 flex items-center justify-between text-xs bg-black/40 backdrop-blur-md z-30">
+    <header class="min-h-14 shrink-0 border-b border-white/10 px-3 sm:px-6 py-2 flex items-center justify-between gap-2 text-xs bg-black/40 backdrop-blur-md z-30">
       <div class="flex items-center gap-3">
-        <span class="font-bold tracking-wider text-white">ETHAN CAROLLO</span>
+        <span class="font-bold tracking-wider text-white">ETHAN<span class="hidden sm:inline"> CAROLLO</span></span>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 sm:gap-3">
         <!-- Sélecteur de langue intégré directement dans la barre -->
         <LocaleChip />
 
         <!-- Toggle manuel pour afficher / masquer le viewer à droite -->
         <button
           @click="showViewer = !showViewer"
+          :aria-expanded="showViewer" aria-controls="project-inspector"
           class="flex items-center gap-1.5 rounded border border-white/20 px-2.5 py-1 text-xs text-white/80 no-underline transition-colors hover:border-white/50 hover:bg-white/10"
           :class="showViewer ? 'bg-white/10 border-white/40' : ''"
         >
-          <span>{{ showViewer ? 'Masquer viewer' : 'Projets' }}</span>
+          <span>{{ showViewer ? 'Fermer' : 'Projets' }}</span>
         </button>
 
         <!-- Retour au portfolio classique -->
@@ -25,8 +26,9 @@
           class="flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/20 hover:border-white/50 hover:bg-white/10 transition-all text-xs text-white/80 cursor-pointer"
         >
           <span>⌂</span>
-          <span class="font-semibold">{{ $t('viewMode.standard') }}</span>
-          <span class="text-white/40">→</span>
+          <span class="font-semibold hidden sm:inline">{{ $t('viewMode.standard') }}</span>
+          <span class="font-semibold sm:hidden">Portfolio</span>
+          <span class="text-white/40 hidden sm:inline">→</span>
         </NuxtLink>
       </div>
     </header>
@@ -35,13 +37,13 @@
     <div class="flex-1 grid grid-cols-1 min-h-0 relative" :class="showViewer ? 'lg:grid-cols-12' : ''">
       <!-- Panneau Console / Dialogue -->
       <div
-        class="flex flex-col h-full relative z-10 bg-[#09090b]/90 backdrop-blur-md transition-all duration-300"
+        class="flex flex-col h-full min-h-0 min-w-0 relative z-10 bg-[#09090b]/90 backdrop-blur-md transition-all duration-300"
         :class="showViewer ? 'lg:col-span-7 border-r border-white/10' : 'max-w-4xl mx-auto w-full'"
       >
         <!-- Zone de messages scrollable -->
         <div
           ref="messagesContainer"
-          class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs sm:text-sm scroll-smooth"
+          class="flex-1 min-h-0 overflow-y-auto overscroll-contain break-words p-4 sm:p-6 space-y-4 text-xs sm:text-sm scroll-smooth" data-lenis-prevent
         >
           <!-- Historique des messages -->
           <div
@@ -72,7 +74,7 @@
 
         <!-- Input terminal en bas avec les actions rapides juste au-dessus (apparaît une fois l'intro prête) -->
         <Transition name="fade-in">
-          <div v-if="isReady" class="p-3 sm:p-4 border-t border-white/10 bg-black/40 space-y-2.5 transition-all">
+          <div v-if="isReady" class="chat-composer shrink-0 p-3 sm:p-4 border-t border-white/10 bg-black/40 space-y-2.5 transition-all">
             <!-- Actions rapides positionnées au-dessus de l'input -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
               <button
@@ -93,7 +95,8 @@
                 v-model="inputQuery"
                 type="text"
                 placeholder="Question sur un projet (composite, virusmania, rituals) ou contact..."
-                class="w-full pl-7 pr-20 py-2.5 bg-white/5 border border-white/15 rounded text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/50 transition-colors font-mono"
+                aria-label="Question"
+                class="w-full min-w-0 pl-7 pr-20 py-2.5 bg-white/5 border border-white/15 rounded text-base sm:text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-white/50 transition-colors font-mono"
                 :disabled="isLoading"
               />
               <button
@@ -112,7 +115,8 @@
       <Transition name="viewer-slide">
         <div
           v-if="showViewer"
-          class="hidden lg:flex lg:col-span-5 flex-col h-full bg-black relative overflow-hidden transition-all duration-500 ease-out border-l border-white/10 shadow-2xl"
+          id="project-inspector"
+          class="absolute inset-0 z-20 flex lg:relative lg:inset-auto lg:col-span-5 flex-col h-full min-h-0 min-w-0 bg-black overflow-hidden transition-all duration-500 ease-out border-l border-white/10 shadow-2xl"
         >
         <!-- Arrière-plan Shader WebGL ASCII Wave interactif -->
         <div class="absolute inset-0 opacity-40 pointer-events-none">
@@ -125,9 +129,9 @@
         <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.6)_100%)]"></div>
 
         <!-- Contenu du Viewport : Inspection temps réel du projet actif -->
-        <div class="relative z-10 flex-1 flex flex-col p-6 justify-between">
+        <div class="relative z-10 flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col gap-6 p-4 sm:p-6 justify-between" data-lenis-prevent>
           <!-- Header viewport -->
-          <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div class="text-xs uppercase tracking-wider text-white/70 font-semibold">
               {{ activeInspector.title }}
             </div>
@@ -137,6 +141,7 @@
                 @click="showViewer = false"
                 class="text-white/40 hover:text-white text-xs cursor-pointer"
                 title="Fermer le viewer"
+                aria-label="Fermer le viewer"
               >
                 ✕
               </button>
@@ -163,7 +168,7 @@
                   <span>{{ activeInspector.title }}</span>
                 </h3>
                 <NuxtLink
-                  :to="`/projects/${activeInspector.slug}`"
+                  :to="localePath(`/projects/${activeInspector.slug}`)"
                   class="text-[11px] text-cyan-400 hover:underline flex items-center gap-1"
                 >
                   <span>Doc complète</span>
@@ -196,7 +201,7 @@
           </div>
 
           <!-- Footer viewport : Navigation directe -->
-          <div class="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-white/50">
+          <div class="pt-3 border-t border-white/10 flex flex-wrap gap-2 items-center justify-between text-[11px] text-white/50">
             <span>PROJETS</span>
             <div class="flex gap-2">
               <button
@@ -399,6 +404,10 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.chat-composer {
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+}
+
 .chat-markdown :deep(a) {
   text-decoration: underline;
   text-underline-offset: 2px;
