@@ -1,5 +1,5 @@
 <template>
-    <main class="min-h-screen relative">
+    <main class="min-h-screen relative pb-24 md:pb-0">
         <HomeNavigation />
         <Hero />
         <hr class="border-t border-foreground/10 mx-auto max-w-6xl" />

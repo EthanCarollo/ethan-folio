@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-4 left-4 z-40 flex flex-col items-start justify-start gap-2
+    <nav :aria-label="$t('hero.home')" class="fixed top-4 left-4 z-40 flex flex-col items-start justify-start gap-2
         md:top-8 md:left-12 md:gap-3 text-sm font-mono mix-blend-exclusion nav-blend-fallback transition-opacity duration-500"
         :class="hasScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'">
         <a href="#home" class="white block transition-all duration-300"
@@ -30,7 +30,7 @@
             :class="activeSection === 'contact' ? 'text-white opacity-100 font-bold underline' : 'text-white/70 opacity-70 hover:opacity-100'">
             {{ $t('hero.contact') }}
         </a>
-    </div>
+    </nav>
 </template>
 
 <script setup lang="ts">
@@ -69,6 +69,7 @@ const handleScroll = () => {
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll)
+    handleScroll()
 })
 
 onUnmounted(() => {
@@ -77,13 +78,34 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Désactiver mix-blend-mode sur mobile (coûteux en GPU, illisible) */
 @media (max-width: 767px) {
   .nav-blend-fallback {
     mix-blend-mode: normal;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 0 8px 8px 0;
-    padding: 8px 6px;
+    top: auto;
+    left: max(0.75rem, env(safe-area-inset-left));
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    padding: 4px;
+    border: 1px solid rgb(var(--color-foreground) / 0.2);
+    border-radius: 12px;
+    background: rgb(var(--color-background) / 0.98);
+    font-size: 10px;
+  }
+
+  .nav-blend-fallback > a {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-blend-fallback > div {
+    display: none;
   }
 }
 </style>
