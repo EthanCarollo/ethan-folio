@@ -258,6 +258,18 @@ main {
     @apply rounded border border-foreground/20 my-4;
 }
 
+/* Inline galleries in articles must wrap instead of being clipped by the page. */
+@media (max-width: 767px) {
+    .prose div:has(> img) {
+        flex-wrap: wrap;
+    }
+
+    .prose div > img {
+        min-width: 0 !important;
+        max-width: 100%;
+    }
+}
+
 .prose table {
     @apply w-full border-collapse border border-foreground/20 my-4;
 }
